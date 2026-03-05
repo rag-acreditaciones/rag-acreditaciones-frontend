@@ -1,0 +1,374 @@
+:root {
+  /* Paleta base */
+  --c1: #101e2e;
+  --c2: #0e3f57;
+  --c3: #0c6c88;
+  --c4: #08a5be;
+  --c5: #03ecf5;
+  
+  --blanco: #ffffff;
+  --c-chat: #e0eaef;
+  --c-chat2: #c2d0d9;
+
+
+  --c6: #8d9ea7;
+
+
+
+  /* Gradientes */
+  --gradient-primary:   linear-gradient(135deg, var(--c2) 0%, var(--c4) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--c3) 1%, var(--c4) 50%);
+  --gradient-plantilla: linear-gradient(135deg, var(--c2) 0%, var(--c4) 100%);
+
+  /* Tema */
+  --bg:           linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+  --card-bg:      var(--blanco);
+  --header-bg:    var(--gradient-primary);
+  --thead-bg:     linear-gradient(135deg, #f8f9ff 0%, #f0f3ff 100%);
+  --thead-border: var(--c3);
+  --thead-color:  var(--c2);
+  --btn-bg:       var(--gradient-accent);
+  --text-main:    #2d3748;
+  --text-first:   var(--c3);
+  --text-muted:   #4a5568;
+  --text-header:  var(--blanco);
+  --row-odd:      #fafbff;
+  --row-hover:    linear-gradient(135deg, #f5f7ff 0%, #eef2ff 100%);
+  --border:       #dee2e8;
+  --border-input: #e0e7ff;
+  --focus-ring:   rgba(51, 36, 85, 0.25);
+  --footer-bg:    linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --shadow-card:  0 20px 40px rgba(51, 36, 85, 0.12);
+  --shadow-row:   0 2px 8px rgba(51, 36, 85, 0.08);
+}
+
+/* ── BODY ───────────────────────────────────── */
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ── H1 ─────────────────────────────────────── */
+h1, h5{
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  font-weight: 700;
+  padding-left: 1rem;
+}
+
+/* ── CARD ───────────────────────────────────── */
+.card {
+  background: var(--card-bg);
+  border: none;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  margin: 1rem;
+  overflow: hidden;
+}
+
+/* ── CARD HEADER ────────────────────────────── */
+.card-header {
+  background: var(--header-bg);
+  color: var(--text-header);
+  border-bottom: none;
+  padding: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.card-header div {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid var(--border-input);
+  border-radius: 25px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: var(--card-bg);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-control:hover,
+.form-select:hover {
+  border-color: var(--c3);
+  box-shadow: 0 0 0 0px var(--focus-ring);
+  outline: none;
+}
+
+
+/* ── CARD BODY ──────────────────────────────── */
+.card-body {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+}
+
+/* ── TABLA ──────────────────────────────────── */
+.table {
+  margin-bottom: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  color: var(--text-main);
+}
+
+.table thead tr {
+  background: var(--thead-bg);
+}
+
+.table thead th {
+  color: var(--thead-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--thead-border);
+  padding: 1rem 0.5rem;
+}
+
+.table thead th a {
+  color: var(--thead-color);
+  text-decoration: none;
+}
+
+.table thead th a:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: var(--row-odd);
+  color: var(--text-main);
+}
+
+.table tbody td {
+  padding: 1rem 0.5rem;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.table tbody th {
+  color: var(--text-first);
+  font-weight: 700;
+  padding: 1rem 0.5rem;
+  vertical-align: middle;
+}
+
+/* ── BOTONES ────────────────────────────────── */
+.btn {
+  border-radius: 50px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-secondary:hover {
+  color: limegreen;
+  border: 2px solid limegreen;
+}
+
+.btn-info {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-info:hover {
+  color: var(--c5);
+  border: 2px solid var(--c5);
+}
+
+.btn-danger {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-danger:hover {
+  color: red;
+  border: 2px solid red;
+}
+
+/* ── CARD FOOTER ────────────────────────────── */
+.card-footer {
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.card-footer a {
+  color: var(--c3);
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.card-footer a:hover {
+  background: var(--gradient-primary);
+  color: var(--blanco);
+}
+
+.card-footer .form-select {
+  border-radius: 50px;
+  width: 65px;
+}
+
+/* ── BARRAS BREADCRUMB ────────────────────────────── */
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--text-header);
+}
+
+/*── ALERT ──────────────────────────────*/
+.scrollspy-chat {
+    height: 500px;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+}
+
+.alert-primary {
+    max-width: 50%;
+    background: var(--c-chat);
+    color: black;
+    border: none;
+}
+
+.alert-secondary a {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.alert-secondary {
+  background: var(--c-chat2);
+  color: black;
+  border: none;
+}
+
+.input-group .btn-info {
+  width: 100px;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  background-color: var(--c3) !important;
+  color: var(--blanco);
+}
+
+.input-group .btn:hover {
+  transform: none !important;
+}
+
+/*── BARRAS PROGRESO ──────────────────────────────*/
+.progress {
+  background-color: var(--c6);
+}
+
+.col-md-4 .progress span, .col-md-7 .progress span{
+  background: var(--c2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.col-md-7 .progress {
+  height: 25px;
+  margin-bottom: 10px;
+  border-radius: 0px !important;
+}
+
+.col-md-4 .progress .progress-bar, .col-md-7 .progress .progress-bar{
+  background: var(--gradient-secondary);
+}
+
+.badgemargin {
+  margin-top: 20px;
+}
+
+/*── DOCUMENTOS POR SECCIÓN ──────────────────────────────*/
+@property --num {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+
+.section-item {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.section-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(14, 63, 87, 0.12);
+}
+
+.section-number {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -2px;
+  counter-reset: num var(--num);
+  animation: 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.section-number::after { content: counter(num); }
+
+.section-bar {
+  background: var(--gradient-secondary) !important;
+  width: 0%;
+  animation: growBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes growBar { to { width: var(--bar-width); } }
+
+.s1 .section-number { animation-name: countUp17; }
+.s2 .section-number { animation-name: countUp12; animation-delay: 0.1s; }
+.s3 .section-number { animation-name: countUp10; animation-delay: 0.2s; }
+.s4 .section-number { animation-name: countUp8;  animation-delay: 0.3s; }
+.s5 .section-number { animation-name: countUp5;  animation-delay: 0.1s; }
+.s6 .section-number { animation-name: countUp4;  animation-delay: 0.2s; }
+
+.s1 .section-bar { --bar-width: 36%; }
+.s2 .section-bar { --bar-width: 25%; animation-delay: 0.1s; }
+.s3 .section-bar { --bar-width: 21%; animation-delay: 0.2s; }
+.s4 .section-bar { --bar-width: 17%; animation-delay: 0.3s; }
+.s5 .section-bar { --bar-width: 10%; animation-delay: 0.1s; }
+.s6 .section-bar { --bar-width: 8%;  animation-delay: 0.2s; }
+
+@keyframes countUp17 { to { --num: 17; } }
+@keyframes countUp12 { to { --num: 12; } }
+@keyframes countUp10 { to { --num: 10; } }
+@keyframes countUp8  { to { --num: 8;  } }
+@keyframes countUp5  { to { --num: 5;  } }
+@keyframes countUp4  { to { --num: 4;  } }
