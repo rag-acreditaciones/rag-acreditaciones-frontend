@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-documento-upload',
@@ -8,4 +8,10 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocumentoUploadComponent {
+  modalAbierto = input<boolean>();
+  alCerrar = output<void>();
+
+  cerrarModal() {
+    this.alCerrar.emit();
+  }
 }

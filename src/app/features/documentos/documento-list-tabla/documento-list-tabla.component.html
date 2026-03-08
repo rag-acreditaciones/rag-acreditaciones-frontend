@@ -198,3 +198,7 @@
     </ol>
   </div>
 </div>
+
+@if (modalAbierto()) {
+  <app-documento-upload (alCerrar)="cerrarModal()"></app-documento-upload>
+}

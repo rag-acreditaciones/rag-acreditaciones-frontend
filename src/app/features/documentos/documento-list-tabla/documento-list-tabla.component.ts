@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
 import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
+import { DocumentoUploadComponent } from '../documento-upload-component/documento-upload.component';
 
 // Array de mentiras para probar la tabla
 const DOCUMENTOS_MOCK: Documento[] = [
@@ -85,7 +86,7 @@ const SECCIONES_MOCK: SeccionTematica[] = [
 @Component({
   selector: 'app-documento-list-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DocumentoUploadComponent],
   templateUrl: './documento-list-tabla.component.html',
   styleUrls: ['./documento-list-tabla.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,6 +103,7 @@ export class DocumentoListTablaComponent implements OnInit {
   filasPorPagina = signal(5);
   totalPaginas = signal(0);
   totalElementos = signal(0);
+  modalAbierto = signal(false);
 
   // signals de filtros
   filtroNombre = signal('');
@@ -258,5 +260,10 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   modalSubirDocumento() {
+    this.modalAbierto.set(true);
+  }
+
+  cerrarModal() {
+    this.modalAbierto.set(false);
   }
 }
