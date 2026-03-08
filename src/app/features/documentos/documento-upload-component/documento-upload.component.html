@@ -23,13 +23,14 @@
           class="drag-drop-area"
           [class.arrastrandoEncima]="arrastrandoEncima()"
           (click)="seleccionarArchivo()"
+          [attr.style]="cargandoSubida() ? 'pointer-events: none; opacity: 0.6;' : ''"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="icono-upload" viewBox="0 0 16 16">
             <path d="M8 16a.5.5 0 0 0 .5-.5v-5.793l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 9.707V15.5a.5.5 0 0 0 .5.5z"/>
             <path d="M14.2 14.2A2.5 2.5 0 0 0 14 12.5H3.5a2 2 0 1 0 0 4h10.5a2.5 2.5 0 0 0 1.7-4.3zM2.5 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
           </svg>
-          @if (archivoSeleccionado()) {
-            <p class="texto-principal">{{ archivoSeleccionado()!.name }}</p>
+          @if (modeloDocumento().archivoSeleccionado) {
+            <p class="texto-principal">{{ modeloDocumento().archivoSeleccionado!.name }}</p>
           } @else {
             <p class="texto-principal">Arrastra el archivo aquí o haz clic para seleccionar</p>
             <p class="texto-secundario">PDF hasta 50MB</p>
@@ -43,8 +44,14 @@
             (change)="alSeleccionarArchivo($event)"
           />
         </div>
+        @if (archivoControl().invalid() && archivoControl().touched()) {
+          @for (error of archivoControl().errors(); track $index) {
+            @if (error.kind === 'required') {
+              <small class="d-block text-danger mt-2">{{ error.message }}</small>
+            }
+          }
+        }
       </div>
-
 
       <div class="campo-formulario">
         <label for="descripcion" class="label-campo">Descripción del documento</label>
@@ -53,8 +60,18 @@
           class="form-control textarea-descripcion"
           placeholder="Describe brevemente el contenido del documento..."
           rows="3"
+          [value]="modeloDocumento().descripcion"
+          (input)="alCambiarDescripcion($event)"
+          [disabled]="cargandoSubida()"
         ></textarea>
-        <small class="texto-ayuda">Mínimo 10 caracteres</small>
+        <small class="texto-ayuda">Mínimo 10 caracteres ({{ modeloDocumento().descripcion.length }}/10)</small>
+        @if (descripcionControl().invalid() && descripcionControl().touched()) {
+          @for (error of descripcionControl().errors(); track $index) {
+            @if (error.kind === 'minLength') {
+              <small class="d-block text-danger mt-1">{{ error.message }}</small>
+            }
+          }
+        }
       </div>
 
 
@@ -62,31 +79,62 @@
 
       <div class="campo-formulario">
         <label for="seccion" class="label-campo">Sección temática</label>
-        <select id="seccion" class="form-select">
+        <select
+          id="seccion"
+          class="form-select"
+          [value]="modeloDocumento().seccionId || ''"
+          (change)="alCambiarSeccion($event)"
+          [disabled]="cargandoSubida()"
+        >
           <option value="">Selecciona una sección</option>
           <option value="1">General</option>
           <option value="2">Base de datos</option>
           <option value="3">Programación</option>
           <option value="4">Desarrollo Web</option>
         </select>
+        @if (seccionIdControl().invalid() && seccionIdControl().touched()) {
+          @for (error of seccionIdControl().errors(); track $index) {
+            @if (error.kind === 'required') {
+              <small class="d-block text-danger mt-1">{{ error.message }}</small>
+            }
+          }
+        }
       </div>
 
-      <!-- esta es la barra de progreso que aprovecha las clases y aspecto que tiene el bootstrap para simplificar la faena -->
-      <div class="contenedor-progreso">
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-label="Progreso de carga" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="barra-progreso-inicial"></div>
+      <!-- Mensaje de error -->
+      @if (mensajeError()) {
+        <div class="alert alert-danger" role="alert">
+          {{ mensajeError() }}
         </div>
-        <p class="texto-progreso">0%</p>
-      </div>
+      }
+
+      <!-- Barra de progreso -->
+      @if (cargandoSubida()) {
+        <div class="contenedor-progreso activo">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Progreso de carga" [attr.aria-valuenow]="porcentajeProgreso()" aria-valuemin="0" aria-valuemax="100" [style.width.%]="porcentajeProgreso()"></div>
+          </div>
+          <p class="texto-progreso">{{ porcentajeProgreso() }}%</p>
+        </div>
+      }
     </div>
 
     <!--botonera de bajo del todo para cerrar o subir-->
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary btn-cancelar" (click)="cerrarModal()">
+      <button type="button" class="btn btn-secondary btn-cancelar" (click)="cerrarModal()" [disabled]="cargandoSubida()">
         Cancelar
       </button>
-      <button type="button" class="btn btn-info btn-subir">
-        Subir Documento
+      <button
+        type="button"
+        class="btn btn-info btn-subir"
+        [disabled]="!formularioValido() || cargandoSubida()"
+        (click)="subirDocumento()"
+      >
+        @if (cargandoSubida()) {
+          <span>Subiendo... {{ porcentajeProgreso() }}%</span>
+        } @else {
+          <span>Subir Documento</span>
+        }
       </button>
     </div>
   </div>
