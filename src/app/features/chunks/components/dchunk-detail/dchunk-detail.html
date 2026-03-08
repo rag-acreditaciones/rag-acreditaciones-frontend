@@ -1,0 +1,26 @@
+<!--Este componente crea todas las tarjetas que luego se veran en dchunk list-->
+@for (chunk of documento?.chunks; track chunk.id) {
+  <div class="card w-20" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">Chunk {{ chunk.id }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        @if (chunk.estado == 'PENDIENTE') {
+          @if (updateEstadoError() != null) {
+            <p>{{ updateEstadoError() }}</p>
+          }
+          Pendiente - <button (click)="onAccept(chunk)" [disabled]="isUpdatingEstado()">✔</button>
+          <button (click)="onDeny(chunk)" [disabled]="isUpdatingEstado()">✘</button>
+        } @else {
+          <p>{{ chunk.estado }}</p>
+          @if (updateEstadoOK() != null) {
+            <p>{{ updateEstadoOK() }}</p>
+          }
+        }
+      </h6>
+      <p class="card-text">{{ chunk.texto }}</p>
+      <p class="card-subtitle mb-2 text-muted">{{ chunk.tokens }} tokens</p>
+      <p class="card-subtitle mb-2 text-muted">Página 2-3</p>
+      <a href="#" class="btn btn-info">Ver</a>
+    </div>
+  </div>
+}
