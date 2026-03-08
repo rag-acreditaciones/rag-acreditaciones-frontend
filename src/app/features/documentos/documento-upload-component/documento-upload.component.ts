@@ -3,12 +3,7 @@ import { form, minLength, required } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { DocumentoService } from '../documento.service';
-
-interface DatosDocumento {
-  descripcion: string;
-  seccionId: number | null;
-  archivoSeleccionado: File | null;
-}
+import { DatosDocumento, DOCUMENTO_CONFIG } from './documento-upload.types';
 
 @Component({
   selector: 'app-documento-upload',
@@ -32,20 +27,20 @@ export class DocumentoUploadComponent {
 
   modeloDocumento = signal<DatosDocumento>({
     descripcion: '',
-    seccionId: null,
+    seccionTematicaId: null,
     archivoSeleccionado: null,
   });
 
   formulario = form(this.modeloDocumento, (modelo) => {
-    minLength(modelo.descripcion, 10, { message: 'La descripcion debe tener al menos 10 caracteres' });
-    required(modelo.seccionId, { message: 'Debes seleccionar una seccion' });
+    minLength(modelo.descripcion, DOCUMENTO_CONFIG.validacion.descripcionMinChars, { message: `La descripcion debe tener al menos ${DOCUMENTO_CONFIG.validacion.descripcionMinChars} caracteres` });
+    required(modelo.seccionTematicaId, { message: 'Debes seleccionar una seccion' });
     required(modelo.archivoSeleccionado, { message: 'Debes seleccionar un archivo' });
   });
 
   formularioValido = computed(() => this.formulario().valid());
 
   descripcionControl = computed(() => this.formulario.descripcion());
-  seccionIdControl = computed(() => this.formulario.seccionId());
+  seccionTematicaIdControl = computed(() => this.formulario.seccionTematicaId());
   archivoControl = computed(() => this.formulario.archivoSeleccionado());
 
   constructor(
@@ -63,6 +58,7 @@ export class DocumentoUploadComponent {
     this.arrastrandoEncima.set(false);
   }
 
+  //evento de soltar archivo en el hueco del drag-drop
   @HostListener('drop', ['$event']) alSoltar(evento: DragEvent) {
     evento.preventDefault();
     evento.stopPropagation();
@@ -70,10 +66,19 @@ export class DocumentoUploadComponent {
 
     const archivos = evento.dataTransfer?.files;
     if (archivos?.[0]) {
+      const archivo = archivos[0];
+      const errorValidacion = this.validarArchivo(archivo);
+
+      if (errorValidacion) {
+        this.mensajeError.set(errorValidacion);
+        return;
+      }
+
+      this.mensajeError.set(null);
       const datos = this.modeloDocumento();
       this.modeloDocumento.set({
         ...datos,
-        archivoSeleccionado: archivos[0],
+        archivoSeleccionado: archivo,
       });
     }
   }
@@ -82,13 +87,24 @@ export class DocumentoUploadComponent {
     this.inputArchivo?.nativeElement.click();
   }
 
+  //apartado de la seleccion de archivo
   alSeleccionarArchivo(evento: Event) {
     const input = evento.target as HTMLInputElement;
     if (input.files?.[0]) {
+      const archivo = input.files[0];
+      const errorValidacion = this.validarArchivo(archivo);
+
+      if (errorValidacion) {
+        this.mensajeError.set(errorValidacion);
+        input.value = '';
+        return;
+      }
+
+      this.mensajeError.set(null);
       const datos = this.modeloDocumento();
       this.modeloDocumento.set({
         ...datos,
-        archivoSeleccionado: input.files[0],
+        archivoSeleccionado: archivo,
       });
     }
   }
@@ -108,17 +124,39 @@ export class DocumentoUploadComponent {
     const datos = this.modeloDocumento();
     this.modeloDocumento.set({
       ...datos,
-      seccionId: valor ? parseInt(valor, 10) : null,
+      seccionTematicaId: valor ? parseInt(valor, 10) : null,
     });
   }
 
+  //Valida que el archivo sea PDF y no supere 50MB
+  private validarArchivo(archivo: File): string | null {
+    // Validar tipo de archivo
+    if (archivo.type !== DOCUMENTO_CONFIG.validacion.tipo) {
+      return 'El archivo debe ser un PDF. Tipo detectado: ' + (archivo.type || 'desconocido');
+    }
+
+    //Validar extensión
+    if (!archivo.name.toLowerCase().endsWith('.pdf')) {
+      return 'El nombre del archivo debe terminar en .pdf';
+    }
+
+    //tamaño
+    if (archivo.size > DOCUMENTO_CONFIG.validacion.tamaño.maxBytes) {
+      const tamañoMB = (archivo.size / 1024 / 1024).toFixed(2);
+      return `El archivo es muy grande (${tamañoMB}MB). Máximo permitido: ${DOCUMENTO_CONFIG.validacion.tamaño.maxMB}MB`;
+    }
+
+    return null;
+  }
+
+  // Inicia el proceso de subida del documento
   subirDocumento() {
     if (!this.formularioValido()) {
       return;
     }
 
     const datos = this.modeloDocumento();
-    if (!datos.archivoSeleccionado || !datos.seccionId) {
+    if (!datos.archivoSeleccionado || !datos.seccionTematicaId) {
       return;
     }
 
@@ -127,9 +165,11 @@ export class DocumentoUploadComponent {
     this.porcentajeProgreso.set(0);
 
     const metadata = {
-      seccionTematicaId: datos.seccionId,
+      seccionTematicaId: datos.seccionTematicaId,
       descripcion: datos.descripcion,
     };
+
+    //--------------------------------------------------------------------------------------------------------------------
 
     // Bloque a descomentar para activar subida al backend
     // (Descomentar cuando el endpoint esté implementado en el backend)
@@ -161,6 +201,7 @@ export class DocumentoUploadComponent {
     this.simularSubida();
   }
 
+  // Simula la subida del archivo para desarrollo (sin backend)
   private simularSubida() {
     let progreso = 0;
     const intervalo = setInterval(() => {
@@ -186,7 +227,9 @@ export class DocumentoUploadComponent {
       }
     }, 500);
   }
+  //--------------------------------------------------------------------------------------------------------------------
 
+  // Cierra el modal y notifica al componente padre
   cerrarModal() {
     this.alCerrar.emit();
     this.limpiarFormulario();
@@ -195,7 +238,7 @@ export class DocumentoUploadComponent {
   private limpiarFormulario() {
     this.modeloDocumento.set({
       descripcion: '',
-      seccionId: null,
+      seccionTematicaId: null,
       archivoSeleccionado: null,
     });
     this.porcentajeProgreso.set(0);

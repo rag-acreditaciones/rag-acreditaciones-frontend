@@ -82,7 +82,7 @@
         <select
           id="seccion"
           class="form-select"
-          [value]="modeloDocumento().seccionId || ''"
+          [value]="modeloDocumento().seccionTematicaId || ''"
           (change)="alCambiarSeccion($event)"
           [disabled]="cargandoSubida()"
         >
@@ -92,8 +92,8 @@
           <option value="3">Programación</option>
           <option value="4">Desarrollo Web</option>
         </select>
-        @if (seccionIdControl().invalid() && seccionIdControl().touched()) {
-          @for (error of seccionIdControl().errors(); track $index) {
+        @if (seccionTematicaIdControl().invalid() && seccionTematicaIdControl().touched()) {
+          @for (error of seccionTematicaIdControl().errors(); track $index) {
             @if (error.kind === 'required') {
               <small class="d-block text-danger mt-1">{{ error.message }}</small>
             }
@@ -101,7 +101,6 @@
         }
       </div>
 
-      <!-- Mensaje de error -->
       @if (mensajeError()) {
         <div class="alert alert-danger" role="alert">
           {{ mensajeError() }}
