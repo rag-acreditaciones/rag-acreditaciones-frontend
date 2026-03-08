@@ -125,6 +125,16 @@
   color: var(--c4);
 }
 
+.drag-drop-area.arrastrandoEncima {
+  border-color: var(--c4);
+  background-color: #e8f7ff;
+  box-shadow: 0 0 0 3px rgba(8, 165, 190, 0.1);
+}
+
+.drag-drop-area.arrastrandoEncima .icono-upload {
+  color: var(--c4);
+}
+
 .texto-principal {
   margin: 0.5rem 0;
   font-size: 1rem;

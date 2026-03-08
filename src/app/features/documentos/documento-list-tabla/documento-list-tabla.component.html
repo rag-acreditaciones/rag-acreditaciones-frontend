@@ -200,5 +200,8 @@
 </div>
 
 @if (modalAbierto()) {
-  <app-documento-upload (alCerrar)="cerrarModal()"></app-documento-upload>
+  <app-documento-upload
+    [modalAbierto]="modalAbierto()"
+    (alCerrar)="cerrarModal()"
+  ></app-documento-upload>
 }

@@ -19,14 +19,29 @@
       <div class="zona-archivo">
 
         <!-- Aquí metemos la logica del arrastrar y soltar con el efecto más visual-->
-        <div class="drag-drop-area">
+        <div
+          class="drag-drop-area"
+          [class.arrastrandoEncima]="arrastrandoEncima()"
+          (click)="seleccionarArchivo()"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="icono-upload" viewBox="0 0 16 16">
             <path d="M8 16a.5.5 0 0 0 .5-.5v-5.793l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 9.707V15.5a.5.5 0 0 0 .5.5z"/>
             <path d="M14.2 14.2A2.5 2.5 0 0 0 14 12.5H3.5a2 2 0 1 0 0 4h10.5a2.5 2.5 0 0 0 1.7-4.3zM2.5 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
           </svg>
-          <p class="texto-principal">Arrastra el archivo aquí o haz clic para seleccionar</p>
-          <p class="texto-secundario">PDF hasta 50MB</p>
-          <input type="file" class="input-archivo-oculto" accept=".pdf" aria-label="Seleccionar archivo PDF" />
+          @if (archivoSeleccionado()) {
+            <p class="texto-principal">{{ archivoSeleccionado()!.name }}</p>
+          } @else {
+            <p class="texto-principal">Arrastra el archivo aquí o haz clic para seleccionar</p>
+            <p class="texto-secundario">PDF hasta 50MB</p>
+          }
+          <input
+            #inputArchivo
+            type="file"
+            class="input-archivo-oculto"
+            accept=".pdf"
+            aria-label="Seleccionar archivo PDF"
+            (change)="alSeleccionarArchivo($event)"
+          />
         </div>
       </div>
 
@@ -65,7 +80,7 @@
       </div>
     </div>
 
-    <!--botoner de bajo del todo para cerrar o subir-->
+    <!--botonera de bajo del todo para cerrar o subir-->
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary btn-cancelar" (click)="cerrarModal()">
         Cancelar
