@@ -80,6 +80,26 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
+  descargarPDF(): void {
+    if (!this.documento) return;
+
+    const id = this.documento.id;
+    this.documentoService.downloadDocumento(id).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const enlace = document.createElement('a');
+        enlace.href = url;
+        enlace.download = this.documento!.nombreFichero || `documento-${id}.pdf`;
+        enlace.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error descargando PDF:', error);
+        this.errorDocumento = 'Error al descargar el PDF';
+      },
+    });
+  }
+
   volverAtras(): void {
     this.router.navigate(['/documentos']);
   }
