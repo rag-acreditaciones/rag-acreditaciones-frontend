@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
 import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
@@ -93,6 +94,7 @@ const SECCIONES_MOCK: SeccionTematica[] = [
 export class DocumentoListTablaComponent implements OnInit {
   private readonly documentoService = inject(DocumentoService);
   private readonly destruirRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   // signals de estado
   documentos = signal<Documento[]>(DOCUMENTOS_MOCK);
@@ -211,8 +213,7 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   visualizarDocumento(id: number) {
-    // por ahora solo log, se completa en siguientes issues
-    console.log('visualizar documento', id);
+    this.router.navigate(['/documentos', id, 'visor']);
   }
 
   eliminarDocumento(id: number) {
