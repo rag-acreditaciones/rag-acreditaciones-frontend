@@ -1,0 +1,63 @@
+<section class="reporte-list">
+  <p class="error" *ngIf="error()">No se pudieron cargar los reportes.</p>
+
+  <div class="table-wrapper" *ngIf="reportes().length > 0; else emptyState">
+    <table class="reporte-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>MensajeId</th>
+          <th>UsuarioEmail</th>
+          <th>Motivo</th>
+          <th>Descripcion</th>
+          <th>Estado</th>
+          <th>FechaCreacion</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reporte of reportes(); trackBy: trackById">
+          <td>{{ reporte.id }}</td>
+          <td>{{ reporte.mensajeId }}</td>
+          <td>{{ reporte.usuarioEmail }}</td>
+          <td>{{ reporte.motivo }}</td>
+          <td class="descripcion">{{ reporte.descripcion }}</td>
+          <td>{{ reporte.estado }}</td>
+          <td>{{ reporte.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="acciones">
+            <button
+              type="button"
+              (click)="marcarComo(reporte.id, 'REVISADO')"
+              [disabled]="loading()"
+            >
+              Revisado
+            </button>
+            <button
+              type="button"
+              (click)="marcarComo(reporte.id, 'DESCARTADO')"
+              [disabled]="loading()"
+            >
+              Descartado
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #emptyState>
+    <p class="empty">{{ loading() ? 'Cargando reportes...' : 'No hay reportes para mostrar.' }}</p>
+  </ng-template>
+
+  <div class="paginacion">
+    <button type="button" (click)="irAnterior()" [disabled]="!puedeIrAnterior()">
+      Anterior
+    </button>
+    <span>Pagina {{ paginaActual() }} de {{ totalPages() }}</span>
+    <button type="button" (click)="irSiguiente()" [disabled]="!puedeIrSiguiente()">
+      Siguiente
+    </button>
+  </div>
+
+  <p class="total">Total reportes: {{ totalElements() }}</p>
+</section>

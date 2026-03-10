@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+.reporte-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.reporte-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.reporte-table th,
+.reporte-table td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.875rem;
+}
+
+.reporte-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.descripcion {
+  max-width: 24rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.acciones {
+  display: flex;
+  gap: 0.35rem;
+}
+
+button {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.4rem;
+  background: #ffffff;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.empty,
+.total {
+  color: #374151;
+  font-size: 0.875rem;
+}
