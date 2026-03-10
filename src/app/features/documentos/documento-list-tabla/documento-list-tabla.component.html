@@ -80,10 +80,10 @@
           @for (documento of documentos(); track documento.id) {
             <tr>
               <th scope="row">{{ documento.nombreFichero }}</th>
-              <td>{{ obtenerNombreSeccion(documento.seccionTematica.id) }}</td>
+              <td>{{ documento.seccionTematicaNombre }}</td>
               <td>{{ documento.subidoPor }}</td>
               <td>{{ documento.fechaSubida | date: 'short' }}</td>
-              <td>{{ (documento.tamano / 1024 / 1024).toFixed(2) }}MB</td>
+              <td>{{ (documento.sizeBytes / 1024 / 1024).toFixed(2) }}MB</td>
               <td>
                 <button
                   (click)="descargarDocumento(documento.id)"

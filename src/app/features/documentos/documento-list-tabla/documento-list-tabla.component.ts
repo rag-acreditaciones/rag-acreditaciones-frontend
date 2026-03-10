@@ -1,87 +1,10 @@
-import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy, DestroyRef, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
 import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
-
-// Array de mentiras para probar la tabla
-const DOCUMENTOS_MOCK: Documento[] = [
-  {
-    id: 1,
-    nombreFichero: 'Manual_PEAC.pdf',
-    descripcion: 'Manual de procedimientos',
-    fechaSubida: '2024-02-12',
-    tamano: 2097152,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Lopez',
-    seccionTematica: { id: 1, nombre: 'General', descripcion: '', color: '' },
-    numChunks: 15,
-  },
-  {
-    id: 2,
-    nombreFichero: 'Guia_SQL.pdf',
-    descripcion: 'Guía de SQL avanzado',
-    fechaSubida: '2024-02-10',
-    tamano: 1536000,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Lopez',
-    seccionTematica: { id: 2, nombre: 'BD', descripcion: '', color: '' },
-    numChunks: 22,
-  },
-  {
-    id: 3,
-    nombreFichero: 'JavaScript_Moderno.pdf',
-    descripcion: 'Conceptos modernos de JavaScript',
-    fechaSubida: '2024-02-08',
-    tamano: 3145728,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Martinez',
-    seccionTematica: { id: 3, nombre: 'Programacion', descripcion: '', color: '' },
-    numChunks: 31,
-  },
-  {
-    id: 4,
-    nombreFichero: 'HTML_CSS_Responsive.pdf',
-    descripcion: 'Diseño responsive con HTML5 y CSS3',
-    fechaSubida: '2024-02-05',
-    tamano: 2560000,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Garcia',
-    seccionTematica: { id: 4, nombre: 'Web', descripcion: '', color: '' },
-    numChunks: 18,
-  },
-  {
-    id: 5,
-    nombreFichero: 'Angular_21.pdf',
-    descripcion: 'Angular 21+ con Signals',
-    fechaSubida: '2024-02-03',
-    tamano: 1843200,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Lopez',
-    seccionTematica: { id: 4, nombre: 'Web', descripcion: '', color: '' },
-    numChunks: 25,
-  },
-  {
-    id: 6,
-    nombreFichero: 'Introduccion_BD.pdf',
-    descripcion: 'Introducción a bases de datos',
-    fechaSubida: '2024-01-30',
-    tamano: 1024000,
-    estado: 'PROCESADO',
-    subidoPor: 'Prof. Martinez',
-    seccionTematica: { id: 2, nombre: 'BD', descripcion: '', color: '' },
-    numChunks: 12,
-  },
-];
-
-const SECCIONES_MOCK: SeccionTematica[] = [
-  { id: 1, nombre: 'General', descripcion: 'Documentos generales', color: '#6c757d' },
-  { id: 2, nombre: 'BD', descripcion: 'Base de datos', color: '#0c6c88' },
-  { id: 3, nombre: 'Programacion', descripcion: 'Programación', color: '#08a5be' },
-  { id: 4, nombre: 'Web', descripcion: 'Desarrollo web', color: '#03ecf5' },
-];
 
 @Component({
   selector: 'app-documento-list-tabla',
@@ -97,8 +20,8 @@ export class DocumentoListTablaComponent implements OnInit {
   private readonly router = inject(Router);
 
   // signals de estado
-  documentos = signal<Documento[]>(DOCUMENTOS_MOCK);
-  secciones = signal<SeccionTematica[]>(SECCIONES_MOCK);
+  documentos = signal<Documento[]>([]);
+  secciones = signal<SeccionTematica[]>([]);
   cargando = signal(false);
   paginaActual = signal(0);
   filasPorPagina = signal(5);
@@ -121,16 +44,14 @@ export class DocumentoListTablaComponent implements OnInit {
 
   constructor() {
     // efecto para cargar documentos cuando cambian filtros o paginacion
-    // DESHABILITADO PARA USAR DATOS MOCK
-    // effect(() => {
-    //   this.cargarDocumentos();
-    // });
+    effect(() => {
+      this.cargarDocumentos();
+    });
   }
 
   ngOnInit() {
-    // DESHABILITADO PARA USAR DATOS MOCK
-    // this.cargarSecciones();
-    // this.cargarDocumentos();
+    this.cargarSecciones();
+    this.cargarDocumentos();
   }
 
   private cargarDocumentos() {
@@ -253,10 +174,6 @@ export class DocumentoListTablaComponent implements OnInit {
   registroFin = computed(() =>
     Math.min((this.paginaActual() + 1) * this.filasPorPagina(), this.totalElementos())
   );
-
-  obtenerNombreSeccion(id: number): string {
-    return this.secciones().find(s => s.id === id)?.nombre || 'General';
-  }
 
   modalSubirDocumento() {
   }
