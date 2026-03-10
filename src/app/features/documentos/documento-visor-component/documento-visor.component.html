@@ -53,7 +53,7 @@
           <!-- Tamaño -->
           <div class="metadato-item">
             <label>Tamaño:</label>
-            <p class="valor">{{ (documento.tamano / 1024 / 1024).toFixed(2) }} MB</p>
+            <p class="valor">{{ (documento.sizeBytes / 1024 / 1024).toFixed(2) }} MB</p>
           </div>
 
           <!-- Estado -->
@@ -73,8 +73,8 @@
           <!-- Sección temática -->
           <div class="metadato-item">
             <label>Sección Temática:</label>
-            <p class="valor" [style.color]="documento.seccionTematica.color">
-              {{ documento.seccionTematica.nombre }}
+            <p class="valor">
+              {{ documento.seccionTematicaNombre }}
             </p>
           </div>
 

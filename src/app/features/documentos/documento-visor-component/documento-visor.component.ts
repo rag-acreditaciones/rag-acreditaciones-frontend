@@ -59,7 +59,7 @@ export class DocumentoVisorComponent implements OnInit {
     this.documentoService.previewDocumento(id).subscribe({
       next: (preview) => {
         // Convertir base64 a blob
-        const byteCharacters = atob(preview.base64);
+        const byteCharacters = atob(preview.base64Contenido);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
