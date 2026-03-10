@@ -1,0 +1,28 @@
+import { HorasPunta } from "./informe.model";
+
+export const horaPuntaDemo: HorasPunta[] = [
+  { hora: 0,  preguntas: 5  },
+  { hora: 1,  preguntas: 8  },
+  { hora: 2,  preguntas: 3  },
+  { hora: 3,  preguntas: 1  },
+  { hora: 4,  preguntas: 2  },
+  { hora: 5,  preguntas: 4  },
+  { hora: 6,  preguntas: 9  },
+  { hora: 7,  preguntas: 18 },
+  { hora: 8,  preguntas: 35 },
+  { hora: 9,  preguntas: 52 },
+  { hora: 10, preguntas: 48 },
+  { hora: 11, preguntas: 43 },
+  { hora: 12, preguntas: 30 },
+  { hora: 13, preguntas: 25 },
+  { hora: 14, preguntas: 38 },
+  { hora: 15, preguntas: 55 },
+  { hora: 16, preguntas: 62 },
+  { hora: 17, preguntas: 45 },
+  { hora: 18, preguntas: 28 },
+  { hora: 19, preguntas: 20 },
+  { hora: 20, preguntas: 15 },
+  { hora: 21, preguntas: 12 },
+  { hora: 22, preguntas: 9  },
+  { hora: 23, preguntas: 6  },
+];
