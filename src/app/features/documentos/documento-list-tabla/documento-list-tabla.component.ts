@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
-import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
+import { Documento, DocumentoEstado, DocumentoFiltros, SeccionTematica } from '../documento.model';
 import { DocumentoUploadComponent } from '../documento-upload-component/documento-upload.component';
+import { ConfirmationModalComponent } from '../confirmation-modal.component';
 
 @Component({
   selector: 'app-documento-list-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentoUploadComponent],
+  imports: [CommonModule, FormsModule, DocumentoUploadComponent, ConfirmationModalComponent],
   templateUrl: './documento-list-tabla.component.html',
   styleUrls: ['./documento-list-tabla.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +30,8 @@ export class DocumentoListTablaComponent implements OnInit {
   totalPaginas = signal(0);
   totalElementos = signal(0);
   modalAbierto = signal(false);
+  modalConfirmacionVisible = signal(false);
+  documentoAEliminar = signal<number | null>(null);
 
   // signals de filtros
   filtroNombre = signal('');
@@ -40,7 +43,7 @@ export class DocumentoListTablaComponent implements OnInit {
   filtrosActivos = computed<DocumentoFiltros>(() => ({
     nombre: this.filtroNombre() || undefined,
     seccionId: this.filtroSeccion() || undefined,
-    estado: this.filtroEstado() as any || undefined,
+    estado: (this.filtroEstado() || undefined) as DocumentoEstado | undefined,
     fechaDesde: this.filtroFecha() || undefined,
   }));
 
@@ -67,7 +70,9 @@ export class DocumentoListTablaComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
         next: (respuesta) => {
-          this.documentos.set(respuesta.content);
+          // Filtrar documentos ELIMINADOS (borrado lógico)
+          const documentosFiltrados = respuesta.content.filter(doc => doc.estado !== 'ELIMINADO');
+          this.documentos.set(documentosFiltrados);
           this.totalPaginas.set(respuesta.totalPages);
           this.totalElementos.set(respuesta.totalElements);
           this.cargando.set(false);
@@ -114,8 +119,9 @@ export class DocumentoListTablaComponent implements OnInit {
     }
   }
 
-  cambiarFilasPorPagina(cantidad: number) {
-    this.filasPorPagina.set(cantidad);
+  cambiarFilasPorPagina(cantidad: string | number) {
+    const num = typeof cantidad === 'string' ? parseInt(cantidad, 10) : cantidad;
+    this.filasPorPagina.set(num);
     this.paginaActual.set(0);
   }
 
@@ -126,6 +132,12 @@ export class DocumentoListTablaComponent implements OnInit {
 
   cerrarModal() {
     this.modalAbierto.set(false);
+  }
+
+  alDocumentoSubido() {
+    // Reload automático después de subir documento
+    this.paginaActual.set(0);
+    this.cargarDocumentos();
   }
 
   // métodos para cambiar filtros
@@ -166,15 +178,33 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   eliminarDocumento(id: number) {
-    if (confirm('esta seguro de que quiere eliminar este documento?')) {
+    this.documentoAEliminar.set(id);
+    this.modalConfirmacionVisible.set(true);
+  }
+
+  confirmarEliminar() {
+    const id = this.documentoAEliminar();
+    if (id) {
       this.documentoService.deleteDocumento(id)
         .pipe(takeUntilDestroyed(this.destruirRef))
         .subscribe({
           next: () => {
-            this.cargarDocumentos();
+            this.modalConfirmacionVisible.set(false);
+            this.documentoAEliminar.set(null);
+            // Resetear a página 0 para triggerear la recarga
+            if (this.paginaActual() === 0) {
+              this.cargarDocumentos();
+            } else {
+              this.paginaActual.set(0);
+            }
           },
         });
     }
+  }
+
+  cancelarEliminar() {
+    this.modalConfirmacionVisible.set(false);
+    this.documentoAEliminar.set(null);
   }
 
   // computed para obtener array de paginas disponibles

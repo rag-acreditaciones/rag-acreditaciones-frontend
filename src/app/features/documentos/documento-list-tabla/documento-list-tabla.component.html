@@ -16,7 +16,7 @@
           </div>
           <div class="col-md-2">
             <select [value]="filtroSeccion() || ''" (change)="cambiarFiltroSeccion($any($event.target).value)" class="form-select">
-              <option [value]="null">Seccion</option>
+              <option value="">Seccion</option>
               @for (seccion of secciones(); track seccion.id) {
                 <option [value]="seccion.id">{{ seccion.nombre }}</option>
               }
@@ -70,17 +70,19 @@
       <table class="table table-striped">
         <thead>
           <tr>
+            <th scope="col">#</th>
             <th scope="col"><a href="#">Nombre</a></th>
-            <th scope="col"><a href="#">Seccion</a></th>
+            <th scope="col"><a href="#">Sección</a></th>
             <th scope="col"><a href="#">Subido por</a></th>
             <th scope="col"><a href="#">Fecha</a></th>
-            <th scope="col"><a href="#">Tamano</a></th>
+            <th scope="col"><a href="#">Tamaño</a></th>
             <th scope="col" colspan="3">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          @for (documento of documentos(); track documento.id) {
+          @for (documento of documentos(); track documento.id; let idx = $index) {
             <tr>
+              <td class="text-center text-muted">{{ (paginaActual() * filasPorPagina()) + idx + 1 }}</td>
               <th scope="row">{{ documento.nombreFichero }}</th>
               <td>{{ documento.seccionTematicaNombre }}</td>
               <td>{{ documento.subidoPor }}</td>
@@ -158,46 +160,64 @@
   </div>
 
   <!-- footer con paginacion -->
-  <div class="card-footer text-body-secondary d-flex justify-content-center">
-    <ol class="list-unstyled d-flex gap-3 align-items-center mb-0">
-      <li class="d-flex align-items-center gap-1">
-        @for (pagina of paginasDisponibles(); track pagina) {
-          @if (pagina === -1) {
-            <span>...</span>
-          } @else {
-            <a
-              href="#"
-              (click)="irAPagina(pagina); $event.preventDefault()"
-              [class.active]="pagina === paginaActual()"
-              class="text-decoration-none"
-              [style.font-weight]="pagina === paginaActual() ? 'bold' : 'normal'"
-            >
-              {{ pagina + 1 }}
-            </a>
-          }
-          @if (!$last && pagina !== -1 && paginasDisponibles()[$index + 1] !== -1) {
-            <span>-</span>
-          }
-        }
-      </li>
+  <div class="card-footer text-body-secondary d-flex justify-content-between align-items-center">
+    <div class="d-flex gap-2">
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="irAPagina(0)"
+        [disabled]="paginaActual() === 0"
+        title="Primera página"
+      >
+        Primera
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="paginaAnterior()"
+        [disabled]="paginaActual() === 0"
+        title="Página anterior"
+      >
+        &lt;
+      </button>
+      <span class="align-self-center px-3">
+        Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}
+      </span>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="paginaSiguiente()"
+        [disabled]="paginaActual() >= totalPaginas() - 1"
+        title="Página siguiente"
+      >
+        &gt;
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        (click)="irAPagina(totalPaginas() - 1)"
+        [disabled]="paginaActual() >= totalPaginas() - 1"
+        title="Última página"
+      >
+        Última
+      </button>
+    </div>
 
-      <li class="d-flex align-items-center">
-        Mostrando {{ registroInicio() }} de {{ registroFin() }} de {{ totalElementos() }}
-      </li>
-
-      <li class="d-flex align-items-center">
-        <select
-          [(ngModel)]="filasPorPagina"
-          (change)="cambiarFilasPorPagina(filasPorPagina())"
-          class="form-select form-select-sm"
-        >
-          <option [value]="5">5</option>
-          <option [value]="10">10</option>
-          <option [value]="20">20</option>
-          <option [value]="50">50</option>
-        </select>
-      </li>
-    </ol>
+    <div class="d-flex align-items-center gap-2">
+      <span class="text-nowrap">Por página:</span>
+      <select
+        [value]="filasPorPagina()"
+        (change)="cambiarFilasPorPagina($any($event.target).value)"
+        class="form-select form-select-sm"
+        style="width: 80px;"
+        aria-label="Filas por página"
+      >
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
   </div>
 </div>
 
@@ -207,5 +227,14 @@
     [modalAbierto]="modalAbierto()"
     [secciones]="secciones()"
     (alCerrar)="cerrarModal()"
+    (documentoSubido)="alDocumentoSubido()"
   ></app-documento-upload>
 }
+
+<!-- Modal de confirmación de eliminación -->
+<app-confirmation-modal
+  [visible]="modalConfirmacionVisible()"
+  message="¿Estás seguro de que quieres eliminar este documento?"
+  (confirm)="confirmarEliminar()"
+  (cancel)="cancelarEliminar()"
+></app-confirmation-modal>

@@ -164,6 +164,14 @@ export class DocumentoUploadComponent {
     this.mensajeError.set(null);
     this.porcentajeProgreso.set(0);
 
+    // Simular progreso lineal hasta 90%
+    let progreso = 0;
+    const intervaloProgreso = setInterval(() => {
+      progreso += Math.random() * 25;
+      if (progreso > 90) progreso = 90;
+      this.porcentajeProgreso.set(Math.floor(progreso));
+    }, 200);
+
     const metadata = {
       seccionTematicaId: datos.seccionTematicaId,
       descripcion: datos.descripcion,
@@ -172,18 +180,20 @@ export class DocumentoUploadComponent {
     this.documentoService.uploadDocumento(datos.archivoSeleccionado, metadata)
       .subscribe({
         next: (documento) => {
-          this.cargandoSubida.set(false);
+          clearInterval(intervaloProgreso);
           this.porcentajeProgreso.set(100);
           this.documentoSubido.emit({
             id: documento.id,
             nombreFichero: documento.nombreFichero,
           });
-          this.limpiarFormulario();
           setTimeout(() => {
+            this.cargandoSubida.set(false);
+            this.limpiarFormulario();
             this.cerrarModal();
-          }, 1000);
+          }, 500);
         },
         error: (error) => {
+          clearInterval(intervaloProgreso);
           this.cargandoSubida.set(false);
           this.porcentajeProgreso.set(0);
           const mensajeError = error?.error?.mensaje || 'Error al subir el documento';

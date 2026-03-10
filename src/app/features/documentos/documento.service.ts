@@ -32,7 +32,7 @@ export class DocumentoService {
       .set('sort', params.sort ?? 'fechaSubida,desc');
 
     const filtro = params.filtros ?? {};
-    if (filtro.nombre)     httpParams = httpParams.append('filter', `nombre:CONTIENE:${filtro.nombre}`);
+    if (filtro.nombre)     httpParams = httpParams.append('filter', `nombreFichero:CONTIENE:${filtro.nombre}`);
     if (filtro.seccionId)  httpParams = httpParams.append('filter', `seccionId:IGUAL:${filtro.seccionId}`);
     if (filtro.subidoPor)  httpParams = httpParams.append('filter', `subidoPor:IGUAL:${filtro.subidoPor}`);
     if (filtro.estado)     httpParams = httpParams.append('filter', `estado:IGUAL:${filtro.estado}`);
