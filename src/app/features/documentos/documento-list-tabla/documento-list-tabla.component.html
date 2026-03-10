@@ -1,0 +1,207 @@
+<div class="card text-center">
+  <!-- header con filtros -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        Filtros:
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <div class="col-md-3">
+            <input
+              type="text"
+              [(ngModel)]="filtroNombre"
+              class="form-control"
+              placeholder="Nombre"
+            />
+          </div>
+          <div class="col-md-2">
+            <select [(ngModel)]="filtroSeccion" class="form-select">
+              <option [value]="null">Seccion</option>
+              @for (seccion of secciones(); track seccion.id) {
+                <option [value]="seccion.id">{{ seccion.nombre }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select [(ngModel)]="filtroEstado" class="form-select">
+              <option value="">Estado</option>
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="PROCESANDO">Procesando</option>
+              <option value="PROCESADO">Procesado</option>
+              <option value="ERROR">Error</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input
+              type="date"
+              [(ngModel)]="filtroFecha"
+              class="form-control"
+              placeholder="Fecha"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              (click)="limpiarFiltros()"
+              class="btn btn-secondary"
+              style="width: 100%; white-space: nowrap"
+            >
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          (click)="modalSubirDocumento()"
+          class="btn btn-info btn-subir-documento"
+        >
+          + Subir Documento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabla -->
+  <div class="card-body">
+    @if (cargando()) {
+      <p>cargando documentos...</p>
+    } @else {
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"><a href="#">Nombre</a></th>
+            <th scope="col"><a href="#">Seccion</a></th>
+            <th scope="col"><a href="#">Subido por</a></th>
+            <th scope="col"><a href="#">Fecha</a></th>
+            <th scope="col"><a href="#">Tamano</a></th>
+            <th scope="col" colspan="3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (documento of documentos(); track documento.id) {
+            <tr>
+              <th scope="row">{{ documento.nombreFichero }}</th>
+              <td>{{ documento.seccionTematicaNombre }}</td>
+              <td>{{ documento.subidoPor }}</td>
+              <td>{{ documento.fechaSubida | date: 'short' }}</td>
+              <td>{{ (documento.sizeBytes / 1024 / 1024).toFixed(2) }}MB</td>
+              <td>
+                <button
+                  (click)="descargarDocumento(documento.id)"
+                  class="btn btn-secondary"
+                >
+                  Descargar
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-arrow-down-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"
+                    />
+                  </svg>
+                </button>
+              </td>
+              <td>
+                <button
+                  (click)="visualizarDocumento(documento.id)"
+                  class="btn btn-info"
+                >
+                  Visualizar
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                    />
+                  </svg>
+                </button>
+              </td>
+              <td>
+                <button
+                  (click)="eliminarDocumento(documento.id)"
+                  class="btn btn-danger"
+                >
+                  Eliminar
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                    />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- footer con paginacion -->
+  <div class="card-footer text-body-secondary d-flex justify-content-center">
+    <ol class="list-unstyled d-flex gap-3 align-items-center mb-0">
+      <li class="d-flex align-items-center gap-1">
+        @for (pagina of paginasDisponibles(); track pagina) {
+          @if (pagina === -1) {
+            <span>...</span>
+          } @else {
+            <a
+              href="#"
+              (click)="irAPagina(pagina); $event.preventDefault()"
+              [class.active]="pagina === paginaActual()"
+              class="text-decoration-none"
+              [style.font-weight]="pagina === paginaActual() ? 'bold' : 'normal'"
+            >
+              {{ pagina + 1 }}
+            </a>
+          }
+          @if (!$last && pagina !== -1 && paginasDisponibles()[$index + 1] !== -1) {
+            <span>-</span>
+          }
+        }
+      </li>
+
+      <li class="d-flex align-items-center">
+        Mostrando {{ registroInicio() }} de {{ registroFin() }} de {{ totalElementos() }}
+      </li>
+
+      <li class="d-flex align-items-center">
+        <select
+          [(ngModel)]="filasPorPagina"
+          (change)="cambiarFilasPorPagina(filasPorPagina())"
+          class="form-select form-select-sm"
+        >
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+      </li>
+    </ol>
+  </div>
+</div>
+
+@if (modalAbierto()) {
+  <app-documento-upload
+    [modalAbierto]="modalAbierto()"
+    (alCerrar)="cerrarModal()"
+  ></app-documento-upload>
+}
