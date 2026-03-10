@@ -1,1 +1,21 @@
-<p>valoracion-button-component works!</p>
+<div class="valoracion-buttons">
+  <button
+    type="button"
+    class="valoracion-btn positiva"
+    [class.selected]="valoracionSeleccionada() === 'POSITIVA'"
+    [disabled]="loading()"
+    (click)="valorar('POSITIVA')"
+  >
+    Positiva
+  </button>
+
+  <button
+    type="button"
+    class="valoracion-btn negativa"
+    [class.selected]="valoracionSeleccionada() === 'NEGATIVA'"
+    [disabled]="loading()"
+    (click)="valorar('NEGATIVA')"
+  >
+    Negativa
+  </button>
+</div>
