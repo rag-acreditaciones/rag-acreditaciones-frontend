@@ -18,7 +18,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
 
         <li class="nav-item">
           <a
@@ -64,6 +64,32 @@
             [routerLinkActiveOptions]="{ exact: false }"
           >Informes</a>
         </li>
+
+        <!-- Usuario autenticado -->
+        @if (authService.isLoggedIn()) {
+          <li class="nav-item ms-lg-3">
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-white-50 small">
+                <i class="bi bi-person-circle me-1"></i>{{ authService.getNickname() }}
+              </span>
+              <button
+                class="btn btn-sm btn-outline-light"
+                (click)="authService.logout()"
+              >
+                <i class="bi bi-box-arrow-right me-1"></i>Salir
+              </button>
+            </div>
+          </li>
+        } @else {
+          <li class="nav-item ms-lg-3">
+            <a
+              class="btn btn-sm btn-outline-light"
+              routerLink="/login"
+            >
+              <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar sesión
+            </a>
+          </li>
+        }
 
       </ul>
     </div>
