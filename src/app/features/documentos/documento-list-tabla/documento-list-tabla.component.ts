@@ -1,16 +1,15 @@
-import { Component, OnInit, inject, signal, computed, effect, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy, DestroyRef, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
 import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
-import { DocumentoUploadComponent } from '../documento-upload-component/documento-upload.component';
 
 @Component({
   selector: 'app-documento-list-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentoUploadComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './documento-list-tabla.component.html',
   styleUrls: ['./documento-list-tabla.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +27,6 @@ export class DocumentoListTablaComponent implements OnInit {
   filasPorPagina = signal(5);
   totalPaginas = signal(0);
   totalElementos = signal(0);
-  modalAbierto = signal(false);
 
   // signals de filtros
   filtroNombre = signal('');
@@ -177,14 +175,6 @@ export class DocumentoListTablaComponent implements OnInit {
     Math.min((this.paginaActual() + 1) * this.filasPorPagina(), this.totalElementos())
   );
 
-  // Ya no es necesario buscar en array - el backend devuelve el nombre directamente
-  // Pero lo dejamos por compatibilidad - se usa en template igual
-
   modalSubirDocumento() {
-    this.modalAbierto.set(true);
-  }
-
-  cerrarModal() {
-    this.modalAbierto.set(false);
   }
 }
