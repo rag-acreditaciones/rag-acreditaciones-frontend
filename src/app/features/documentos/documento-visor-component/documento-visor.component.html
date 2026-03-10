@@ -24,64 +24,66 @@
     <div class="panel-metadatos">
       <h2>Información del Documento</h2>
 
-      @if (cargandoDocumento) {
+      @let doc = documento();
+
+      @if (cargandoDocumento()) {
         <p class="cargando">Cargando metadatos...</p>
-      } @else if (errorDocumento) {
+      } @else if (errorDocumento()) {
         <div class="alert alert-danger">
-          {{ errorDocumento }}
+          {{ errorDocumento() }}
         </div>
-      } @else if (documento) {
+      } @else if (doc) {
         <div class="metadatos-contenido">
           <!-- Nombre del fichero -->
           <div class="metadato-item">
             <label>Nombre del Archivo:</label>
-            <p class="valor">{{ documento.nombreFichero }}</p>
+            <p class="valor">{{ doc.nombreFichero }}</p>
           </div>
 
           <!-- Descripción -->
           <div class="metadato-item">
             <label>Descripción:</label>
-            <p class="valor">{{ documento.descripcion }}</p>
+            <p class="valor">{{ doc.descripcion }}</p>
           </div>
 
           <!-- Fecha subida -->
           <div class="metadato-item">
             <label>Fecha de Subida:</label>
-            <p class="valor">{{ documento.fechaSubida | date: 'short' }}</p>
+            <p class="valor">{{ doc.fechaSubida | date: 'short' }}</p>
           </div>
 
           <!-- Tamaño -->
           <div class="metadato-item">
             <label>Tamaño:</label>
-            <p class="valor">{{ (documento.sizeBytes / 1024 / 1024).toFixed(2) }} MB</p>
+            <p class="valor">{{ (doc.sizeBytes / 1024 / 1024).toFixed(2) }} MB</p>
           </div>
 
           <!-- Estado -->
           <div class="metadato-item">
             <label>Estado:</label>
-            <p class="valor estado" [ngClass]="'estado-' + documento.estado.toLowerCase()">
-              {{ documento.estado }}
+            <p class="valor estado" [ngClass]="'estado-' + doc.estado.toLowerCase()">
+              {{ doc.estado }}
             </p>
           </div>
 
           <!-- Subido por -->
           <div class="metadato-item">
             <label>Subido por:</label>
-            <p class="valor">{{ documento.subidoPor }}</p>
+            <p class="valor">{{ doc.subidoPor }}</p>
           </div>
 
           <!-- Sección temática -->
           <div class="metadato-item">
             <label>Sección Temática:</label>
             <p class="valor">
-              {{ documento.seccionTematicaNombre }}
+              {{ doc.seccionTematicaNombre }}
             </p>
           </div>
 
           <!-- Número de chunks -->
           <div class="metadato-item">
             <label>Chunks Procesados:</label>
-            <p class="valor">{{ documento.numChunks }}</p>
+            <p class="valor">{{ doc.numChunks }}</p>
           </div>
         </div>
       }
@@ -91,17 +93,20 @@
     <div class="panel-pdf">
       <h2>Vista Previa del PDF</h2>
 
-      @if (cargandoPDF) {
+      @let pdf = pdfUrl();
+      @let errorPdf = errorPDF();
+
+      @if (cargandoPDF()) {
         <div class="cargando-pdf">
           <p>Cargando PDF...</p>
         </div>
-      } @else if (errorPDF) {
+      } @else if (errorPdf) {
         <div class="alert alert-danger">
-          {{ errorPDF }}
+          {{ errorPdf }}
         </div>
-      } @else if (pdfUrl) {
+      } @else if (pdf) {
         <iframe
-          [src]="pdfUrl"
+          [src]="pdf"
           class="iframe-pdf"
           title="Vista previa del documento PDF"
         ></iframe>

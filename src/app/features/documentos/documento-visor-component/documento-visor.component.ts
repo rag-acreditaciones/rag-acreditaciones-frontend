@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { Documento, DocumentoPreview } from '../documento.model';
   imports: [CommonModule],
   templateUrl: './documento-visor.component.html',
   styleUrls: ['./documento-visor.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocumentoVisorComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
@@ -18,12 +19,12 @@ export class DocumentoVisorComponent implements OnInit {
   private readonly documentoService = inject(DocumentoService);
   private readonly sanitizer = inject(DomSanitizer);
 
-  documento: Documento | null = null;
-  pdfUrl: SafeResourceUrl | null = null;
-  cargandoDocumento = false;
-  cargandoPDF = false;
-  errorDocumento: string | null = null;
-  errorPDF: string | null = null;
+  documento = signal<Documento | null>(null);
+  pdfUrl = signal<SafeResourceUrl | null>(null);
+  cargandoDocumento = signal(false);
+  cargandoPDF = signal(false);
+  errorDocumento = signal<string | null>(null);
+  errorPDF = signal<string | null>(null);
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -31,30 +32,30 @@ export class DocumentoVisorComponent implements OnInit {
       this.cargarDocumento(parseInt(id, 10));
       this.cargarPDF(parseInt(id, 10));
     } else {
-      this.errorDocumento = 'ID de documento no válido';
+      this.errorDocumento.set('ID de documento no válido');
     }
   }
 
   private cargarDocumento(id: number): void {
-    this.cargandoDocumento = true;
-    this.errorDocumento = null;
+    this.cargandoDocumento.set(true);
+    this.errorDocumento.set(null);
 
     this.documentoService.getDocumento(id).subscribe({
       next: (doc) => {
-        this.documento = doc;
-        this.cargandoDocumento = false;
+        this.documento.set(doc);
+        this.cargandoDocumento.set(false);
       },
       error: (error) => {
-        this.errorDocumento = 'Error al cargar los metadatos del documento';
-        this.cargandoDocumento = false;
+        this.errorDocumento.set('Error al cargar los metadatos del documento');
+        this.cargandoDocumento.set(false);
         console.error('Error cargando documento:', error);
       },
     });
   }
 
   private cargarPDF(id: number): void {
-    this.cargandoPDF = true;
-    this.errorPDF = null;
+    this.cargandoPDF.set(true);
+    this.errorPDF.set(null);
 
     this.documentoService.previewDocumento(id).subscribe({
       next: (preview) => {
@@ -69,33 +70,34 @@ export class DocumentoVisorComponent implements OnInit {
 
         // Crear URL segura del blob
         const blobUrl = URL.createObjectURL(blob);
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-        this.cargandoPDF = false;
+        this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
+        this.cargandoPDF.set(false);
       },
       error: (error) => {
-        this.errorPDF = 'Error al cargar la vista previa del PDF';
-        this.cargandoPDF = false;
+        this.errorPDF.set('Error al cargar la vista previa del PDF');
+        this.cargandoPDF.set(false);
         console.error('Error cargando PDF:', error);
       },
     });
   }
 
   descargarPDF(): void {
-    if (!this.documento) return;
+    const doc = this.documento();
+    if (!doc) return;
 
-    const id = this.documento.id;
+    const id = doc.id;
     this.documentoService.downloadDocumento(id).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
         const enlace = document.createElement('a');
         enlace.href = url;
-        enlace.download = this.documento!.nombreFichero || `documento-${id}.pdf`;
+        enlace.download = doc.nombreFichero || `documento-${id}.pdf`;
         enlace.click();
         window.URL.revokeObjectURL(url);
       },
       error: (error) => {
         console.error('Error descargando PDF:', error);
-        this.errorDocumento = 'Error al descargar el PDF';
+        this.errorDocumento.set('Error al descargar el PDF');
       },
     });
   }

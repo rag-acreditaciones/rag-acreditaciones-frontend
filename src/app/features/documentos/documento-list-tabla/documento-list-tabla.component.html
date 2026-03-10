@@ -8,13 +8,14 @@
           <div class="col-md-3">
             <input
               type="text"
-              [(ngModel)]="filtroNombre"
+              [value]="filtroNombre()"
+              (input)="cambiarFiltroNombre($any($event.target).value)"
               class="form-control"
               placeholder="Nombre"
             />
           </div>
           <div class="col-md-2">
-            <select [(ngModel)]="filtroSeccion" class="form-select">
+            <select [value]="filtroSeccion() || ''" (change)="cambiarFiltroSeccion($any($event.target).value)" class="form-select">
               <option [value]="null">Seccion</option>
               @for (seccion of secciones(); track seccion.id) {
                 <option [value]="seccion.id">{{ seccion.nombre }}</option>
@@ -22,7 +23,7 @@
             </select>
           </div>
           <div class="col-md-2">
-            <select [(ngModel)]="filtroEstado" class="form-select">
+            <select [value]="filtroEstado()" (change)="cambiarFiltroEstado($any($event.target).value)" class="form-select">
               <option value="">Estado</option>
               <option value="PENDIENTE">Pendiente</option>
               <option value="PROCESANDO">Procesando</option>
@@ -33,7 +34,8 @@
           <div class="col-md-2">
             <input
               type="date"
-              [(ngModel)]="filtroFecha"
+              [value]="filtroFecha()"
+              (input)="cambiarFiltroFecha($any($event.target).value)"
               class="form-control"
               placeholder="Fecha"
             />
@@ -198,3 +200,12 @@
     </ol>
   </div>
 </div>
+
+<!-- Modal para subir documento -->
+@if (modalAbierto()) {
+  <app-documento-upload
+    [modalAbierto]="modalAbierto()"
+    [secciones]="secciones()"
+    (alCerrar)="cerrarModal()"
+  ></app-documento-upload>
+}

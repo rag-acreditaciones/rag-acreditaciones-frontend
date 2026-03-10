@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { form, minLength, required } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { DocumentoService } from '../documento.service';
 import { DatosDocumento, DOCUMENTO_CONFIG } from './documento-upload.types';
+import { SeccionTematica } from '../documento.model';
 
 @Component({
   selector: 'app-documento-upload',
@@ -19,6 +19,7 @@ export class DocumentoUploadComponent {
   modalAbierto = input<boolean>();
   alCerrar = output<void>();
   documentoSubido = output<{ id: number; nombreFichero: string }>();
+  secciones = input<SeccionTematica[]>([]);
 
   arrastrandoEncima = signal(false);
   cargandoSubida = signal(false);
@@ -44,8 +45,7 @@ export class DocumentoUploadComponent {
   archivoControl = computed(() => this.formulario.archivoSeleccionado());
 
   constructor(
-    private documentoService: DocumentoService,
-    private http: HttpClient
+    private documentoService: DocumentoService
   ) {}
 
   @HostListener('dragover', ['$event']) alArrastrar(evento: DragEvent) {
