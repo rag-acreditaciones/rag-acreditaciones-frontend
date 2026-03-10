@@ -169,11 +169,6 @@ export class DocumentoUploadComponent {
       descripcion: datos.descripcion,
     };
 
-    //--------------------------------------------------------------------------------------------------------------------
-
-    // Bloque a descomentar para activar subida al backend
-    // (Descomentar cuando el endpoint esté implementado en el backend)
-    /*
     this.documentoService.uploadDocumento(datos.archivoSeleccionado, metadata)
       .subscribe({
         next: (documento) => {
@@ -195,13 +190,10 @@ export class DocumentoUploadComponent {
           this.mensajeError.set(mensajeError);
         },
       });
-    */
-
-    // Mock para desarrollo (simula subida)
-    this.simularSubida();
   }
 
-  // Simula la subida del archivo para desarrollo (sin backend)
+  // Método simularSubida comentado (se usaba para desarrollo sin backend)
+  /*
   private simularSubida() {
     let progreso = 0;
     const intervalo = setInterval(() => {
@@ -227,7 +219,7 @@ export class DocumentoUploadComponent {
       }
     }, 500);
   }
-  //--------------------------------------------------------------------------------------------------------------------
+  */
 
   // Cierra el modal y notifica al componente padre
   cerrarModal() {

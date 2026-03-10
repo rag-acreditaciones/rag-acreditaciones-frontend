@@ -14,25 +14,34 @@ export type DocumentoEstado =
   | 'ERROR'
   | 'ELIMINADO';
 
-// ── Documento (respuesta del listado / detalle sin PDF) ───────────────────────
+// ── Documento (respuesta del backend - DocumentoResponseDTO) ──────────────────
 export interface Documento {
   id: number;
   nombreFichero: string;
   descripcion: string;
   fechaSubida: string;
-  tamano: number;
+  sizeBytes: number;
   estado: DocumentoEstado;
   subidoPor: string;
-  seccionTematica: SeccionTematica;
-  numChunks: number;
+  seccionTematicaId: number;
+  seccionTematicaNombre: string;
+  contentType: string;
+  numChunks?: number;
 }
 
-// ── Preview del PDF (base64 para iframe inline) ───────────────────────────────
+// ── Preview del PDF (base64 para iframe inline - DocumentoDetailDTO del backend) ─
 export interface DocumentoPreview {
   id: number;
   nombreFichero: string;
-  base64: string;
+  base64Contenido: string;
   contentType: string;
+  descripcion: string;
+  fechaSubida: string;
+  sizeBytes: number;
+  estado: DocumentoEstado;
+  subidoPor: string;
+  seccionTematicaId: number;
+  seccionTematicaNombre: string;
 }
 
 // ── Payload de subida (multipart) ─────────────────────────────────────────────
