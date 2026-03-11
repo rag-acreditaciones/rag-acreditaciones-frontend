@@ -1,4 +1,4 @@
-import { Component, output, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,11 +17,11 @@ import { CommonModule } from '@angular/common';
             <p>{{ message() }}</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-danger" (click)="onConfirm()">
+            <button type="button" class="btn btn-danger btn-modal" (click)="onConfirm()">
               Eliminar
+            </button>
+            <button type="button" class="btn btn-secondary btn-modal" (click)="onCancel()">
+              Cancelar
             </button>
           </div>
         </div>
@@ -92,8 +92,31 @@ import { CommonModule } from '@angular/common';
       padding: 1rem;
       border-top: 1px solid #dee2e6;
     }
+
+    .btn-modal {
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .btn-modal:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .btn-modal:active {
+      transform: translateY(0) !important;
+    }
+
+    button.btn-modal {
+      cursor: pointer !important;
+    }
+
+    button.btn-modal:hover {
+      cursor: pointer !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationModalComponent {
   visible = input(false);
@@ -102,10 +125,12 @@ export class ConfirmationModalComponent {
   cancel = output<void>();
 
   onConfirm(): void {
+    console.log('✅ onConfirm() - emitiendo confirm');
     this.confirm.emit();
   }
 
   onCancel(): void {
+    console.log('❌ onCancel() - emitiendo cancel');
     this.cancel.emit();
   }
 }

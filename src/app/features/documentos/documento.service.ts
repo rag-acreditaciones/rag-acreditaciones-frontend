@@ -33,11 +33,11 @@ export class DocumentoService {
 
     const filtro = params.filtros ?? {};
     if (filtro.nombre)     httpParams = httpParams.append('filter', `nombreFichero:CONTIENE:${filtro.nombre}`);
-    if (filtro.seccionId)  httpParams = httpParams.append('filter', `seccionId:IGUAL:${filtro.seccionId}`);
+    if (filtro.seccionId)  httpParams = httpParams.append('filter', `seccionTematicaId:IGUAL:${filtro.seccionId}`);
     if (filtro.subidoPor)  httpParams = httpParams.append('filter', `subidoPor:IGUAL:${filtro.subidoPor}`);
     if (filtro.estado)     httpParams = httpParams.append('filter', `estado:IGUAL:${filtro.estado}`);
-    if (filtro.fechaDesde) httpParams = httpParams.append('filter', `fechaSubida:MAYOR_QUE:${filtro.fechaDesde}`);
-    if (filtro.fechaHasta) httpParams = httpParams.append('filter', `fechaSubida:MENOR_QUE:${filtro.fechaHasta}`);
+    if (filtro.fechaDesde) httpParams = httpParams.append('filter', `fechaSubida:MAYOR_QUE:${filtro.fechaDesde}T00:00:00`);
+    if (filtro.fechaHasta) httpParams = httpParams.append('filter', `fechaSubida:MENOR_QUE:${filtro.fechaHasta}T23:59:59`);
 
     return this.http.get<PaginaResponse<Documento>>(`${API}/documentos`, { params: httpParams });
   }

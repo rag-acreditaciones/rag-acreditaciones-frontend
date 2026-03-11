@@ -59,8 +59,9 @@ export class DocumentoListTablaComponent implements OnInit {
     this.cargarDocumentos();
   }
 
-  private cargarDocumentos() {
+  cargarDocumentos(): void {
     this.cargando.set(true);
+    console.log('Cargando documentos con filtros:', this.filtrosActivos());
     this.documentoService
       .getDocumentos({
         filtros: this.filtrosActivos(),
@@ -70,14 +71,17 @@ export class DocumentoListTablaComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
         next: (respuesta) => {
+          console.log('Documentos recibidos:', respuesta.content);
           // Filtrar documentos ELIMINADOS (borrado lógico)
           const documentosFiltrados = respuesta.content.filter(doc => doc.estado !== 'ELIMINADO');
+          console.log('Documentos después de filtrar ELIMINADOS:', documentosFiltrados);
           this.documentos.set(documentosFiltrados);
           this.totalPaginas.set(respuesta.totalPages);
           this.totalElementos.set(respuesta.totalElements);
           this.cargando.set(false);
         },
-        error: () => {
+        error: (err) => {
+          console.error('Error cargando documentos:', err);
           this.cargando.set(false);
         },
       });
@@ -178,31 +182,37 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   eliminarDocumento(id: number) {
+    console.log('🗑️ CLICK en Eliminar, ID:', id);
     this.documentoAEliminar.set(id);
     this.modalConfirmacionVisible.set(true);
+    console.log('Modal visible:', this.modalConfirmacionVisible());
   }
 
   confirmarEliminar() {
     const id = this.documentoAEliminar();
+    console.log('✅ CONFIRM RECIBIDO - Intentando eliminar documento:', id);
     if (id) {
       this.documentoService.deleteDocumento(id)
         .pipe(takeUntilDestroyed(this.destruirRef))
         .subscribe({
           next: () => {
+            console.log('✅ Documento eliminado exitosamente, recargando lista...');
             this.modalConfirmacionVisible.set(false);
             this.documentoAEliminar.set(null);
-            // Resetear a página 0 para triggerear la recarga
-            if (this.paginaActual() === 0) {
-              this.cargarDocumentos();
-            } else {
-              this.paginaActual.set(0);
-            }
+            // Recargar documentos de inmediato
+            this.paginaActual.set(0);
+            this.cargarDocumentos();
+          },
+          error: (err) => {
+            console.error('❌ Error al eliminar documento:', err);
+            this.modalConfirmacionVisible.set(false);
           },
         });
     }
   }
 
   cancelarEliminar() {
+    console.log('❌ CANCEL RECIBIDO - Cerrando modal sin eliminar');
     this.modalConfirmacionVisible.set(false);
     this.documentoAEliminar.set(null);
   }

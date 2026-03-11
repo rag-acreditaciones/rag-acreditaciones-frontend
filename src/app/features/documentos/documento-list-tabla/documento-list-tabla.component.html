@@ -160,11 +160,11 @@
   </div>
 
   <!-- footer con paginacion -->
-  <div class="card-footer text-body-secondary d-flex justify-content-between align-items-center">
-    <div class="d-flex gap-2">
+  <div class="card-footer text-body-secondary d-flex flex-column gap-3 align-items-center">
+    <div class="d-flex gap-2 justify-content-center flex-wrap">
       <button
         type="button"
-        class="btn btn-sm btn-outline-secondary"
+        [class]="paginaActual() === 0 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-info'"
         (click)="irAPagina(0)"
         [disabled]="paginaActual() === 0"
         title="Primera página"
@@ -173,19 +173,19 @@
       </button>
       <button
         type="button"
-        class="btn btn-sm btn-outline-secondary"
+        [class]="paginaActual() === 0 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-info'"
         (click)="paginaAnterior()"
         [disabled]="paginaActual() === 0"
         title="Página anterior"
       >
         &lt;
       </button>
-      <span class="align-self-center px-3">
+      <span class="align-self-center px-2 text-dark">
         Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}
       </span>
       <button
         type="button"
-        class="btn btn-sm btn-outline-secondary"
+        [class]="paginaActual() >= totalPaginas() - 1 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-primary'"
         (click)="paginaSiguiente()"
         [disabled]="paginaActual() >= totalPaginas() - 1"
         title="Página siguiente"
@@ -194,7 +194,7 @@
       </button>
       <button
         type="button"
-        class="btn btn-sm btn-outline-secondary"
+        [class]="paginaActual() >= totalPaginas() - 1 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-primary'"
         (click)="irAPagina(totalPaginas() - 1)"
         [disabled]="paginaActual() >= totalPaginas() - 1"
         title="Última página"
@@ -203,13 +203,13 @@
       </button>
     </div>
 
-    <div class="d-flex align-items-center gap-2">
-      <span class="text-nowrap">Por página:</span>
+    <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+      <span class="text-nowrap text-dark">Mostrando {{ filasPorPagina() }} elementos por página</span>
       <select
         [value]="filasPorPagina()"
         (change)="cambiarFilasPorPagina($any($event.target).value)"
         class="form-select form-select-sm"
-        style="width: 80px;"
+        style="width: 70px;"
         aria-label="Filas por página"
       >
         <option [value]="5">5</option>
