@@ -1,0 +1,99 @@
+<div class="login-wrapper">
+  <div class="card login-card shadow-lg">
+
+    <!-- Header con gradiente -->
+    <div class="card-header text-center py-4">
+      <i class="bi bi-shield-lock fs-1 text-white mb-2 d-block"></i>
+      <h2 class="text-white fw-bold mb-0">RAG Acreditaciones</h2>
+      <p class="text-white-50 mb-0 mt-1">Accede a tu cuenta</p>
+    </div>
+
+    <div class="card-body p-4">
+
+      <!-- Alerta de error -->
+      @if (errorMessage()) {
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Email (nickname en el backend) -->
+        <div class="mb-3">
+          <label for="nickname" class="form-label fw-semibold">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input
+              id="nickname"
+              type="email"
+              class="form-control"
+              [class.is-invalid]="nickname.invalid && nickname.touched"
+              formControlName="nickname"
+              placeholder="tu@email.com"
+              autocomplete="email"
+            />
+            <div class="invalid-feedback">
+              @if (nickname.errors?.['required']) {
+                <span>El email es obligatorio.</span>
+              }
+              @if (nickname.errors?.['minlength']) {
+                <span>Debe tener al menos 5 caracteres.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input
+              id="password"
+              type="password"
+              class="form-control"
+              [class.is-invalid]="password.invalid && password.touched"
+              formControlName="password"
+              placeholder="Tu contraseña"
+              autocomplete="current-password"
+            />
+            <div class="invalid-feedback">
+              @if (password.errors?.['required']) {
+                <span>La contraseña es obligatoria.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón submit -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100 py-2 fw-semibold mb-3"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            Iniciando sesión...
+          } @else {
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Iniciar sesión
+          }
+        </button>
+
+        <!-- Enlace a registro -->
+        <p class="text-center text-muted mb-0 small">
+          ¿No tienes cuenta?
+          <a routerLink="/registro" class="fw-semibold text-decoration-none">Regístrate</a>
+        </p>
+
+      </form>
+    </div>
+
+  </div>
+</div>
