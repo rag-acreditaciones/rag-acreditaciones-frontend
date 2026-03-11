@@ -6,12 +6,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
 import { Documento, DocumentoEstado, DocumentoFiltros, SeccionTematica } from '../documento.model';
 import { DocumentoUploadComponent } from '../documento-upload-component/documento-upload.component';
-import { ConfirmationModalComponent } from '../confirmation-modal.component';
 
 @Component({
   selector: 'app-documento-list-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentoUploadComponent, ConfirmationModalComponent],
+  imports: [CommonModule, FormsModule, DocumentoUploadComponent],
   templateUrl: './documento-list-tabla.component.html',
   styleUrls: ['./documento-list-tabla.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +29,6 @@ export class DocumentoListTablaComponent implements OnInit {
   totalPaginas = signal(0);
   totalElementos = signal(0);
   modalAbierto = signal(false);
-  modalConfirmacionVisible = signal(false);
   documentoAEliminar = signal<number | null>(null);
 
   // signals de filtros
@@ -65,7 +63,6 @@ export class DocumentoListTablaComponent implements OnInit {
 
   cargarDocumentos(): void {
     this.cargando.set(true);
-    console.log('Cargando documentos con filtros:', this.filtrosActivos());
     this.documentoService
       .getDocumentos({
         filtros: this.filtrosActivos(),
@@ -75,17 +72,14 @@ export class DocumentoListTablaComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
         next: (respuesta) => {
-          console.log('Documentos recibidos:', respuesta.content);
           // Filtrar documentos ELIMINADOS (borrado lógico)
           const documentosFiltrados = respuesta.content.filter(doc => doc.estado !== 'ELIMINADO');
-          console.log('Documentos después de filtrar ELIMINADOS:', documentosFiltrados);
           this.documentos.set(documentosFiltrados);
           this.totalPaginas.set(respuesta.totalPages);
           this.totalElementos.set(respuesta.totalElements);
           this.cargando.set(false);
         },
         error: (err) => {
-          console.error('Error cargando documentos:', err);
           this.cargando.set(false);
         },
       });
@@ -185,39 +179,29 @@ export class DocumentoListTablaComponent implements OnInit {
     this.router.navigate(['/documentos', id, 'visor']);
   }
 
+  // Muestra confirmación inline en la tabla
   eliminarDocumento(id: number) {
-    console.log('🗑️ CLICK en Eliminar, ID:', id);
     this.documentoAEliminar.set(id);
-    this.modalConfirmacionVisible.set(true);
-    console.log('Modal visible:', this.modalConfirmacionVisible());
   }
 
+  // Confirma y elimina el documento
   confirmarEliminar() {
     const id = this.documentoAEliminar();
-    console.log('✅ CONFIRM RECIBIDO - Intentando eliminar documento:', id);
     if (id) {
       this.documentoService.deleteDocumento(id)
         .pipe(takeUntilDestroyed(this.destruirRef))
         .subscribe({
           next: () => {
-            console.log('✅ Documento eliminado exitosamente, recargando lista...');
-            this.modalConfirmacionVisible.set(false);
             this.documentoAEliminar.set(null);
-            // Recargar documentos de inmediato
             this.paginaActual.set(0);
             this.cargarDocumentos();
-          },
-          error: (err) => {
-            console.error('❌ Error al eliminar documento:', err);
-            this.modalConfirmacionVisible.set(false);
           },
         });
     }
   }
 
+  // Cancela la eliminación
   cancelarEliminar() {
-    console.log('❌ CANCEL RECIBIDO - Cerrando modal sin eliminar');
-    this.modalConfirmacionVisible.set(false);
     this.documentoAEliminar.set(null);
   }
 

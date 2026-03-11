@@ -234,3 +234,15 @@
   font-weight: 700 !important;
   font-size: 0.9rem !important;
 }
+
+/* Botón cancelar en confirmación inline */
+.btn-confirm-cancel {
+  border: 2px solid red !important;
+  color: red !important;
+}
+
+.btn-confirm-cancel:hover {
+  color: white !important;
+  background-color: red !important;
+  border: 2px solid red !important;
+}
