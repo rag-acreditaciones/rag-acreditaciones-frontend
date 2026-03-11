@@ -1,8 +1,42 @@
-<div class="d-flex">
-    <app-informes-totales-item [totalCampo]="informeTotal.totalDocumentos" [campoNombre]="'documentos'"></app-informes-totales-item>
-    <app-informes-totales-item [totalCampo]="informeTotal.totalChunks" [campoNombre]="'chunks'"></app-informes-totales-item>
-    <app-informes-totales-item [totalCampo]="informeTotal.totalConversaciones" [campoNombre]="'chats'"></app-informes-totales-item>
-    <app-informes-totales-item [totalCampo]="informeTotal.totalPreguntas" [campoNombre]="'preguntas'"></app-informes-totales-item>
-    <app-informes-totales-item [totalCampo]="informeTotal.totalUsuarios" [campoNombre]="'usuarios'"></app-informes-totales-item>
-    <app-informes-totales-item [totalCampo]="informeTotal.ratioCalidad+'%'" [campoNombre]="'calidad'"></app-informes-totales-item>
+@if (informeTotal()) {
+  <div class="d-flex">
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalDocumentos" 
+      [campoNombre]="'documentos'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalChunks" 
+      [campoNombre]="'chunks'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalConversaciones" 
+      [campoNombre]="'chats'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalPreguntas" 
+      [campoNombre]="'preguntas'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalUsuarios" 
+      [campoNombre]="'usuarios'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.ratioCalidad" 
+      [campoNombre]="'% calidad'">
+    </app-informes-totales-item>
+  </div>
+} @else {
+  <div class="d-flex">
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.totalDocumentos" [campoNombre]="'documentos'"></app-informes-totales-item>
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.totalChunks" [campoNombre]="'chunks'"></app-informes-totales-item>
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.totalConversaciones" [campoNombre]="'chats'"></app-informes-totales-item>
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.totalPreguntas" [campoNombre]="'preguntas'"></app-informes-totales-item>
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.totalUsuarios" [campoNombre]="'usuarios'"></app-informes-totales-item>
+    <app-informes-totales-item [totalCampo]="informeTotalDemo.ratioCalidad+'%'" [campoNombre]="'calidad'"></app-informes-totales-item>
 </div>
+}

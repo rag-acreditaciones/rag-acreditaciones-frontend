@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { rankingUsuariosDemo } from '../../interfaces/ranking-usuarios-demo';
 import { UsuarioRanking } from '../../interfaces/informe.model';
 import { InformesRankingItem } from "../informes-ranking-item/informes-ranking-item";
+import { rankingUsuariosDemoData } from '../../interfaces/informe-demo';
 
 @Component({
   selector: 'app-informes-ranking-list',
@@ -10,5 +10,5 @@ import { InformesRankingItem } from "../informes-ranking-item/informes-ranking-i
   styleUrl: './informes-ranking-list.css',
 })
 export class InformesRankingList {
-    ranking: UsuarioRanking[] = rankingUsuariosDemo;
+    ranking: UsuarioRanking[] = rankingUsuariosDemoData;
 }

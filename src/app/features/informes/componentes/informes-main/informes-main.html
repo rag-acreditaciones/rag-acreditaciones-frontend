@@ -9,6 +9,7 @@
         <div class="d-flex">
             <a class="btn btn-info mt-3" (click)="vista.set('documentos')">Documentos</a>
             <a class="btn btn-info mt-3" (click)="vista.set('chats')">Chats</a>
+            <a class="btn btn-info mt-3" (click)="vista.set('usuarios')">Usuarios</a>
         </div>
 
         @if (vista() === 'documentos') {
@@ -18,17 +19,10 @@
         @if (vista() === 'chats') {
             <app-informes-chats></app-informes-chats>
         }
-            
-        <hr>
-        <div class="d-flex">
-            <div class="col-md-6">
-                <app-informes-ranking-list></app-informes-ranking-list>
-            </div>
-            <div class="border-end mx-3" style="height: auto;"></div>
-            <div class="col-md-6">
-                <app-informes-reciente-list></app-informes-reciente-list>
-            </div>
-        </div>
+
+        @if (vista() === 'usuarios') {
+            <app-informes-usuarios></app-informes-usuarios>
+        }
     </div>
     <div class="card-footer text-body-secondary d-flex justify-content-center">
         

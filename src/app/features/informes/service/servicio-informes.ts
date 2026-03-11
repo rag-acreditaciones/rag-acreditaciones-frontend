@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { 
   ActividadDiaria, 
@@ -32,12 +32,16 @@ export class DashboardService {
 
   /** GET /api/v1/dashboard/documentos/por-seccion — distribución docs por sección */
   getDocumentosPorSeccion(): Observable<CantidadesPorEtiqueta[]> {
-    return this.http.get<CantidadesPorEtiqueta[]>(`${API}/documentos/por-seccion`);
+    return this.http.get<any[]>(`${API}/documentos/por-seccion`).pipe(
+      map(data => data.map(d => ({ etiqueta: d.etiqueta, cantidad: d.count })))
+    );
   }
 
   /** GET /api/v1/dashboard/documentos/por-estado — distribución docs por estado */
   getDocumentosPorEstado(): Observable<CantidadesPorEtiqueta[]> {
-    return this.http.get<CantidadesPorEtiqueta[]>(`${API}/documentos/por-estado`);
+    return this.http.get<any[]>(`${API}/documentos/por-estado`).pipe(
+      map(data => data.map(d => ({ etiqueta: d.etiqueta, cantidad: d.count })))
+    );
   }
 
   /**
@@ -99,7 +103,9 @@ export class DashboardService {
 
   /** GET /api/v1/dashboard/usuarios/por-rol — distribución usuarios por rol */
   getUsuariosPorRol(): Observable<CantidadesPorEtiqueta[]> {
-    return this.http.get<CantidadesPorEtiqueta[]>(`${API}/usuarios/por-rol`);
+    return this.http.get<any[]>(`${API}/usuarios/por-rol`).pipe(
+      map(data => data.map(d => ({ etiqueta: d.etiqueta, cantidad: d.count })))
+    );
   }
 
   // ── Actividad reciente ───────────────────────────────────────────────────

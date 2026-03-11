@@ -1,16 +1,28 @@
 <div class="d-flex">
     <div class="col-md-4 d-flex flex-column align-items-center">
         <h5>Documentos por sección</h5>
-        <app-doughnut-chart [data]="documentosSeccion"></app-doughnut-chart>
+        @if (documentosSeccion().length > 0) {
+            <app-doughnut-chart [data]="documentosSeccion()"></app-doughnut-chart>
+        } @else {
+            <app-doughnut-chart [data]="documentosSeccionDemo"></app-doughnut-chart>
+        }
         <hr class="w-100">
         <h5>Documentos por estado</h5>
-        <app-doughnut-chart [data]="documentosEstado"></app-doughnut-chart>
+        @if (documentosEstado().length > 0) {
+            <app-doughnut-chart [data]="documentosEstado()"></app-doughnut-chart>
+        } @else {
+            <app-doughnut-chart [data]="documentosEstadoDemo"></app-doughnut-chart>
+        }
     </div>
 
     <div class="border-end mx-3" style="height: auto;"></div>
     
     <div class="col-md-8">
         <h5>Evolución</h5>
-        <app-line-chart [data]="evolucion"></app-line-chart>
+        @if (evolucion().length > 0) {
+            <app-line-chart [data]="evolucion()"></app-line-chart>
+        } @else {
+            <app-line-chart [data]="evolucionDemo"></app-line-chart>
+        }
     </div>
 </div>

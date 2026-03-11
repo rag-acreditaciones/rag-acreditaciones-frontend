@@ -1,7 +1,7 @@
 import { Component, input, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartOptions, Chart, registerables } from 'chart.js';
-import { Evolucion, ActividadDiaria, HorasPunta, CantidadesPorEtiqueta } from '../../interfaces/informe.model';
+import { Evolucion, ActividadDiaria, HorasPunta, CantidadesPorEtiqueta } from '../../../interfaces/informe.model';
 
 Chart.register(...registerables);
 
