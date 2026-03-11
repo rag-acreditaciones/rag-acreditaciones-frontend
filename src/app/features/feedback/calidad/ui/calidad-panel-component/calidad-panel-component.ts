@@ -1,18 +1,18 @@
+import { CommonModule, DatePipe, PercentPipe } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
-  OnInit,
-  inject,
   computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
   signal,
   ViewChild,
-  ElementRef,
-  AfterViewInit,
-  OnDestroy,
 } from '@angular/core';
-import { CommonModule, DatePipe, PercentPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CalidadService } from '../../data-access/calidad-service';
 import { Chart, registerables } from 'chart.js';
+import { CalidadService } from '../../data-access/calidad-service';
 
 Chart.register(...registerables);
 
@@ -21,7 +21,7 @@ type TablaTop = 'MEJOR' | 'PEOR';
 
 @Component({
   selector: 'app-calidad-panel-component',
-  imports: [CommonModule, FormsModule, DatePipe, PercentPipe],
+  imports: [CommonModule, FormsModule, PercentPipe],
   templateUrl: './calidad-panel-component.html',
   styleUrl: './calidad-panel-component.css',
 })
@@ -187,7 +187,7 @@ export class CalidadPanelComponent implements OnInit, AfterViewInit, OnDestroy {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => ` ${ctx.parsed.x.toFixed(1)}%`,
+              label: (ctx) => ` ${ctx.parsed.x!.toFixed(1)}%`,
             },
           },
         },
@@ -263,7 +263,7 @@ export class CalidadPanelComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           tooltip: {
             callbacks: {
-              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`,
+              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y!.toFixed(1)}%`,
             },
           },
         },
