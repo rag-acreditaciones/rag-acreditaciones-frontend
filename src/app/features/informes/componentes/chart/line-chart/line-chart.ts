@@ -28,6 +28,14 @@ export class LineChart implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buildChart();
+  }
+
+  ngOnChanges(): void {
+    this.buildChart();
+  }
+
+  private buildChart(): void {
     const normalizados = this.normalizar(this.datos());
 
     this.lineOptions = {

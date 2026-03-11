@@ -23,14 +23,22 @@ export class DoughnutChart implements OnInit {
       legend: { position: 'bottom' }
     }
   };
-  
+
   ngOnInit(): void {
+    this.buildChart();
+  }
+
+  ngOnChanges(): void {
+    this.buildChart();
+  }
+  
+  private buildChart(): void {
     this.pieData = {
-    labels: this.datos().map(d => d.etiqueta),
-    datasets: [{
-      data: this.datos().map(d => d.cantidad),
-      backgroundColor: ['#0e3f57', '#0c6c88', '#08a5be', '#03ecf5'],
-    }]
-  };
+      labels: this.datos().map(d => d.etiqueta),
+      datasets: [{
+        data: this.datos().map(d => d.cantidad),
+        backgroundColor: ['#0e3f57', '#0c6c88', '#08a5be', '#03ecf5'],
+      }]
+    };
   }
 }

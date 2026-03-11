@@ -5,7 +5,7 @@ import { CantidadesPorEtiqueta } from '../../interfaces/informe.model';
 import { BarChart } from "../chart/bar-chart/bar-chart";
 import { DashboardService } from '../../service/servicio-informes';
 import { usuariosRolDemoData } from '../../interfaces/informe-demo';
-import { catchError, of } from 'rxjs';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-informes-usuarios',
@@ -15,13 +15,16 @@ import { catchError, of } from 'rxjs';
 })
 export class InformesUsuarios {
   private informesService = inject(DashboardService);
+  private authService = inject(AuthService);
 
   usuariosRol = signal<CantidadesPorEtiqueta[] | []>([]);
 
   ngOnInit(): void {
-    this.informesService.getUsuariosPorRol()
-      .subscribe(data => this.usuariosRol.set(data));
+    if (this.authService.isLoggedIn()) {
+      this.informesService.getUsuariosPorRol()
+        .subscribe(data => this.usuariosRol.set(data));
+    } else {
+      this.usuariosRol.set(usuariosRolDemoData);
+    }
   }
-    
-  usuariosRolDemo: CantidadesPorEtiqueta[] = usuariosRolDemoData;
 }

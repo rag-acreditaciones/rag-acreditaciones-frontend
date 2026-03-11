@@ -18,6 +18,14 @@ export class BarChart implements OnInit {
   barOptions!: ChartOptions<'bar'>;
 
   ngOnInit(): void {
+    this.buildChart();
+  }
+
+  ngOnChanges(): void {
+    this.buildChart();
+  }
+
+  private buildChart(): void {
     this.barOptions = {
       responsive: true,
       maintainAspectRatio: this.altura() === null,

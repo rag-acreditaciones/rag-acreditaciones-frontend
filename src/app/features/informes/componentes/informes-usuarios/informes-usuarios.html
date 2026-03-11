@@ -9,8 +9,4 @@
 </div>
 <hr>
 <h5>Usuarios por rol</h5>
-@if (usuariosRol().length > 0) {
-    <app-bar-chart [data]="usuariosRol()!" [height]="300"></app-bar-chart>
-} @else {
-    <app-bar-chart [data]="usuariosRolDemo" [height]="300"></app-bar-chart>
-}
+<app-bar-chart [data]="usuariosRol()!" [height]="300"></app-bar-chart>
