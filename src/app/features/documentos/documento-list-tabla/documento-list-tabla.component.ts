@@ -31,13 +31,13 @@ export class DocumentoListTablaComponent implements OnInit {
   modalAbierto = signal(false);
   documentoAEliminar = signal<number | null>(null);
 
-  // signals de filtros
+  // signals de los filtros
   filtroNombre = signal('');
   filtroSeccion = signal<number | null>(null);
   filtroEstado = signal('');
   filtroFecha = signal('');
 
-  // computed para obtener filtros activos
+  // las sign computed para obtener filtros activados
   filtrosActivos = computed<DocumentoFiltros>(() => {
     const fecha = this.filtroFecha();
     return {
@@ -50,7 +50,7 @@ export class DocumentoListTablaComponent implements OnInit {
   });
 
   constructor() {
-    // efecto para cargar documentos cuando cambian filtros o paginacion
+    //para recargar documentos cuando cambian filtros o paginacion
     effect(() => {
       this.cargarDocumentos();
     });
@@ -72,7 +72,7 @@ export class DocumentoListTablaComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
         next: (respuesta) => {
-          // Filtrar documentos ELIMINADOS (borrado lógico)
+          // Filtrar documentos ELIMINADOS (borrado pero sin borrar de la bd.. solo le cambia el estado a ELIMINADO)
           const documentosFiltrados = respuesta.content.filter(doc => doc.estado !== 'ELIMINADO');
           this.documentos.set(documentosFiltrados);
           this.totalPaginas.set(respuesta.totalPages);
@@ -95,7 +95,7 @@ export class DocumentoListTablaComponent implements OnInit {
       });
   }
 
-  // acciones de filtros
+  // reiniciar los filtros
   limpiarFiltros() {
     this.filtroNombre.set('');
     this.filtroSeccion.set(null);
@@ -104,7 +104,7 @@ export class DocumentoListTablaComponent implements OnInit {
     this.paginaActual.set(0);
   }
 
-  // acciones de paginacion
+  //paginacion
   irAPagina(pagina: number) {
     this.paginaActual.set(pagina);
   }
@@ -127,7 +127,7 @@ export class DocumentoListTablaComponent implements OnInit {
     this.paginaActual.set(0);
   }
 
-  // acciones del modal
+  //las cosas del modal
   modalSubirDocumento() {
     this.modalAbierto.set(true);
   }
@@ -137,12 +137,12 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   alDocumentoSubido() {
-    // Reload automático después de subir documento
+    //para que recargue automaticamente cuando sube un docu
     this.paginaActual.set(0);
     this.cargarDocumentos();
   }
 
-  // métodos para cambiar filtros
+  // cambiar los filtros
   cambiarFiltroNombre(valor: string) {
     this.filtroNombre.set(valor);
   }
@@ -179,7 +179,7 @@ export class DocumentoListTablaComponent implements OnInit {
     this.router.navigate(['/documentos', id, 'visor']);
   }
 
-  // Muestra confirmación inline en la tabla
+  // Muestra confirmación en la propia fila en la tabla. Antes estaba con un MODAL muy chulo, pero daba muchos problemas...
   eliminarDocumento(id: number) {
     this.documentoAEliminar.set(id);
   }
@@ -200,7 +200,7 @@ export class DocumentoListTablaComponent implements OnInit {
     }
   }
 
-  // Cancela la eliminación
+  // Cancelar la eliminación
   cancelarEliminar() {
     this.documentoAEliminar.set(null);
   }

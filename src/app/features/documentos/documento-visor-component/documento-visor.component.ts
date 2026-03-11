@@ -26,6 +26,7 @@ export class DocumentoVisorComponent implements OnInit {
   errorDocumento = signal<string | null>(null);
   errorPDF = signal<string | null>(null);
 
+
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
@@ -35,6 +36,8 @@ export class DocumentoVisorComponent implements OnInit {
       this.errorDocumento.set('ID de documento no válido');
     }
   }
+
+
 
   private cargarDocumento(id: number): void {
     this.cargandoDocumento.set(true);
@@ -53,9 +56,13 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
+
+
+
   private cargarPDF(id: number): void {
     this.cargandoPDF.set(true);
     this.errorPDF.set(null);
+
 
     this.documentoService.previewDocumento(id).subscribe({
       next: (preview) => {
@@ -68,7 +75,7 @@ export class DocumentoVisorComponent implements OnInit {
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], { type: preview.contentType });
 
-        // Crear URL segura del blob
+        //hacer url segura del blob
         const blobUrl = URL.createObjectURL(blob);
         this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
         this.cargandoPDF.set(false);
@@ -81,9 +88,12 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
+
+
   descargarPDF(): void {
     const doc = this.documento();
     if (!doc) return;
+
 
     const id = doc.id;
     this.documentoService.downloadDocumento(id).subscribe({
@@ -101,6 +111,10 @@ export class DocumentoVisorComponent implements OnInit {
       },
     });
   }
+
+
+
+
 
   volverAtras(): void {
     this.router.navigate(['/documentos']);

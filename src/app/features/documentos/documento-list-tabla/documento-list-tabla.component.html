@@ -1,5 +1,5 @@
 <div class="card text-center">
-  <!-- header con filtros -->
+  <!-- la parte de los filtros -->
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <div>
@@ -131,7 +131,7 @@
               </td>
               <td>
                 @if (documentoAEliminar() === documento.id) {
-                  <!-- Confirmacion de borrar si o no -->
+                  <!-- decir si borrar "si o no" ... estos botones sustityen el de Eliminar cuando se pulsa sobr el -->
                   <div class="d-flex gap-2 justify-content-center">
                     <button
                       type="button"
@@ -183,7 +183,7 @@
     }
   </div>
 
-  <!-- footer con paginacion -->
+  <!-- la paginacion -->
   <div class="card-footer text-body-secondary d-flex flex-column gap-3 align-items-center">
     <div class="d-flex gap-2 justify-content-center flex-wrap">
       <button
@@ -245,7 +245,7 @@
   </div>
 </div>
 
-<!-- Modal para subir documento -->
+<!-- subir un documento hecho con MODAL, como se pide en el enunciado -->
 @if (modalAbierto()) {
   <app-documento-upload
     [modalAbierto]="modalAbierto()"

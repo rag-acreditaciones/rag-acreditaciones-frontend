@@ -1,5 +1,6 @@
 <div class="contenedor-visor">
-  <!-- Header con botones: volver y descargar -->
+  
+  <!-- botnes volver y descargar -->
   <div class="header-visor">
     <div class="header-botones">
       <button type="button" class="btn btn-secondary btn-volver" (click)="volverAtras()">
@@ -8,6 +9,7 @@
         </svg>
         Volver atrás
       </button>
+
 
       <button type="button" class="btn btn-primary btn-descargar" (click)="descargarPDF()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
@@ -19,8 +21,11 @@
     </div>
   </div>
 
+
+
+
   <div class="contenedor-principal">
-    <!-- PANEL IZQUIERDO: METADATOS -->
+    <!-- parte izq... los metadatos-->
     <div class="panel-metadatos">
       <h2>Información del Documento</h2>
 
@@ -34,13 +39,15 @@
         </div>
       } @else if (doc) {
         <div class="metadatos-contenido">
-          <!-- Nombre del fichero -->
+          <!-- Nombre -->
           <div class="metadato-item">
             <label>Nombre del Archivo:</label>
             <p class="valor">{{ doc.nombreFichero }}</p>
           </div>
 
-          <!-- Descripción -->
+
+
+          <!-- Descrip -->
           <div class="metadato-item">
             <label>Descripción:</label>
             <p class="valor">{{ doc.descripcion }}</p>
@@ -58,7 +65,7 @@
             <p class="valor">{{ (doc.sizeBytes / 1024 / 1024).toFixed(2) }} MB</p>
           </div>
 
-          <!-- Estado -->
+          <!--Estado -->
           <div class="metadato-item">
             <label>Estado:</label>
             <p class="valor estado" [ngClass]="'estado-' + doc.estado.toLowerCase()">
@@ -66,13 +73,16 @@
             </p>
           </div>
 
-          <!-- Subido por -->
+
+
+
+          <!-- quien lo ha subido -->
           <div class="metadato-item">
             <label>Subido por:</label>
             <p class="valor">{{ doc.subidoPor }}</p>
           </div>
 
-          <!-- Sección temática -->
+          <!-- Sección a la que va -->
           <div class="metadato-item">
             <label>Sección Temática:</label>
             <p class="valor">
@@ -80,7 +90,7 @@
             </p>
           </div>
 
-          <!-- Número de chunks -->
+          <!-- Numero chunks-->
           <div class="metadato-item">
             <label>Chunks Procesados:</label>
             <p class="valor">{{ doc.numChunks }}</p>
@@ -89,7 +99,10 @@
       }
     </div>
 
-    <!-- PANEL DERECHO: VISOR PDF -->
+
+
+
+    <!-- parte der. el pdf embebido con iframe -->
     <div class="panel-pdf">
       <h2>Vista Previa del PDF</h2>
 
