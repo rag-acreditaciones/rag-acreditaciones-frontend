@@ -40,12 +40,16 @@ export class DocumentoListTablaComponent implements OnInit {
   filtroFecha = signal('');
 
   // computed para obtener filtros activos
-  filtrosActivos = computed<DocumentoFiltros>(() => ({
-    nombre: this.filtroNombre() || undefined,
-    seccionId: this.filtroSeccion() || undefined,
-    estado: (this.filtroEstado() || undefined) as DocumentoEstado | undefined,
-    fechaDesde: this.filtroFecha() || undefined,
-  }));
+  filtrosActivos = computed<DocumentoFiltros>(() => {
+    const fecha = this.filtroFecha();
+    return {
+      nombre: this.filtroNombre() || undefined,
+      seccionId: this.filtroSeccion() || undefined,
+      estado: (this.filtroEstado() || undefined) as DocumentoEstado | undefined,
+      fechaDesde: fecha ? `${fecha}T00:00:00` : undefined,
+      fechaHasta: fecha ? `${fecha}T23:59:59` : undefined,
+    };
+  });
 
   constructor() {
     // efecto para cargar documentos cuando cambian filtros o paginacion

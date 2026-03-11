@@ -235,6 +235,6 @@
 <app-confirmation-modal
   [visible]="modalConfirmacionVisible()"
   message="¿Estás seguro de que quieres eliminar este documento?"
-  (confirm)="confirmarEliminar()"
-  (cancel)="cancelarEliminar()"
+  [onConfirmFn]="() => this.confirmarEliminar()"
+  [onCancelFn]="() => this.cancelarEliminar()"
 ></app-confirmation-modal>

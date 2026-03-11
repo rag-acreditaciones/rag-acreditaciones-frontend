@@ -1,4 +1,4 @@
-import { Component, output, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,20 +7,20 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     @if (visible()) {
-      <div class="modal-overlay" (click)="onCancel()">
+      <div class="modal-overlay" (click)="onButtonClick('cancel')">
         <div class="modal-dialog" (click)="$event.stopPropagation()">
           <div class="modal-header">
             <h5 class="modal-title">Confirmar eliminación</h5>
-            <button type="button" class="btn-close" (click)="onCancel()"></button>
+            <button type="button" class="btn-close" (click)="onButtonClick('cancel')"></button>
           </div>
           <div class="modal-body">
             <p>{{ message() }}</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger btn-modal" (click)="onConfirm()">
+            <button type="button" class="btn btn-danger btn-modal" (click)="onButtonClick('confirm')">
               Eliminar
             </button>
-            <button type="button" class="btn btn-secondary btn-modal" (click)="onCancel()">
+            <button type="button" class="btn btn-secondary btn-modal" (click)="onButtonClick('cancel')">
               Cancelar
             </button>
           </div>
@@ -121,16 +121,16 @@ import { CommonModule } from '@angular/common';
 export class ConfirmationModalComponent {
   visible = input(false);
   message = input('¿Estás seguro de que quieres eliminar este elemento?');
-  confirm = output<void>();
-  cancel = output<void>();
+  onConfirmFn = input<(() => void) | undefined>();
+  onCancelFn = input<(() => void) | undefined>();
 
-  onConfirm(): void {
-    console.log('✅ onConfirm() - emitiendo confirm');
-    this.confirm.emit();
-  }
-
-  onCancel(): void {
-    console.log('❌ onCancel() - emitiendo cancel');
-    this.cancel.emit();
+  onButtonClick(action: 'confirm' | 'cancel'): void {
+    if (action === 'confirm') {
+      console.log('✅ Botón ELIMINAR clickeado - llamando onConfirmFn');
+      this.onConfirmFn?.();
+    } else {
+      console.log('❌ Botón CANCELAR clickeado - llamando onCancelFn');
+      this.onCancelFn?.();
+    }
   }
 }
