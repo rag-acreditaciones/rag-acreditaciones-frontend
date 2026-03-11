@@ -9,6 +9,12 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
 export interface JwtResponse {
   token: string;
   bearer: string;
@@ -32,6 +38,10 @@ export class AuthService {
           localStorage.setItem(this.NICKNAME_KEY, res.nickname);
         })
       );
+  }
+
+  register(data: RegisterRequest): Observable<{ mensaje: string }> {
+    return this.http.post<{ mensaje: string }>(`${environment.apiUrl}/auth/nuevo`, data);
   }
 
   logout(): void {
