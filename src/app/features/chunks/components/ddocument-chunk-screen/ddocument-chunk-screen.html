@@ -1,5 +1,19 @@
 <div class="card text-center">
   <app-dheader-docs></app-dheader-docs>
-  <app-dchunk-list></app-dchunk-list>
-  <app-dpagination></app-dpagination>
+  @if (error()) {
+    <p class="text-danger p-2">{{ error() }}</p>
+  }
+  <app-dchunk-list
+    [chunks]="pageResponse()?.content ?? []"
+    (chunkActualizado)="onChunkActualizado($event)"
+  ></app-dchunk-list>
+  @if (pageResponse() && pageResponse()!.totalElements > 0) {
+    <app-dpagination
+      [totalElements]="pageResponse()!.totalElements"
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      (pageChange)="onPageChange($event)"
+      (sizeChange)="onSizeChange($event)"
+    ></app-dpagination>
+  }
 </div>

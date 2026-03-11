@@ -1,9 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { ChunkService } from '../../services/chunkservice';
 import { ChunkEstado } from '../../interfaces/chunk-estado';
 import { ChunkSummary } from '../../interfaces/chunkSummary';
-import { Documento } from '../../interfaces/documento';
 
 @Component({
   selector: 'app-dchunk-detail',
@@ -14,26 +13,30 @@ import { Documento } from '../../interfaces/documento';
 export class DchunkDetail {
   private readonly chunkService = inject(ChunkService);
 
-  documento: Documento | null = {
-    id: 1,
-    name: 'BOE Num. 21',
-    chunks: [],
-  };
   isUpdatingEstado = signal(false);
   updateEstadoOK = signal<string | null>(null);
   updateEstadoError = signal<string | null>(null);
+  expanded = signal(false);
 
-  getChunks(documento: Documento): ChunkSummary[] {
-    return documento.chunks;
+  textoPrevio(texto: string): string {
+    const palabras = texto.trim().split(/\s+/);
+    if (palabras.length <= 20) return texto;
+    return palabras.slice(0, 20).join(' ') + '...';
   }
 
+  // Cada tarjeta recibe solo un chunk desde la lista padre.
+  chunk = input.required<ChunkSummary>();
+
+  // Cuando el backend confirma el cambio, avisamos al padre para que actualice la lista.
+  chunkActualizado = output<ChunkSummary>();
+
   onAccept(chunk: ChunkSummary) {
-    // Click en "confirmar" => enviamos estado REVISADO al backend.
+    // REVISADO al backend.
     this.updateStatus(chunk, 'REVISADO');
   }
 
   onDeny(chunk: ChunkSummary) {
-    // Click en "denegar" => enviamos estado DESCARTADO al backend.
+    // DESCARTADO al backend.
     this.updateStatus(chunk, 'DESCARTADO');
   }
 
@@ -55,8 +58,12 @@ export class DchunkDetail {
       .pipe(finalize(() => this.isUpdatingEstado.set(false)))
       .subscribe({
         next: () => {
-          // Sincroniza estado del item clicado si backend confirma el cambio.
-          chunk.estado = nuevoEstado;
+          /*No modifico directamente el input.
+          Creo una copia actualizada y se la envio al padre.*/
+          this.chunkActualizado.emit({
+            ...chunk,
+            estado: nuevoEstado,
+          });
           this.updateEstadoOK.set(`Estado actualizado a ${nuevoEstado}`);
         },
         error: () => {
