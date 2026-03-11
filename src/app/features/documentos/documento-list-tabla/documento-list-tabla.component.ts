@@ -4,9 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DocumentoService } from '../documento.service';
-import { Documento, DocumentoFiltros, SeccionTematica } from '../documento.model';
+import { Documento, DocumentoEstado, DocumentoFiltros, SeccionTematica } from '../documento.model';
 import { DocumentoUploadComponent } from '../documento-upload-component/documento-upload.component';
-
 
 @Component({
   selector: 'app-documento-list-tabla',
@@ -30,24 +29,28 @@ export class DocumentoListTablaComponent implements OnInit {
   totalPaginas = signal(0);
   totalElementos = signal(0);
   modalAbierto = signal(false);
+  documentoAEliminar = signal<number | null>(null);
 
-
-  // signals de filtros
+  // signals de los filtros
   filtroNombre = signal('');
   filtroSeccion = signal<number | null>(null);
   filtroEstado = signal('');
   filtroFecha = signal('');
 
-  // computed para obtener filtros activos
-  filtrosActivos = computed<DocumentoFiltros>(() => ({
-    nombre: this.filtroNombre() || undefined,
-    seccionId: this.filtroSeccion() || undefined,
-    estado: this.filtroEstado() as any || undefined,
-    fechaDesde: this.filtroFecha() || undefined,
-  }));
+  // las sign computed para obtener filtros activados
+  filtrosActivos = computed<DocumentoFiltros>(() => {
+    const fecha = this.filtroFecha();
+    return {
+      nombre: this.filtroNombre() || undefined,
+      seccionId: this.filtroSeccion() || undefined,
+      estado: (this.filtroEstado() || undefined) as DocumentoEstado | undefined,
+      fechaDesde: fecha ? `${fecha}T00:00:00` : undefined,
+      fechaHasta: fecha ? `${fecha}T23:59:59` : undefined,
+    };
+  });
 
   constructor() {
-    // efecto para cargar documentos cuando cambian filtros o paginacion
+    //para recargar documentos cuando cambian filtros o paginacion
     effect(() => {
       this.cargarDocumentos();
     });
@@ -58,7 +61,7 @@ export class DocumentoListTablaComponent implements OnInit {
     this.cargarDocumentos();
   }
 
-  private cargarDocumentos() {
+  cargarDocumentos(): void {
     this.cargando.set(true);
     this.documentoService
       .getDocumentos({
@@ -69,12 +72,14 @@ export class DocumentoListTablaComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
         next: (respuesta) => {
-          this.documentos.set(respuesta.content);
+          // Filtrar documentos ELIMINADOS (borrado pero sin borrar de la bd.. solo le cambia el estado a ELIMINADO)
+          const documentosFiltrados = respuesta.content.filter(doc => doc.estado !== 'ELIMINADO');
+          this.documentos.set(documentosFiltrados);
           this.totalPaginas.set(respuesta.totalPages);
           this.totalElementos.set(respuesta.totalElements);
           this.cargando.set(false);
         },
-        error: () => {
+        error: (err) => {
           this.cargando.set(false);
         },
       });
@@ -90,7 +95,7 @@ export class DocumentoListTablaComponent implements OnInit {
       });
   }
 
-  // acciones de filtros
+  // reiniciar los filtros
   limpiarFiltros() {
     this.filtroNombre.set('');
     this.filtroSeccion.set(null);
@@ -99,7 +104,7 @@ export class DocumentoListTablaComponent implements OnInit {
     this.paginaActual.set(0);
   }
 
-  // acciones de paginacion
+  //paginacion
   irAPagina(pagina: number) {
     this.paginaActual.set(pagina);
   }
@@ -116,13 +121,46 @@ export class DocumentoListTablaComponent implements OnInit {
     }
   }
 
-  cambiarFilasPorPagina(cantidad: number) {
-    this.filasPorPagina.set(cantidad);
+  cambiarFilasPorPagina(cantidad: string | number) {
+    const num = typeof cantidad === 'string' ? parseInt(cantidad, 10) : cantidad;
+    this.filasPorPagina.set(num);
     this.paginaActual.set(0);
   }
 
+  //las cosas del modal
+  modalSubirDocumento() {
+    this.modalAbierto.set(true);
+  }
+
+  cerrarModal() {
+    this.modalAbierto.set(false);
+  }
+
+  alDocumentoSubido() {
+    //para que recargue automaticamente cuando sube un docu
+    this.paginaActual.set(0);
+    this.cargarDocumentos();
+  }
+
+  // cambiar los filtros
+  cambiarFiltroNombre(valor: string) {
+    this.filtroNombre.set(valor);
+  }
+
+  cambiarFiltroSeccion(valor: string) {
+    this.filtroSeccion.set(valor ? parseInt(valor, 10) : null);
+  }
+
+  cambiarFiltroEstado(valor: string) {
+    this.filtroEstado.set(valor);
+  }
+
+  cambiarFiltroFecha(valor: string) {
+    this.filtroFecha.set(valor);
+  }
+
   // acciones de tabla
-  descargarDocumento(id: number) {
+  descargarDocumento(id: number, nombreFichero: string) {
     this.documentoService.downloadDocumento(id)
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
@@ -130,7 +168,7 @@ export class DocumentoListTablaComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           const enlace = document.createElement('a');
           enlace.href = url;
-          enlace.download = `documento-${id}.pdf`;
+          enlace.download = nombreFichero;
           enlace.click();
           window.URL.revokeObjectURL(url);
         },
@@ -141,16 +179,30 @@ export class DocumentoListTablaComponent implements OnInit {
     this.router.navigate(['/documentos', id, 'visor']);
   }
 
+  // Muestra confirmación en la propia fila en la tabla. Antes estaba con un MODAL muy chulo, pero daba muchos problemas...
   eliminarDocumento(id: number) {
-    if (confirm('esta seguro de que quiere eliminar este documento?')) {
+    this.documentoAEliminar.set(id);
+  }
+
+  // Confirma y elimina el documento
+  confirmarEliminar() {
+    const id = this.documentoAEliminar();
+    if (id) {
       this.documentoService.deleteDocumento(id)
         .pipe(takeUntilDestroyed(this.destruirRef))
         .subscribe({
           next: () => {
+            this.documentoAEliminar.set(null);
+            this.paginaActual.set(0);
             this.cargarDocumentos();
           },
         });
     }
+  }
+
+  // Cancelar la eliminación
+  cancelarEliminar() {
+    this.documentoAEliminar.set(null);
   }
 
   // computed para obtener array de paginas disponibles
@@ -178,12 +230,4 @@ export class DocumentoListTablaComponent implements OnInit {
   registroFin = computed(() =>
     Math.min((this.paginaActual() + 1) * this.filasPorPagina(), this.totalElementos())
   );
-
-  modalSubirDocumento() {
-    this.modalAbierto.set(true);
-  }
-
-  cerrarModal() {
-    this.modalAbierto.set(false);
-  }
 }

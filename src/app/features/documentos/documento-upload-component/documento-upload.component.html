@@ -87,10 +87,9 @@
           [disabled]="cargandoSubida()"
         >
           <option value="">Selecciona una sección</option>
-          <option value="1">General</option>
-          <option value="2">Base de datos</option>
-          <option value="3">Programación</option>
-          <option value="4">Desarrollo Web</option>
+          @for (seccion of secciones(); track seccion.id) {
+            <option [value]="seccion.id">{{ seccion.nombre }}</option>
+          }
         </select>
         @if (seccionTematicaIdControl().invalid() && seccionTematicaIdControl().touched()) {
           @for (error of seccionTematicaIdControl().errors(); track $index) {

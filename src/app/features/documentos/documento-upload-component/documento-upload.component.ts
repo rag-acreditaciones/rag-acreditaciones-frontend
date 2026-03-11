@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { form, minLength, required } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { DocumentoService } from '../documento.service';
 import { DatosDocumento, DOCUMENTO_CONFIG } from './documento-upload.types';
+import { SeccionTematica } from '../documento.model';
 
 @Component({
   selector: 'app-documento-upload',
@@ -19,6 +19,7 @@ export class DocumentoUploadComponent {
   modalAbierto = input<boolean>();
   alCerrar = output<void>();
   documentoSubido = output<{ id: number; nombreFichero: string }>();
+  secciones = input<SeccionTematica[]>([]);
 
   arrastrandoEncima = signal(false);
   cargandoSubida = signal(false);
@@ -44,8 +45,7 @@ export class DocumentoUploadComponent {
   archivoControl = computed(() => this.formulario.archivoSeleccionado());
 
   constructor(
-    private documentoService: DocumentoService,
-    private http: HttpClient
+    private documentoService: DocumentoService
   ) {}
 
   @HostListener('dragover', ['$event']) alArrastrar(evento: DragEvent) {
@@ -164,6 +164,14 @@ export class DocumentoUploadComponent {
     this.mensajeError.set(null);
     this.porcentajeProgreso.set(0);
 
+    // Simular progreso lineal hasta 90%
+    let progreso = 0;
+    const intervaloProgreso = setInterval(() => {
+      progreso += Math.random() * 25;
+      if (progreso > 90) progreso = 90;
+      this.porcentajeProgreso.set(Math.floor(progreso));
+    }, 200);
+
     const metadata = {
       seccionTematicaId: datos.seccionTematicaId,
       descripcion: datos.descripcion,
@@ -172,18 +180,20 @@ export class DocumentoUploadComponent {
     this.documentoService.uploadDocumento(datos.archivoSeleccionado, metadata)
       .subscribe({
         next: (documento) => {
-          this.cargandoSubida.set(false);
+          clearInterval(intervaloProgreso);
           this.porcentajeProgreso.set(100);
           this.documentoSubido.emit({
             id: documento.id,
             nombreFichero: documento.nombreFichero,
           });
-          this.limpiarFormulario();
           setTimeout(() => {
+            this.cargandoSubida.set(false);
+            this.limpiarFormulario();
             this.cerrarModal();
-          }, 1000);
+          }, 500);
         },
         error: (error) => {
+          clearInterval(intervaloProgreso);
           this.cargandoSubida.set(false);
           this.porcentajeProgreso.set(0);
           const mensajeError = error?.error?.mensaje || 'Error al subir el documento';
