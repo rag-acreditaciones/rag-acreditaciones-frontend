@@ -166,7 +166,7 @@ export class DocumentoListTablaComponent implements OnInit {
   }
 
   // acciones de tabla
-  descargarDocumento(id: number) {
+  descargarDocumento(id: number, nombreFichero: string) {
     this.documentoService.downloadDocumento(id)
       .pipe(takeUntilDestroyed(this.destruirRef))
       .subscribe({
@@ -174,7 +174,7 @@ export class DocumentoListTablaComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           const enlace = document.createElement('a');
           enlace.href = url;
-          enlace.download = `documento-${id}.pdf`;
+          enlace.download = nombreFichero;
           enlace.click();
           window.URL.revokeObjectURL(url);
         },
