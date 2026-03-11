@@ -1,10 +1,19 @@
 <div class="card w-20" style="width: 18rem">
   <div class="card-body">
-    <h5 class="card-title">Score: 0.92</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Doc: Documento_1</h6>
-    <p class="card-text">Previsualización del texto del chunk...</p>
-    <p class="card-subtitle mb-2 text-muted">Chunk #4</p>
-    <p class="card-subtitle mb-2 text-muted">380 tokens</p>
-    <a href="#" class="btn btn-info">Ver</a>
+    @if (modo() === 'SEMANTICA') {
+      <h5 class="card-title">Score: {{ textoScore(resultado().score) }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Doc: {{ resultado().documentoNombre ?? 'Sin documento' }}
+      </h6>
+    }
+
+    @if (modo() === 'TEXTUAL' && resultado().estado) {
+      <h6 class="card-subtitle mb-2 text-muted">Estado: {{ resultado().estado }}</h6>
+    }
+
+    <p class="card-text">"{{ resultado().texto }}"</p>
+    <p class="card-subtitle mb-2 text-muted">
+      Chunk #{{ resultado().numeroChunk }} | {{ resultado().tokens }} tokens
+    </p>
   </div>
 </div>

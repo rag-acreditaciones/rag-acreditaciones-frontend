@@ -1,11 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable, shareReplay } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { inject } from '@angular/core';
 import { ChunkSummary } from '../interfaces/chunkSummary';
 import { ChunkSearchResult } from '../interfaces/chunkSearchResult';
 import { PageResponse } from '../interfaces/pageResponse';
 import { ChunksByDocumentoParams } from '../interfaces/chunks-by-documento-params';
+import { ChunkEstado } from '../interfaces/chunk-estado';
+
+interface ChunkBuscarItem {
+  id: number;
+  orden: number;
+  truncado100chars: string;
+  numTokens: number;
+  estado: ChunkEstado;
+}
+
+interface ChunkBuscarResponse {
+  number: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  content: ChunkBuscarItem[];
+}
+
+interface BusquedaSemanticaBody {
+  consulta: string;
+  topk: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -58,12 +80,37 @@ export class ChunkService {
   // GET api/v1/chunks/documento/{docId}/stats
   getEstadisticasByDocumento(docId: number) {
     /*Este metodo es para las tarjetas que vienen con estadisticas, no lo tengo muy claro */
-    return this.http.get<ChunkSearchResult>(`${this.apiUrl}/documento/${docId}/stats`);
+    return this.http.get<ChunkSearchResult>(`${this.apiUrl}documento/${docId}/stats`);
   }
 
-  // PATCH /api/v1/chunks/{id}/estado
-  searchChunksByText() {}
+  // GET /api/v1/chunks/buscar?texto=...&page=...&size=...
+  searchChunksByText(
+    texto: string,
+    opciones: { page?: number; size?: number; seccionId?: number } = {},
+  ): Observable<ChunkBuscarResponse> {
+    let params = new HttpParams().set('texto', texto);
+
+    if (opciones.page !== undefined) {
+      params = params.set('page', opciones.page);
+    }
+    if (opciones.size !== undefined) {
+      params = params.set('size', opciones.size);
+    }
+    if (opciones.seccionId !== undefined) {
+      params = params.set('seccionId', opciones.seccionId);
+    }
+
+    return this.http.get<ChunkBuscarResponse>(`${this.apiUrl}buscar`, { params });
+  }
 
   // POST /api/v1/chunks/busqueda-semantica
-  searchChunksSemantica() {}
+  searchChunksSemantica(consulta: string, topk = 5): Observable<ChunkSearchResult[]> {
+    const body: BusquedaSemanticaBody = { consulta, topk };
+
+    return this.http
+      .post<
+        ChunkSearchResult[] | { content: ChunkSearchResult[] }
+      >(`${this.apiUrl}busqueda-semantica`, body)
+      .pipe(map((resp) => (Array.isArray(resp) ? resp : (resp.content ?? []))));
+  }
 }
