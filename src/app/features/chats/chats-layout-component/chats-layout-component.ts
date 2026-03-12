@@ -1,23 +1,20 @@
 // chats-layout.component.ts
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ConversacionListComponent } from "../conversacion-list-component/conversacion-list-component";
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ConversacionListComponent } from '../conversacion-list-component/conversacion-list-component';
+import { ChatComponent } from '../chat-component/chat-component';
 
 @Component({
   selector: 'app-chats-layout',
+  standalone: true,
+  imports: [CommonModule, ConversacionListComponent, ChatComponent],
   templateUrl: './chats-layout-component.html',
   styleUrls: ['./chats-layout-component.scss'],
-  imports: [ConversacionListComponent]
 })
 export class ChatsLayoutComponent {
+  readonly conversacionSeleccionadaId = signal<number | null>(null);
 
-  constructor(private router: Router) {}
-
-  onConversacionSeleccionada(id: number): void {
-    this.router.navigate(['/chats', id]);
-  }
-
-  onNuevaConversacion(): void {
-    this.router.navigate(['/chats', 'nueva']);
+  seleccionarConversacion(id: number): void {
+    this.conversacionSeleccionadaId.set(id);
   }
 }

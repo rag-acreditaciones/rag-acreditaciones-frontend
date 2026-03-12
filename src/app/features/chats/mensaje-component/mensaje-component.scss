@@ -1,0 +1,67 @@
+.mensaje-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  animation: aparecer 0.22s ease both;
+
+  &--pregunta  { flex-direction: row-reverse; }
+  &--respuesta { flex-direction: row; }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Avatar ───────────────────────────────────────────────────────────────────
+.mensaje-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #fff;
+  flex-shrink: 0;
+
+  &--usuario { background: #1a73e8; }
+  &--ia      { background: #6c757d; }
+}
+
+// ─── Burbuja ──────────────────────────────────────────────────────────────────
+.mensaje-burbuja {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  word-break: break-word;
+
+  &--pregunta {
+    background: #1a73e8;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.22);
+  }
+
+  &--respuesta {
+    background: #fff;
+    color: #2d3748;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #e2e6ea;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  &__texto {
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+
+  &__hora {
+    display: block;
+    font-size: 0.68rem;
+    opacity: 0.55;
+    text-align: right;
+  }
+}

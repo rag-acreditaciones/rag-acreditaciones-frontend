@@ -1,0 +1,23 @@
+<div class="mensaje-row" [class.mensaje-row--pregunta]="esPregunta" [class.mensaje-row--respuesta]="!esPregunta">
+
+  <!-- Avatar IA -->
+  @if (!esPregunta) {
+    <div class="mensaje-avatar mensaje-avatar--ia">
+      <i class="bi bi-robot"></i>
+    </div>
+  }
+
+  <!-- Burbuja -->
+  <div class="mensaje-burbuja" [class.mensaje-burbuja--pregunta]="esPregunta" [class.mensaje-burbuja--respuesta]="!esPregunta">
+    <p class="mensaje-burbuja__texto">{{ mensaje.contenido }}</p>
+    <span class="mensaje-burbuja__hora">{{ mensaje.fecha | date: 'HH:mm' }}</span>
+  </div>
+
+  <!-- Avatar usuario -->
+  @if (esPregunta) {
+    <div class="mensaje-avatar mensaje-avatar--usuario">
+      <i class="bi bi-person-fill"></i>
+    </div>
+  }
+
+</div>

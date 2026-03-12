@@ -1,0 +1,87 @@
+<div class="chat-wrapper">
+
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header__avatar">
+      <i class="bi bi-robot"></i>
+    </div>
+    <div class="chat-header__info">
+      <span class="chat-header__titulo">Asistente RAG</span>
+      <span class="chat-header__estado">
+        <span class="estado-punto" [class.estado-punto--procesando]="cargando()"></span>
+        {{ cargando() ? 'Procesando...' : 'En línea' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Área de mensajes -->
+  <div class="chat-mensajes" #mensajesRef>
+
+    <!-- Cargando historial -->
+    @if (cargandoLista()) {
+      <div class="chat-cargando-lista">
+        <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+        <span>Cargando mensajes...</span>
+      </div>
+    }
+
+    <!-- Sin mensajes -->
+    @if (!cargandoLista() && mensajes().length === 0) {
+      <div class="chat-vacio">
+        <i class="bi bi-chat-dots chat-vacio__icono"></i>
+        <p class="chat-vacio__texto">Escribe tu primera pregunta para comenzar</p>
+      </div>
+    }
+
+    <!-- Lista de mensajes -->
+    @for (msg of mensajes(); track trackById($index, msg)) {
+      <app-mensaje [mensaje]="msg" />
+    }
+
+    <!-- Typing indicator mientras espera respuesta RAG -->
+    @if (cargando()) {
+      <div class="chat-typing">
+        <div class="mensaje-avatar mensaje-avatar--ia">
+          <i class="bi bi-robot"></i>
+        </div>
+        <div class="chat-typing__burbuja">
+          <span class="typing-punto"></span>
+          <span class="typing-punto"></span>
+          <span class="typing-punto"></span>
+        </div>
+      </div>
+    }
+
+  </div>
+
+  <!-- Input -->
+  <div class="chat-input-area">
+    <div class="chat-input-wrapper" [class.chat-input-wrapper--activo]="texto.length > 0">
+      <textarea
+        class="chat-input"
+        [(ngModel)]="texto"
+        (keydown)="onKeyDown($event)"
+        placeholder="Escribe tu pregunta... (Enter para enviar)"
+        rows="1"
+        [disabled]="cargando()"
+        maxlength="2000"
+      ></textarea>
+      <button
+        class="chat-enviar-btn"
+        (click)="enviar()"
+        [disabled]="!texto.trim() || cargando()"
+        title="Enviar"
+      >
+        @if (cargando()) {
+          <span class="spinner-border spinner-border-sm" role="status"></span>
+        } @else {
+          <i class="bi bi-send-fill"></i>
+        }
+      </button>
+    </div>
+    <span class="chat-input-hint">
+      Shift&nbsp;+&nbsp;Enter para nueva línea &nbsp;·&nbsp; {{ texto.length }}/2000
+    </span>
+  </div>
+
+</div>

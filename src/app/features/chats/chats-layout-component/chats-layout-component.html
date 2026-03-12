@@ -2,10 +2,20 @@
 <div class="chats-layout">
 
   <aside class="chats-layout__sidebar">
-    <app-conversacion-list></app-conversacion-list>
+    <app-conversacion-list
+      (conversacionSeleccionada)="seleccionarConversacion($event)">
+    </app-conversacion-list>
   </aside>
 
   <main class="chats-layout__main">
+    @if (conversacionSeleccionadaId(); as id) {
+      <app-chat [conversacionId]="id" />
+    } @else {
+      <div class="chats-layout__placeholder">
+        <i class="bi bi-chat-square-dots"></i>
+        <p>Selecciona una conversación para comenzar</p>
+      </div>
+    }
   </main>
 
 </div>
