@@ -4,6 +4,7 @@ import { CalidadResumen } from '../interfaces/calidad-resumen';
 import { CalidadPorSeccion } from '../interfaces/calidad-por-seccion';
 import { CalidadEvolucion } from '../interfaces/calidad-evolucion';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 interface CalidadState {
   resumen: CalidadResumen | null;
@@ -17,7 +18,7 @@ interface CalidadState {
 @Injectable({ providedIn: 'root' })
 export class CalidadService {
   private readonly _httpClient = inject(HttpClient);
-  private readonly API_URL = 'http://tu-api.com';
+  private readonly API_URL = environment.apiUrl;
 
   private _state = signal<CalidadState>({
     resumen: null,

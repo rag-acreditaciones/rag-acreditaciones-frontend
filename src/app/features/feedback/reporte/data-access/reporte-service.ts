@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Reporte } from '../interfaces/reporte';
 import { PaginaResponse } from '../interfaces/pagina-response';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 interface ReporteState {
   reportes: Reporte[];
@@ -14,7 +15,7 @@ interface ReporteState {
 @Injectable({ providedIn: 'root' })
 export class ReporteService {
   private readonly _httpClient = inject(HttpClient);
-  private readonly API_URL = 'http://tu-api.com';
+  private readonly API_URL = environment.apiUrl;
 
   private _state = signal<ReporteState>({
     reportes: [],

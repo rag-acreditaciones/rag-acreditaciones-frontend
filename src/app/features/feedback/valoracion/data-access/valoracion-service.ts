@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Valoracion } from '../interfaces/valoracion';
 import { ValoracionResumen } from '../interfaces/valoracion-resumen';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 interface ValoracionState {
   valoraciones: Valoracion[];
@@ -15,7 +16,7 @@ interface ValoracionState {
 })
 export class ValoracionService {
   private readonly _httpClient = inject(HttpClient);
-  private readonly API_URL = 'http://tu-api.com';
+  private readonly API_URL = environment.apiUrl;
 
   private _state = signal<ValoracionState>({
     valoraciones: [],
