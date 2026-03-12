@@ -1,0 +1,137 @@
+<!-- SIN SESIÓN: imagen a pantalla completa con overlay -->
+@if (!authService.isLoggedIn()) {
+  <div class="hero-fullscreen">
+    <img src="/home.webp" alt="RAG Acreditaciones" class="hero-bg" />
+    <div class="hero-overlay">
+      <div class="hero-box">
+        <span
+          class="badge rounded-pill mb-3"
+          style="background: rgba(255,255,255,0.2); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px;"
+        >
+          <i class="bi bi-cpu me-1"></i> Retrieval-Augmented Generation
+        </span>
+        <p class="display-5 fw-bold text-white mb-3">RAG Acreditaciones</p>
+        <p class="mb-4" style="color: rgba(255,255,255,0.9); line-height: 1.7;">
+          Plataforma de gestión documental e inteligencia artificial para el
+          preasesoramiento en acreditaciones de competencias profesionales
+          informáticas de nivel 3.
+        </p>
+        <div class="d-flex gap-3 justify-content-center">
+          <a routerLink="/login" class="btn btn-light fw-semibold px-4">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+          </a>
+          <a routerLink="/registro" class="btn btn-outline-light px-4">
+            <i class="bi bi-person-plus me-2"></i>Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- CON SESIÓN: hero + módulos -->
+@if (authService.isLoggedIn()) {
+  <div class="card" style="border-radius: 0; margin: 0;">
+    <div class="card-header text-center py-5" style="border-radius: 0;">
+      <span
+        class="badge rounded-pill mb-3"
+        style="background: rgba(255,255,255,0.15); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px;"
+      >
+        <i class="bi bi-cpu me-1"></i> Retrieval-Augmented Generation
+      </span>
+      <p class="display-5 fw-bold text-white mb-3">RAG Acreditaciones</p>
+      <p class="mb-0" style="color: rgba(255,255,255,0.85); max-width: 580px; margin: 0 auto; line-height: 1.7;">
+        Plataforma de gestión documental e inteligencia artificial para el
+        preasesoramiento en acreditaciones de competencias profesionales
+        informáticas de nivel 3.
+      </p>
+    </div>
+  </div>
+
+  <div class="container py-5">
+    <h5 class="text-center d-block mb-4">Módulos del sistema</h5>
+    <div class="row g-3 justify-content-center">
+
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100" style="margin: 0;">
+          <div class="card-header">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Documentos
+          </div>
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-muted flex-grow-1">
+              Sube, gestiona y visualiza los documentos PDF que alimentan el sistema RAG.
+            </p>
+            <a routerLink="/documentos" class="btn btn-info mt-3">
+              Acceder <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100" style="margin: 0;">
+          <div class="card-header">
+            <i class="bi bi-layout-text-window me-2"></i>Chunks
+          </div>
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-muted flex-grow-1">
+              Explora los fragmentos generados a partir de los documentos procesados por el RAG.
+            </p>
+            <a routerLink="/chunks" class="btn btn-info mt-3">
+              Acceder <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100" style="margin: 0;">
+          <div class="card-header">
+            <i class="bi bi-chat-left-text me-2"></i>Chats
+          </div>
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-muted flex-grow-1">
+              Consulta al asistente RAG sobre competencias profesionales y requisitos de acreditación.
+            </p>
+            <a routerLink="/chats" class="btn btn-info mt-3">
+              Acceder <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100" style="margin: 0;">
+          <div class="card-header">
+            <i class="bi bi-star me-2"></i>Feedback
+          </div>
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-muted flex-grow-1">
+              Revisa y valora la calidad de las respuestas generadas para mejorar el sistema.
+            </p>
+            <a routerLink="/feedback" class="btn btn-info mt-3">
+              Acceder <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100" style="margin: 0;">
+          <div class="card-header">
+            <i class="bi bi-bar-chart-line me-2"></i>Informes
+          </div>
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-muted flex-grow-1">
+              Consulta el dashboard con las estadísticas globales de uso del sistema.
+            </p>
+            <a routerLink="/informes" class="btn btn-info mt-3">
+              Acceder <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

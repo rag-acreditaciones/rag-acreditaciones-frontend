@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.reporte-table {
+  min-width: 760px;
+}
+
+.descripcion {
+  max-width: 24rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.page-info {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.empty,
+.total {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}

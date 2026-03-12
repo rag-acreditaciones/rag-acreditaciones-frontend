@@ -1,0 +1,140 @@
+@if (modalAbierto()) {<!--Para comprobar y poder bloquear el resto de pantalla poniendo fondo oscuro y tal..-->
+  <div class="modal-backdrop"></div>
+
+  <div class="modal-contenedor">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h4>Subir Documento</h4>
+      <button class="btn-cerrar" type="button" aria-label="Cerrar modal" (click)="cerrarModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <!--aqui empeiza la parte de arrastrar y soltar-->
+      <div class="zona-archivo">
+
+        <!-- Aquí metemos la logica del arrastrar y soltar con el efecto más visual-->
+        <div
+          class="drag-drop-area"
+          [class.arrastrandoEncima]="arrastrandoEncima()"
+          (click)="seleccionarArchivo()"
+          [attr.style]="cargandoSubida() ? 'pointer-events: none; opacity: 0.6;' : ''"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="icono-upload" viewBox="0 0 16 16">
+            <path d="M8 16a.5.5 0 0 0 .5-.5v-5.793l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 9.707V15.5a.5.5 0 0 0 .5.5z"/>
+            <path d="M14.2 14.2A2.5 2.5 0 0 0 14 12.5H3.5a2 2 0 1 0 0 4h10.5a2.5 2.5 0 0 0 1.7-4.3zM2.5 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          @if (modeloDocumento().archivoSeleccionado) {
+            <p class="texto-principal">{{ modeloDocumento().archivoSeleccionado!.name }}</p>
+          } @else {
+            <p class="texto-principal">Arrastra el archivo aquí o haz clic para seleccionar</p>
+            <p class="texto-secundario">PDF hasta 50MB</p>
+          }
+          <input
+            #inputArchivo
+            type="file"
+            class="input-archivo-oculto"
+            accept=".pdf"
+            aria-label="Seleccionar archivo PDF"
+            (change)="alSeleccionarArchivo($event)"
+          />
+        </div>
+        @if (archivoControl().invalid() && archivoControl().touched()) {
+          @for (error of archivoControl().errors(); track $index) {
+            @if (error.kind === 'required') {
+              <small class="d-block text-danger mt-2">{{ error.message }}</small>
+            }
+          }
+        }
+      </div>
+
+      <div class="campo-formulario">
+        <label for="descripcion" class="label-campo">Descripción del documento</label>
+        <textarea
+          id="descripcion"
+          class="form-control textarea-descripcion"
+          placeholder="Describe brevemente el contenido del documento..."
+          rows="3"
+          [value]="modeloDocumento().descripcion"
+          (input)="alCambiarDescripcion($event)"
+          [disabled]="cargandoSubida()"
+        ></textarea>
+        <small class="texto-ayuda">Mínimo 10 caracteres ({{ modeloDocumento().descripcion.length }}/10)</small>
+        @if (descripcionControl().invalid() && descripcionControl().touched()) {
+          @for (error of descripcionControl().errors(); track $index) {
+            @if (error.kind === 'minLength') {
+              <small class="d-block text-danger mt-1">{{ error.message }}</small>
+            }
+          }
+        }
+      </div>
+
+
+
+
+      <div class="campo-formulario">
+        <label for="seccion" class="label-campo">Sección temática</label>
+        <select
+          id="seccion"
+          class="form-select"
+          [value]="modeloDocumento().seccionTematicaId || ''"
+          (change)="alCambiarSeccion($event)"
+          [disabled]="cargandoSubida()"
+        >
+          <option value="">Selecciona una sección</option>
+          @for (seccion of secciones(); track seccion.id) {
+            <option [value]="seccion.id">{{ seccion.nombre }}</option>
+          }
+        </select>
+        @if (seccionTematicaIdControl().invalid() && seccionTematicaIdControl().touched()) {
+          @for (error of seccionTematicaIdControl().errors(); track $index) {
+            @if (error.kind === 'required') {
+              <small class="d-block text-danger mt-1">{{ error.message }}</small>
+            }
+          }
+        }
+      </div>
+
+      @if (mensajeError()) {
+        <div class="alert alert-danger" role="alert">
+          {{ mensajeError() }}
+        </div>
+      }
+
+      <!-- Barra de progreso -->
+      @if (cargandoSubida()) {
+        <div class="contenedor-progreso activo">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Progreso de carga" [attr.aria-valuenow]="porcentajeProgreso()" aria-valuemin="0" aria-valuemax="100" [style.width.%]="porcentajeProgreso()"></div>
+          </div>
+          <p class="texto-progreso">{{ porcentajeProgreso() }}%</p>
+        </div>
+      }
+    </div>
+
+    <!--botonera de bajo del todo para cerrar o subir-->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary btn-cancelar" (click)="cerrarModal()" [disabled]="cargandoSubida()">
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-info btn-subir"
+        [disabled]="!formularioValido() || cargandoSubida()"
+        (click)="subirDocumento()"
+      >
+        @if (cargandoSubida()) {
+          <span>Subiendo... {{ porcentajeProgreso() }}%</span>
+        } @else {
+          <span>Subir Documento</span>
+        }
+      </button>
+    </div>
+  </div>
+</div>
+}
