@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+/* Pantalla completa sin sesión */
+.hero-fullscreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(14, 63, 87, 0.55);
+}
+
+.hero-overlay .hero-box {
+  background: rgba(14, 63, 87, 0.75);
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  max-width: 640px;
+  width: 100%;
+  backdrop-filter: blur(2px);
+}
