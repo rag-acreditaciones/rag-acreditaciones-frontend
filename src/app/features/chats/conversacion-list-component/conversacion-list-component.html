@@ -1,0 +1,95 @@
+<div class="p-2">
+
+
+
+  <button class="btn btn-primary btn-sm w-100 mb-3" (click)="onNueva()">
+
+    + Nueva conversación
+
+  </button>
+
+
+
+  <ng-container *ngIf="conversaciones$ | async as page; else cargando">
+
+
+
+    <ul class="list-group list-group-flush">
+
+
+
+      <li *ngIf="page.content.length === 0"
+
+          class="list-group-item text-muted text-center small py-3">
+
+        No hay conversaciones
+
+      </li>
+
+
+
+      <li
+
+        *ngFor="let conv of page.content; trackBy: trackById"
+
+        class="list-group-item list-group-item-action px-2 py-2"
+
+        [class.active]="conv.id === conversacionActivaId"
+
+        (click)="seleccionar(conv.id)"
+
+        role="button">
+
+
+
+        <p class="mb-1 fw-semibold text-truncate">
+
+          {{ conv.titulo || 'Sin título' }}
+
+        </p>
+
+
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <span class="badge bg-secondary">{{ conv.seccionTematica }}</span>
+
+          <small class="text-muted">{{ conv.fechaCreacion | date:'dd/MM HH:mm' }}</small>
+
+        </div>
+
+
+
+        <small class="text-muted text-truncate d-block mt-1" *ngIf="conv.ultimoMensaje">
+
+          {{ conv.ultimoMensaje.contenido | slice:0:60 }}...
+
+        </small>
+
+
+
+      </li>
+
+    </ul>
+
+
+
+  </ng-container>
+
+
+
+  <ng-template #cargando>
+
+    <div class="text-center py-3">
+
+      <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+
+      <small class="ms-2 text-muted">Cargando...</small>
+
+    </div>
+
+  </ng-template>
+
+
+
+</div>
