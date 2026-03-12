@@ -58,10 +58,12 @@
   <div class="chat-input-area">
     <div class="chat-input-wrapper" [class.chat-input-wrapper--activo]="texto.length > 0">
       <textarea
+        #inputRef
         class="chat-input"
         [(ngModel)]="texto"
         (keydown)="onKeyDown($event)"
-        placeholder="Escribe tu pregunta... (Enter para enviar)"
+        (input)="autoResize()"
+        placeholder="Escribe tu pregunta... (Enter para enviar, Shift+Enter para saltar línea)"
         rows="1"
         [disabled]="cargando()"
         maxlength="2000"

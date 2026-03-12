@@ -15,12 +15,12 @@ export class ConversacionListComponent implements OnInit {
   @Output() conversacionSeleccionada = new EventEmitter<number>();
 
   // ── State signals ─────────────────────────────────────────────────────────
-  private readonly _conversaciones = signal<ConversacionDTO[]>([]);
-  readonly conversacionActivaId    = signal<number | null>(null);
-  readonly tituloConversacionActiva = signal<string | null>(null);
-  readonly textoBusqueda           = signal('');
-  readonly mostrarSelector         = signal(false);
-  readonly seccionSeleccionada     = signal<SeccionTematica>('GENERAL');
+  private readonly _conversaciones      = signal<ConversacionDTO[]>([]);
+  readonly conversacionActivaId         = signal<number | null>(null);
+  readonly tituloConversacionActiva     = signal<string | null>(null);
+  readonly textoBusqueda                = signal('');
+  readonly mostrarSelector              = signal(false);
+  readonly seccionSeleccionada          = signal<SeccionTematica>('GENERAL');
 
   readonly secciones: SeccionTematica[] = ['GENERAL', 'BD', 'PROGRAMACION', 'WEB'];
 
@@ -65,6 +65,15 @@ export class ConversacionListComponent implements OnInit {
       },
       error: (err) => console.error('Error al crear conversación', err)
     });
+  }
+
+  formatearFecha(fecha: string): string {
+    const d   = new Date(fecha);
+    const dia  = d.getDate().toString().padStart(2, '0');
+    const mes  = (d.getMonth() + 1).toString().padStart(2, '0');
+    const hora = d.getHours().toString().padStart(2, '0');
+    const min  = d.getMinutes().toString().padStart(2, '0');
+    return `${dia}/${mes} ${hora}:${min}`;
   }
 
   trackById(_: number, c: ConversacionDTO): number { return c.id; }

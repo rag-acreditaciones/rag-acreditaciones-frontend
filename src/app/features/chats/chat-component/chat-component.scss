@@ -202,8 +202,8 @@ $texto-hint:   #a0aec0;
   font-size: 0.9rem;
   color: $texto-dark;
   line-height: 1.5;
-  max-height: 120px;
-  overflow-y: auto;
+  overflow-y: auto;           // scroll solo cuando supera los 160px (límite del JS)
+  transition: height 0.1s ease;
   font-family: inherit;
 
   &::placeholder { color: $texto-hint; }
