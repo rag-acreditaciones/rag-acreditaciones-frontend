@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ActividadReciente } from '../../interfaces/informe.model';
 import { InformesRecienteItem } from "../informes-reciente-item/informes-reciente-item";
 import { actividadRecienteDemoData } from '../../interfaces/informe-demo';
@@ -10,5 +10,5 @@ import { actividadRecienteDemoData } from '../../interfaces/informe-demo';
   styleUrl: './informes-reciente-list.css',
 })
 export class InformesRecienteList {
-  reciente: ActividadReciente[] = actividadRecienteDemoData;
+  reciente = input.required<any>({alias: 'latest-user'});
 }

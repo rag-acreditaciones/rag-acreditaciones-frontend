@@ -63,7 +63,9 @@ export class DashboardService {
 
   /** GET /api/v1/dashboard/chats/por-seccion — conversaciones por sección */
   getChatsPorSeccion(): Observable<CantidadesPorEtiqueta[]> {
-    return this.http.get<CantidadesPorEtiqueta[]>(`${API}/chats/por-seccion`);
+    return this.http.get<any[]>(`${API}/chats/por-seccion`).pipe(
+      map(data => data.map(d => ({ etiqueta: d.etiqueta, cantidad: d.count })))
+    );
   }
 
   /**

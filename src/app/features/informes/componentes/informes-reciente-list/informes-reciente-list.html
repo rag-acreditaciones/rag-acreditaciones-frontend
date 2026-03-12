@@ -1,6 +1,6 @@
 <h5>Actividad reciente</h5>
 <ul class="list-group">
-    @for (accion of reciente; track $index) {
+    @for (accion of reciente(); track $index) {
         <li class="list-group-item" app-informes-reciente-item [action]="accion"></li>
     }
 </ul>

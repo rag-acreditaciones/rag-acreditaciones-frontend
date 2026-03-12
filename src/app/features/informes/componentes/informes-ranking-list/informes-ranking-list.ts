@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { UsuarioRanking } from '../../interfaces/informe.model';
 import { InformesRankingItem } from "../informes-ranking-item/informes-ranking-item";
 import { rankingUsuariosDemoData } from '../../interfaces/informe-demo';
@@ -10,5 +10,5 @@ import { rankingUsuariosDemoData } from '../../interfaces/informe-demo';
   styleUrl: './informes-ranking-list.css',
 })
 export class InformesRankingList {
-    ranking: UsuarioRanking[] = rankingUsuariosDemoData;
+    ranking = input.required<any>({alias: 'ranking-user'});
 }

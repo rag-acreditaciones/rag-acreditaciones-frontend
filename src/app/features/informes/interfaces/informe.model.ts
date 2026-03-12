@@ -42,10 +42,11 @@ export interface Tendencia {
 // USUARIOS
 
 export interface UsuarioRanking {
-  usuarioId: number;
+  email: string;
   nombre: string;
-  numDocumentos: number;
-  numConversaciones: number;
+  docsSubidos: number;
+  conversaciones: number;
+  total: number;
 }
 
 export type CriterioRanking = 'DOCS' | 'CHATS' | 'TOTAL';

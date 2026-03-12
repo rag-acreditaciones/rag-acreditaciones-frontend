@@ -191,52 +191,60 @@ export const informeTotalDemoData: InformeTotal = {
 
 export const rankingUsuariosDemoData: UsuarioRanking[] = [
     {
-        usuarioId: 1,
+        email: 'alumno1@example.com',
         nombre: 'Alumno1',
-        numDocumentos: 12,
-        numConversaciones: 8
+        docsSubidos: 12,
+        conversaciones: 8,
+        total: 20
     },
     {
-        usuarioId: 3,
+        email: 'alumno3@example.com',
         nombre: 'Alumno3',
-        numDocumentos: 10,
-        numConversaciones: 12
+        docsSubidos: 10,
+        conversaciones: 12,
+        total: 22
     },
     {
-        usuarioId: 2,
+        email: 'alumno2@example.com',
         nombre: 'Alumno2',
-        numDocumentos: 8,
-        numConversaciones: 6
+        docsSubidos: 8,
+        conversaciones: 6,
+        total: 14
     },
     {
-        usuarioId: 0,
+        email: 'profesor@example.com',
         nombre: 'Prof.López',
-        numDocumentos: 15,
-        numConversaciones: 2
+        docsSubidos: 15,
+        conversaciones: 2,
+        total: 17
     },
     {
-        usuarioId: 4,
+        email: 'alumno4@example.com',
         nombre: 'Alumno4',
-        numDocumentos: 1,
-        numConversaciones: 2
+        docsSubidos: 1,
+        conversaciones: 2,
+        total: 3
     },
     {
-        usuarioId: 5,
+        email: 'alumno5@example.com',
         nombre: 'Alumno5',
-        numDocumentos: 1,
-        numConversaciones: 1
+        docsSubidos: 1,
+        conversaciones: 1,
+        total: 2
     },
     {
-        usuarioId: 6,
+        email: 'alumno6@example.com',
         nombre: 'Alumno6',
-        numDocumentos: 0,
-        numConversaciones: 1
+        docsSubidos: 0,
+        conversaciones: 1,
+        total: 1
     },
     {
-        usuarioId: 7,
+        email: 'alumno7@example.com',
         nombre: 'Alumno7',
-        numDocumentos: 0,
-        numConversaciones: 0
+        docsSubidos: 0,
+        conversaciones: 0,
+        total: 0
     },
 ];
 

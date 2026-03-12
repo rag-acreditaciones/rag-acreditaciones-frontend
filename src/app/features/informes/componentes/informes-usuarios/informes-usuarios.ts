@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { InformesRecienteList } from "../informes-reciente-list/informes-reciente-list";
 import { InformesRankingList } from "../informes-ranking-list/informes-ranking-list";
-import { CantidadesPorEtiqueta } from '../../interfaces/informe.model';
+import { ActividadReciente, CantidadesPorEtiqueta, UsuarioRanking } from '../../interfaces/informe.model';
 import { BarChart } from "../chart/bar-chart/bar-chart";
 import { DashboardService } from '../../service/servicio-informes';
-import { usuariosRolDemoData } from '../../interfaces/informe-demo';
+import { actividadRecienteDemoData, rankingUsuariosDemoData, usuariosRolDemoData } from '../../interfaces/informe-demo';
 import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
@@ -18,13 +18,23 @@ export class InformesUsuarios {
   private authService = inject(AuthService);
 
   usuariosRol = signal<CantidadesPorEtiqueta[] | []>([]);
+  ranking = signal<UsuarioRanking[] | []>([]);
+  reciente = signal<ActividadReciente[] | []>([]);
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.informesService.getUsuariosPorRol()
         .subscribe(data => this.usuariosRol.set(data));
+
+      this.informesService.getRankingUsuarios()
+        .subscribe(data => this.ranking.set(data));
+
+      this.informesService.getActividadReciente()
+        .subscribe(data => this.reciente.set(data));
     } else {
       this.usuariosRol.set(usuariosRolDemoData);
+      this.ranking.set(rankingUsuariosDemoData);
+      this.reciente.set(actividadRecienteDemoData);
     }
   }
 }
