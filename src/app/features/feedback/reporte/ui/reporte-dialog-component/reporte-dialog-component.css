@@ -2,44 +2,41 @@
   display: block;
 }
 
-.reporte-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
+.reporte-form {
+  margin: 0;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
 label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-main);
 }
 
-select,
-textarea {
+.form-select,
+.form-control {
   width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.65rem;
-  font-size: 0.875rem;
-  background: #ffffff;
-  color: #111827;
 }
 
-textarea {
+.descripcion-input {
   resize: vertical;
   min-height: 6rem;
-}
-
-select:focus,
-textarea:focus {
-  border-color: #2563eb;
-  outline: none;
 }
 
 .error {
@@ -47,19 +44,7 @@ textarea:focus {
   color: #b91c1c;
 }
 
-.submit-btn {
-  align-self: flex-start;
-  border: none;
-  border-radius: 0.5rem;
-  background: #2563eb;
-  color: #ffffff;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.submit-btn:disabled {
+.btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;
 }
