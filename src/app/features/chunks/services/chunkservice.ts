@@ -17,8 +17,8 @@ interface ChunkBuscarItem {
   numTokens: number | null;
   estado: ChunkEstado | null;
   similitud: number | null;
-  posicionesBusquedaTextual: unknown[];
-  documento: unknown;
+  posicionesBusquedaTextual: unknown[] | null;
+  documento: ChunkBuscarDocumento;
 }
 
 interface ChunkDocumentoApiItem {
@@ -31,9 +31,10 @@ interface ChunkDocumentoApiItem {
 
 interface ChunkDocumentoApiPage {
   content: ChunkDocumentoApiItem[];
-  page?: number;
-  size?: number;
-  totalElements?: number;
+  number: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
 }
 
 interface ChunkApiItem {
@@ -54,7 +55,16 @@ interface ChunkBuscarResponse {
 
 interface BusquedaSemanticaBody {
   consulta: string;
-  topk: number;
+  topK: number;
+}
+
+interface ChunkBuscarDocumento {
+  nombre: string;
+  seccionId: number;
+  subidoPor: string;
+  fechaDesde: string | null;
+  fechaHasta: string | null;
+  estado: string;
 }
 
 @Injectable({
@@ -89,28 +99,17 @@ export class ChunkService {
     }
 
     return this.http
-      .get<ChunkDocumentoApiItem[] | ChunkDocumentoApiPage>(`${this.apiUrl}documento/${docId}`, {
-        params,
-      })
+      .get<ChunkDocumentoApiPage>(`${this.apiUrl}documento/${docId}`, { params })
       .pipe(
-        map((response) => {
-          const page = filtrosPaginacion.page ?? 0;
-          const size = filtrosPaginacion.size ?? 10;
-          const content = Array.isArray(response) ? response : (response.content ?? []);
-          const totalElements = Array.isArray(response)
-            ? content.length
-            : (response.totalElements ?? content.length);
-          const mappedContent = (
-            Array.isArray(response) ? content.slice(page * size, page * size + size) : content
-          ).map((chunk) => this.mapChunkDocumentoItem(chunk));
-
-          return {
-            content: mappedContent,
-            page: Array.isArray(response) ? page : (response.page ?? page),
-            size: Array.isArray(response) ? size : (response.size ?? size),
-            totalElements,
-          } satisfies PageResponse;
-        }),
+        map(
+          (response) =>
+            ({
+              content: response.content.map((chunk) => this.mapChunkDocumentoItem(chunk)),
+              page: response.number,
+              size: response.size,
+              totalElements: response.totalElements,
+            }) satisfies PageResponse,
+        ),
       );
   }
 
@@ -125,7 +124,7 @@ export class ChunkService {
   }
 
   // PATCH api/v1/chunks/{id}/estado
-  updateChunkEstado(id: number, estado: string): Observable<void> {
+  updateChunkEstado(id: number, estado: ChunkEstado): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}${id}/estado`, { estado });
   }
 
@@ -151,20 +150,12 @@ export class ChunkService {
       params = params.set('seccionId', opciones.seccionId);
     }
 
-    return this.http.get<ChunkBuscarItem[]>(`${this.apiUrl}buscar`, { params }).pipe(
-      map((items) => ({
-        number: 0,
-        size: opciones.size ?? 10,
-        totalElements: items.length,
-        totalPages: Math.ceil(items.length / (opciones.size ?? 10)),
-        content: items,
-      })),
-    );
+    return this.http.get<ChunkBuscarResponse>(`${this.apiUrl}buscar`, { params });
   }
 
   // POST /api/v1/chunks/busqueda-semantica
   searchChunksSemantica(consulta: string, topk = 5): Observable<ChunkSearchResult[]> {
-    const body: BusquedaSemanticaBody = { consulta, topk };
+    const body: BusquedaSemanticaBody = { consulta, topK: topk };
 
     return this.http.post<ChunkBuscarItem[]>(`${this.apiUrl}busqueda-semantica`, body).pipe(
       map((items) =>

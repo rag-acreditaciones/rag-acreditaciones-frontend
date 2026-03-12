@@ -9,11 +9,11 @@
     <li class="breadcrumb-item">{{ stats().descartados }} descartados</li>
   </ul>
   <hr />
-  <div class="row g-2">
-    <div class="col-md-8">
-      <label class="form-label">Filtro estado</label>
+  <div class="header-controls">
+    <div class="filter-group">
+      <label class="form-label filter-label">Filtro estado</label>
       <select
-        class="form-select form-select-sm"
+        class="form-select form-select-sm filter-select"
         [value]="filtroEstado()"
         (change)="onFiltroEstadoChange($event)"
       >
@@ -23,8 +23,8 @@
         <option value="DESCARTADO">Descartado</option>
       </select>
     </div>
-    <div class="col-md-4 d-flex align-items-end">
-      <button class="btn btn-outline-secondary w-100" (click)="irABuscador()">
+    <div class="action-group">
+      <button class="btn btn-outline-secondary search-button" (click)="irABuscador()">
         <i class="bi bi-search"></i> Búsqueda semántica
       </button>
     </div>

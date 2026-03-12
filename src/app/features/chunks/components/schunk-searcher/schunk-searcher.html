@@ -1,6 +1,6 @@
 <div class="card-header">
   <label>Buscar en la base de conocimientos</label>
-  <div>
+  <div class="search-form-row">
     <div class="col-md-9">
       <input
         type="text"
@@ -17,9 +17,9 @@
     </div>
   </div>
 
-  <div>
-    <div>Modo:</div>
-    <label>
+  <div class="search-mode-row">
+    <span class="search-mode-label">Modo:</span>
+    <label class="search-mode-option">
       <input
         type="radio"
         name="modoBusqueda"
@@ -28,7 +28,7 @@
       />
       Semántica
     </label>
-    <label>
+    <label class="search-mode-option">
       <input
         type="radio"
         name="modoBusqueda"
@@ -37,11 +37,10 @@
       />
       Textual
     </label>
-    <label>
-      Top:
+    <label class="search-top-control">
+      <span>Top:</span>
       <select
         class="form-select form-select-sm"
-        style="width: 80px"
         [ngModel]="topk()"
         (ngModelChange)="topk.set(+$event)"
       >

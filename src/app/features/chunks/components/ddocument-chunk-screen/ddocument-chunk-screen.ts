@@ -41,6 +41,7 @@ export class DdocumentChunkScreen implements OnInit {
       this.error.set('ID de documento no válido');
       return;
     }
+    //como tengo que cargar estadisticas y chunks, on init se carga a la vez
     this.cargarEstadisticas();
     this.cargarChunks();
   }

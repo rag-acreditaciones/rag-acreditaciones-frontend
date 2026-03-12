@@ -87,6 +87,46 @@ h5 {
   flex-wrap: wrap;
 }
 
+.search-form-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-mode-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.search-mode-label {
+  white-space: nowrap;
+}
+
+.search-mode-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.search-top-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.search-top-control .form-select {
+  width: 80px;
+}
+
 .form-control,
 .form-select {
   border: 2px solid var(--border-input);
