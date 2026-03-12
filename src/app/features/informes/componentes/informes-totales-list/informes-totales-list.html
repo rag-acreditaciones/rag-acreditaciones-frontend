@@ -1,0 +1,33 @@
+<div class="d-flex">
+  @if (informeTotal()) {
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalDocumentos" 
+      [campoNombre]="'documentos'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalChunks" 
+      [campoNombre]="'chunks'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalConversaciones" 
+      [campoNombre]="'chats'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalPreguntas" 
+      [campoNombre]="'preguntas'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.totalUsuarios" 
+      [campoNombre]="'usuarios'">
+    </app-informes-totales-item>
+
+    <app-informes-totales-item 
+      [totalCampo]="informeTotal()!.ratioCalidad" 
+      [campoNombre]="'% calidad'">
+    </app-informes-totales-item>
+  }
+</div>

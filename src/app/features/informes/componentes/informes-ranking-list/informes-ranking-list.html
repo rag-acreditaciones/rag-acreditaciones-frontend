@@ -1,0 +1,6 @@
+<h5>Usuarios más activos</h5>
+<ol class="list-group list-group-numbered">
+    @for (usuario of ranking(); track usuario.email) {
+        <li class="list-group-item" app-informes-ranking-item [user]="usuario"></li>
+    }
+</ol>

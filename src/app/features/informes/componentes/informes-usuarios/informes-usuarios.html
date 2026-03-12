@@ -1,0 +1,12 @@
+<div class="d-flex">
+    <div class="col-md-6">
+        <app-informes-ranking-list [ranking-user]="ranking()"></app-informes-ranking-list>
+    </div>
+    <div class="border-end mx-3" style="height: auto;"></div>
+    <div class="col-md-6">
+        <app-informes-reciente-list [latest-user]="reciente()"></app-informes-reciente-list>
+    </div>
+</div>
+<hr>
+<h5>Usuarios por rol</h5>
+<app-bar-chart [data]="usuariosRol()!" [height]="300"></app-bar-chart>

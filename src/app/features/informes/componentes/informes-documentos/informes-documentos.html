@@ -1,0 +1,18 @@
+<div class="d-flex">
+    <div class="col-md-4 d-flex flex-column align-items-center">
+        <h5>Documentos por sección</h5>
+        <app-doughnut-chart [data]="documentosSeccion()"></app-doughnut-chart>
+        <hr class="w-100">
+        <h5>Documentos por estado</h5>
+        <app-doughnut-chart [data]="documentosEstado()"></app-doughnut-chart>
+    </div>
+
+    <div class="border-end mx-3" style="height: auto;"></div>
+    
+    <div class="col-md-8">
+        <h5>Evolución</h5>
+        @if (evolucion()) {
+            <app-line-chart [data]="evolucion()"></app-line-chart>
+        }
+    </div>
+</div>

@@ -1,0 +1,12 @@
+@if (accion().accion == 'SUBIDA_DOCUMENTO') {
+    {{ accion().usuario }} subió un pdf al recurso {{ accion().recurso }} <a class="mb-2 text-muted">{{ accion().fecha }}</a>
+}
+@if (accion().accion == 'PREGUNTA_RAG') {
+    {{ accion().usuario }} hizo una pregunta al recurso {{ accion().recurso }} <a class="mb-2 text-muted">{{ accion().fecha }}</a>
+}
+@if (accion().accion == 'VALORACION') {
+    {{ accion().usuario }} valoró al recurso {{ accion().recurso }} <a class="mb-2 text-muted">{{ accion().fecha }}</a>
+}
+@if (accion().accion == 'REPORTE') {
+    {{ accion().usuario }} reportó al recurso {{ accion().recurso }} <a class="mb-2 text-muted">{{ accion().fecha }}</a>
+}

@@ -1,0 +1,21 @@
+<div class="d-flex">
+
+    <div class="col-md-4 d-flex flex-column align-items-center">
+        <h5>Chats por sección</h5>
+        <app-doughnut-chart [data]="chatsSeccion()"></app-doughnut-chart>
+    </div>
+
+    <div class="border-end mx-3" style="height: auto;"></div>
+    
+    <div class="col-md-8">
+        <h5>Actividad Diaria</h5>
+        <app-line-chart [data]="actividadDiaria()" [height]="300"></app-line-chart>
+    </div>
+
+    <div class="border-end mx-3" style="height: auto;"></div>
+</div>
+
+<div class="col-md-12">
+    <h5>Hora Punta</h5>
+    <app-line-chart [data]="horaPunta()" [height]="300"></app-line-chart>
+</div>
