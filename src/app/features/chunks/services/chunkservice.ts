@@ -8,64 +8,15 @@ import { PageResponse } from '../interfaces/pageResponse';
 import { ChunksByDocumentoParams } from '../interfaces/chunks-by-documento-params';
 import { ChunkEstado } from '../interfaces/chunk-estado';
 import { ChunkStatsResponse } from '../interfaces/chunk-stats';
+import {
+  BusquedaSemanticaBody,
+  ChunkApiItem,
+  ChunkBuscarItem,
+  ChunkBuscarResponse,
+  ChunkDocumentoApiItem,
+  ChunkDocumentoApiPage,
+} from '../interfaces/chunk-api-types';
 import { environment } from '../../../../environments/environment';
-
-interface ChunkBuscarItem {
-  id: number;
-  orden: number;
-  texto: string;
-  numTokens: number | null;
-  estado: ChunkEstado | null;
-  similitud: number | null;
-  posicionesBusquedaTextual: unknown[] | null;
-  documento: ChunkBuscarDocumento;
-}
-
-interface ChunkDocumentoApiItem {
-  id: number;
-  orden: number;
-  textoCompleto: string;
-  estado: ChunkEstado | null;
-  documento: unknown;
-}
-
-interface ChunkDocumentoApiPage {
-  content: ChunkDocumentoApiItem[];
-  number: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-}
-
-interface ChunkApiItem {
-  id: number;
-  orden: number;
-  textoCompleto: string;
-  estado: ChunkEstado | null;
-  documento: unknown;
-}
-
-interface ChunkBuscarResponse {
-  number: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  content: ChunkBuscarItem[];
-}
-
-interface BusquedaSemanticaBody {
-  consulta: string;
-  topK: number;
-}
-
-interface ChunkBuscarDocumento {
-  nombre: string;
-  seccionId: number;
-  subidoPor: string;
-  fechaDesde: string | null;
-  fechaHasta: string | null;
-  estado: string;
-}
 
 @Injectable({
   providedIn: 'root',

@@ -1,3 +1,4 @@
+// Estadisticas resumidas usadas por la UI de cabecera de documento.
 export interface ChunkStats {
   total: number;
   revisados: number;
@@ -5,6 +6,7 @@ export interface ChunkStats {
   descartados: number;
 }
 
+// Respuesta completa del endpoint /documento/{docId}/stats.
 export interface ChunkStatsResponse {
   documento: {
     id: number;

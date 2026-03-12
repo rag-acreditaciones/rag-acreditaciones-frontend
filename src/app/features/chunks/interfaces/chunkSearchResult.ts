@@ -1,16 +1,10 @@
-export interface ChunkSearchResultDocumento {
-  nombre: string;
-  seccionId: number;
-  subidoPor: string;
-  fechaDesde: string | null;
-  fechaHasta: string | null;
-  estado: string;
-}
+import { ChunkBusquedaDocumento } from './chunk-busqueda-documento';
 
+// Resultado normalizado de busqueda semantica para la pantalla de resultados.
 export interface ChunkSearchResult {
   id: number;
   score: number;
-  documento: ChunkSearchResultDocumento;
+  documento: ChunkBusquedaDocumento;
   numero_chunk: number;
   tokens: number;
   texto: string;
