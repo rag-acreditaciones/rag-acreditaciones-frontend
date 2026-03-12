@@ -52,3 +52,11 @@
   background: var(--gradient-primary);
   border: none;
 }
+
+a {
+  color: var(--c3);
+}
+
+a:hover {
+  color: var(--c4);
+}

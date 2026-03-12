@@ -1,0 +1,159 @@
+<div class="login-wrapper">
+  <div class="card login-card shadow-lg">
+
+    <!-- Header con gradiente -->
+    <div class="card-header text-center py-4">
+      <i class="bi bi-person-plus fs-1 text-white mb-2 d-block"></i>
+      <h2 class="text-white fw-bold mb-0">RAG Acreditaciones</h2>
+      <p class="text-white-50 mb-0 mt-1">Crea tu cuenta</p>
+    </div>
+
+    <div class="card-body p-4">
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-check-circle-fill"></i>
+          <span>{{ successMessage() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Nombre completo -->
+        <div class="mb-3">
+          <label for="nombre" class="form-label fw-semibold">Nombre completo</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person"></i>
+            </span>
+            <input
+              id="nombre"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="nombre.invalid && nombre.touched"
+              formControlName="nombre"
+              placeholder="Nombre y apellidos"
+              autocomplete="name"
+            />
+            <div class="invalid-feedback">
+              @if (nombre.errors?.['required']) {
+                <span>El nombre es obligatorio.</span>
+              }
+              @if (nombre.errors?.['minlength']) {
+                <span>Debe tener al menos 2 caracteres.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              [class.is-invalid]="email.invalid && email.touched"
+              formControlName="email"
+              placeholder="tu@email.com"
+              autocomplete="email"
+            />
+            <div class="invalid-feedback">
+              @if (email.errors?.['required']) {
+                <span>El email es obligatorio.</span>
+              }
+              @if (email.errors?.['email']) {
+                <span>Introduce un email válido.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <label for="password" class="form-label fw-semibold">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input
+              id="password"
+              type="password"
+              class="form-control"
+              [class.is-invalid]="password.invalid && password.touched"
+              formControlName="password"
+              placeholder="Ej: Contraseña@1"
+              autocomplete="new-password"
+            />
+            <div class="invalid-feedback">
+              @if (password.errors?.['required']) {
+                <span>La contraseña es obligatoria.</span>
+              }
+              @if (password.errors?.['pattern']) {
+                <span>Debe tener 8+ caracteres, mayúscula, minúscula, número y carácter especial (@$!%*?&).</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmar contraseña -->
+        <div class="mb-4">
+          <label for="confirmarPassword" class="form-label fw-semibold">Confirmar contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              id="confirmarPassword"
+              type="password"
+              class="form-control"
+              [class.is-invalid]="(confirmarPassword.touched && form.errors?.['passwordsMismatch'])"
+              formControlName="confirmarPassword"
+              placeholder="Repite la contraseña"
+              autocomplete="new-password"
+            />
+            <div class="invalid-feedback">
+              @if (confirmarPassword.touched && form.errors?.['passwordsMismatch']) {
+                <span>Las contraseñas no coinciden.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón submit -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100 py-2 fw-semibold mb-3"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            Creando cuenta...
+          } @else {
+            <i class="bi bi-person-plus me-2"></i>
+            Crear cuenta
+          }
+        </button>
+
+        <!-- Enlace a login -->
+        <p class="text-center text-muted mb-0 small">
+          ¿Ya tienes cuenta?
+          <a routerLink="/login" class="fw-semibold text-decoration-none">Inicia sesión</a>
+        </p>
+
+      </form>
+    </div>
+
+  </div>
+</div>

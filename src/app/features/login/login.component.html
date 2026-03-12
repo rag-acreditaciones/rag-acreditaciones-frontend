@@ -74,7 +74,7 @@
         <!-- Botón submit -->
         <button
           type="submit"
-          class="btn btn-primary w-100 py-2 fw-semibold"
+          class="btn btn-primary w-100 py-2 fw-semibold mb-3"
           [disabled]="loading()"
         >
           @if (loading()) {
@@ -85,6 +85,12 @@
             Iniciar sesión
           }
         </button>
+
+        <!-- Enlace a registro -->
+        <p class="text-center text-muted mb-0 small">
+          ¿No tienes cuenta?
+          <a routerLink="/registro" class="fw-semibold text-decoration-none">Regístrate</a>
+        </p>
 
       </form>
     </div>

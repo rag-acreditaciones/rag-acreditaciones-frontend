@@ -1,0 +1,21 @@
+<div class="valoracion-buttons">
+  <button
+    type="button"
+    class="btn btn-secondary valoracion-btn positiva"
+    [class.selected]="valoracionSeleccionada() === 'POSITIVA'"
+    [disabled]="loading()"
+    (click)="valorar('POSITIVA')"
+  >
+    Positiva
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-danger valoracion-btn negativa"
+    [class.selected]="valoracionSeleccionada() === 'NEGATIVA'"
+    [disabled]="loading()"
+    (click)="valorar('NEGATIVA')"
+  >
+    Negativa
+  </button>
+</div>

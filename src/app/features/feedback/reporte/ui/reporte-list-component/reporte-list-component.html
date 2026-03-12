@@ -1,0 +1,70 @@
+<section class="reporte-list card">
+  <div class="card-header">Reportes de feedback</div>
+
+  <div class="card-body">
+    <p class="error" *ngIf="error()">No se pudieron cargar los reportes.</p>
+
+    <div class="table-wrapper" *ngIf="reportes().length > 0; else emptyState">
+      <table class="table table-striped reporte-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>MensajeId</th>
+            <th>UsuarioEmail</th>
+            <th>Motivo</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th>FechaCreacion</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reporte of reportes(); trackBy: trackById">
+            <td>{{ reporte.id }}</td>
+            <td>{{ reporte.mensajeId }}</td>
+            <td>{{ reporte.usuarioEmail }}</td>
+            <td>{{ reporte.motivo }}</td>
+            <td class="descripcion">{{ reporte.descripcion }}</td>
+            <td>{{ reporte.estado }}</td>
+            <td>{{ reporte.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="acciones">
+              <button
+                class="btn btn-secondary"
+                type="button"
+                (click)="marcarComo(reporte.id, 'REVISADO')"
+                [disabled]="loading()"
+              >
+                Revisado
+              </button>
+              <button
+                class="btn btn-danger"
+                type="button"
+                (click)="marcarComo(reporte.id, 'DESCARTADO')"
+                [disabled]="loading()"
+              >
+                Descartado
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty">{{ loading() ? 'Cargando reportes...' : 'No hay reportes para mostrar.' }}</p>
+    </ng-template>
+  </div>
+
+  <div class="card-footer">
+    <div class="paginacion">
+      <button class="btn btn-secondary" type="button" (click)="irAnterior()" [disabled]="!puedeIrAnterior()">
+        Anterior
+      </button>
+      <span class="page-info">Pagina {{ paginaActual() }} de {{ totalPages() }}</span>
+      <button class="btn btn-info" type="button" (click)="irSiguiente()" [disabled]="!puedeIrSiguiente()">
+        Siguiente
+      </button>
+    </div>
+    <p class="total">Total reportes: {{ totalElements() }}</p>
+  </div>
+</section>
