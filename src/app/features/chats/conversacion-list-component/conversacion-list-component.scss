@@ -1,5 +1,4 @@
 // Solo estilos que Bootstrap no cubre — todo lo demás lo gestiona Bootstrap 5
-
 .conv-sidebar {
   padding: 0.75rem;
 }
@@ -9,7 +8,6 @@
   max-height: 100%;
   overflow-y: auto;
 
-  // Scrollbar discreta
   &::-webkit-scrollbar       { width: 4px; }
   &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 2px; }
@@ -23,13 +21,14 @@
   &__title {
     font-size: 0.875rem;
     font-weight: 500;
-    max-width: 160px; // deja espacio para el badge
+    color: #000 !important;
+    font-size: 14px !important;
   }
 
   &__meta {
     font-size: 0.75rem;
     margin-bottom: 0 !important;
-    // Reutiliza el estilo breadcrumb de Bootstrap pero sin separadores
+
     .breadcrumb-item + .breadcrumb-item::before { display: none; }
   }
 
@@ -38,13 +37,94 @@
   }
 }
 
-// ── Badges por sección (colores propios del proyecto) ─────────────
-.badge-bd           { background-color: #198754; color: #fff; } // verde  → BD
-.badge-web          { background-color: #fd7e14; color: #fff; } // naranja → WEB
-.badge-programacion { background-color: #6f42c1; color: #fff; } // morado → PROGRAMACION
-.badge-general      { background-color: #6c757d; color: #fff; } // gris   → GENERAL
+// ── Botón papelera ────────────────────────────────────────────────
+.btn-papelera {
+  padding: 2px 6px;
+  color: #adb5bd;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 0.15s, background-color 0.15s;
+  flex-shrink: 0;
 
-.conv-item__title {
-  color: #000 !important;
-  font-size: 14px !important;
+  &:hover {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.08);
+  }
+
+  // Oculta la papelera por defecto y la muestra solo al hover del ítem
+  opacity: 0;
+  .conv-item:hover & {
+    opacity: 1;
+  }
+
+  // Siempre visible si el ítem está activo
+  .conv-item.active & {
+    opacity: 1;
+    color: rgba(255, 255, 255, 0.7);
+
+    &:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+// ── Badges por sección ────────────────────────────────────────────
+.badge-bd           { background-color: #198754; color: #fff; }
+.badge-web          { background-color: #fd7e14; color: #fff; }
+.badge-programacion { background-color: #6f42c1; color: #fff; }
+.badge-general      { background-color: #6c757d; color: #fff; }
+
+// ── Modal overlay ─────────────────────────────────────────────────
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  animation: fade-in 0.15s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-confirm {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  max-width: 340px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  animation: slide-up 0.18s ease;
+
+  &__icono {
+    font-size: 2rem;
+    color: #dc3545;
+    margin-bottom: 12px;
+  }
+
+  &__texto {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #2d3748;
+    margin-bottom: 4px;
+  }
+
+  &__subtexto {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
