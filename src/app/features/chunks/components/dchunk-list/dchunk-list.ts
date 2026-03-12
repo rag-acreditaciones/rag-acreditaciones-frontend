@@ -1,10 +1,12 @@
 import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DchunkDetail } from '../dchunk-detail/dchunk-detail';
 import { ChunkSummary } from '../../interfaces/chunkSummary';
 
 @Component({
   selector: 'app-dchunk-list',
-  imports: [DchunkDetail],
+  standalone: true,
+  imports: [CommonModule, DchunkDetail],
   templateUrl: './dchunk-list.html',
   styleUrl: './dchunk-list.css',
 })

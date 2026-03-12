@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DheaderDocs } from '../dheader-docs/dheader-docs';
 import { DchunkList } from '../dchunk-list/dchunk-list';
@@ -7,10 +8,12 @@ import { ChunkService } from '../../services/chunkservice';
 import { ChunkSummary } from '../../interfaces/chunkSummary';
 import { ChunkEstado } from '../../interfaces/chunk-estado';
 import { PageResponse } from '../../interfaces/pageResponse';
+import { ChunkStats, ChunkStatsResponse } from '../../interfaces/chunk-stats';
 
 @Component({
   selector: 'app-ddocument-chunk-screen',
-  imports: [DheaderDocs, DchunkList, Dpagination],
+  standalone: true,
+  imports: [CommonModule, DheaderDocs, DchunkList, Dpagination],
   templateUrl: './ddocument-chunk-screen.html',
   styleUrl: './ddocument-chunk-screen.css',
 })
@@ -22,27 +25,11 @@ export class DdocumentChunkScreen implements OnInit {
   nombreDocumento = signal('');
 
   pageResponse = signal<PageResponse | null>(null);
+  chunkStats = signal<ChunkStats>({ total: 0, revisados: 0, pendientes: 0, descartados: 0 });
   currentPage = signal(0);
   pageSize = signal(6);
   error = signal('');
   filtroEstado = signal<ChunkEstado | 'TODOS'>('TODOS');
-
-  // Calcular stats de chunks
-  chunkStats = computed(() => {
-    const response = this.pageResponse();
-    if (!response) return { total: 0, revisados: 0, pendientes: 0, descartados: 0 };
-
-    const revisados = response.content.filter((c) => c.estado === 'REVISADO').length;
-    const pendientes = response.content.filter((c) => c.estado === 'PENDIENTE').length;
-    const descartados = response.content.filter((c) => c.estado === 'DESCARTADO').length;
-
-    return {
-      total: response.totalElements,
-      revisados,
-      pendientes,
-      descartados,
-    };
-  });
 
   ngOnInit() {
     /* Permite acceso a la ruta de un componente, luego la voy a usar para poder
@@ -54,19 +41,56 @@ export class DdocumentChunkScreen implements OnInit {
       this.error.set('ID de documento no válido');
       return;
     }
-    this.nombreDocumento.set(`Documento_${this.docId}.pdf`);
+    this.cargarEstadisticas();
     this.cargarChunks();
+  }
+
+  private cargarEstadisticas() {
+    this.chunkService.getEstadisticasByDocumento(this.docId).subscribe({
+      next: (statsResponse) => {
+        this.aplicarEstadisticas(statsResponse);
+      },
+      error: () => {
+        // Fallback mínimo: si falla /stats, al menos reflejar lo que venga en la página actual.
+        this.nombreDocumento.set(`Documento_${this.docId}.pdf`);
+      },
+    });
+  }
+
+  private aplicarEstadisticas(statsResponse: ChunkStatsResponse) {
+    this.nombreDocumento.set(statsResponse.documento.nombreFichero);
+    this.chunkStats.set({
+      total: statsResponse.numeroChunks,
+      revisados: statsResponse.numeroChunksRevisado,
+      pendientes: statsResponse.numeroChunksPendiente,
+      descartados: statsResponse.numeroChunksDescartado,
+    });
   }
 
   // REVISAR
   cargarChunks() {
-    const filtros: any = { page: this.currentPage(), size: this.pageSize() };
+    const filtros: any = {
+      page: this.currentPage(),
+      size: this.pageSize(),
+      sort: 'ordenChunk,asc',
+    };
     if (this.filtroEstado() !== 'TODOS') {
       filtros.estado = this.filtroEstado();
     }
 
     this.chunkService.getChunksByDocumento(this.docId, filtros).subscribe({
-      next: (resp) => this.pageResponse.set(resp),
+      next: (resp) => {
+        this.pageResponse.set(resp);
+
+        if (this.chunkStats().total === 0 && resp.totalElements > 0) {
+          this.chunkStats.set({
+            total: resp.totalElements,
+            revisados: resp.content.filter((chunk) => chunk.estado === 'REVISADO').length,
+            pendientes: resp.content.filter((chunk) => chunk.estado === 'PENDIENTE').length,
+            descartados: resp.content.filter((chunk) => chunk.estado === 'DESCARTADO').length,
+          });
+        }
+      },
       error: () => this.error.set('No se pudieron cargar los chunks'),
     });
   }
@@ -82,8 +106,8 @@ export class DdocumentChunkScreen implements OnInit {
     this.cargarChunks();
   }
 */
-  onFiltroEstadoChange(estado: string) {
-    this.filtroEstado.set((estado as any) || 'TODOS');
+  onFiltroEstadoChange(estado: ChunkEstado | 'TODOS') {
+    this.filtroEstado.set(estado);
     this.currentPage.set(0);
     this.cargarChunks();
   }

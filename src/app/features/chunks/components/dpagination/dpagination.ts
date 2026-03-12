@@ -1,8 +1,10 @@
 import { Component, computed, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dpagination',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dpagination.html',
   styleUrl: './dpagination.css',
 })

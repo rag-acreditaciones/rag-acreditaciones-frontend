@@ -26,7 +26,6 @@ export class DocumentoVisorComponent implements OnInit {
   errorDocumento = signal<string | null>(null);
   errorPDF = signal<string | null>(null);
 
-
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
@@ -36,8 +35,6 @@ export class DocumentoVisorComponent implements OnInit {
       this.errorDocumento.set('ID de documento no válido');
     }
   }
-
-
 
   private cargarDocumento(id: number): void {
     this.cargandoDocumento.set(true);
@@ -56,13 +53,9 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
-
-
-
   private cargarPDF(id: number): void {
     this.cargandoPDF.set(true);
     this.errorPDF.set(null);
-
 
     this.documentoService.previewDocumento(id).subscribe({
       next: (preview) => {
@@ -88,12 +81,9 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
-
-
   descargarPDF(): void {
     const doc = this.documento();
     if (!doc) return;
-
 
     const id = doc.id;
     this.documentoService.downloadDocumento(id).subscribe({
@@ -112,9 +102,14 @@ export class DocumentoVisorComponent implements OnInit {
     });
   }
 
+  verChunksDocumento(): void {
+    const doc = this.documento();
+    if (!doc) {
+      return;
+    }
 
-
-
+    this.router.navigate(['/chunks', doc.id]);
+  }
 
   volverAtras(): void {
     this.router.navigate(['/documentos']);

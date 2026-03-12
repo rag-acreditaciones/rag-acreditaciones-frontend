@@ -5,6 +5,7 @@ import { SearchMode } from '../../interfaces/search-mode';
 
 @Component({
   selector: 'app-schunk-searcher',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './schunk-searcher.html',
   styleUrl: './schunk-searcher.css',

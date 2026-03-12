@@ -7,6 +7,7 @@ import { SearchResultItem } from '../../interfaces/search-result-item';
 
 @Component({
   selector: 'app-schunk-searcher-screen',
+  standalone: true,
   imports: [SchunkSearcher, SchunkSearcherResultList],
   templateUrl: './schunk-searcher-screen.html',
   styleUrl: './schunk-searcher-screen.css',
@@ -32,9 +33,9 @@ export class SchunkSearcherScreen {
             resp.content.map((item) => ({
               id: item.id,
               numeroChunk: item.orden,
-              texto: item.truncado100chars,
-              tokens: item.numTokens,
-              estado: item.estado,
+              texto: item.texto,
+              tokens: item.numTokens ?? 0,
+              estado: item.estado ?? undefined,
             })),
           );
           this.isLoading.set(false);

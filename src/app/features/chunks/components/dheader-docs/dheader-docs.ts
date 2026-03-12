@@ -1,8 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { DdocInfo } from '../ddoc-info/ddoc-info';
+import { ChunkEstado } from '../../interfaces/chunk-estado';
 
 @Component({
   selector: 'app-dheader-docs',
+  standalone: true,
   imports: [DdocInfo],
   templateUrl: './dheader-docs.html',
   styleUrl: './dheader-docs.css',
@@ -15,7 +17,7 @@ export class DheaderDocs {
     pendientes: number;
     descartados: number;
   }>();
-  filtroEstado = input.required<string>();
+  filtroEstado = input.required<ChunkEstado | 'TODOS'>();
 
-  filtroEstadoChange = output<string>();
+  filtroEstadoChange = output<ChunkEstado | 'TODOS'>();
 }

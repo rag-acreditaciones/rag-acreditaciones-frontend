@@ -1,11 +1,13 @@
 import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SchunkSearcherResultDetail } from '../schunk-searcher-result-detail/schunk-searcher-result-detail';
 import { SearchResultItem } from '../../interfaces/search-result-item';
 import { SearchMode } from '../../interfaces/search-mode';
 
 @Component({
   selector: 'app-schunk-searcher-result-list',
-  imports: [SchunkSearcherResultDetail],
+  standalone: true,
+  imports: [CommonModule, SchunkSearcherResultDetail],
   templateUrl: './schunk-searcher-result-list.html',
   styleUrl: './schunk-searcher-result-list.css',
 })

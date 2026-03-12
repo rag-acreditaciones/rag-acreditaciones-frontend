@@ -1,4 +1,5 @@
 import { Component, inject, input, output, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
 import { ChunkService } from '../../services/chunkservice';
 import { ChunkEstado } from '../../interfaces/chunk-estado';
@@ -6,7 +7,8 @@ import { ChunkSummary } from '../../interfaces/chunkSummary';
 
 @Component({
   selector: 'app-dchunk-detail',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dchunk-detail.html',
   styleUrl: './dchunk-detail.css',
 })
