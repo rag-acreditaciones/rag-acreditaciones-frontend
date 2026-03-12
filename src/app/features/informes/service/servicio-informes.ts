@@ -91,11 +91,11 @@ export class DashboardService {
 
   /**
    * GET /api/v1/dashboard/usuarios/ranking
-   * Top usuarios más activos. Por defecto limit=10, criterio=TOTAL.
+   * Top usuarios más activos. Por defecto limit=5, criterio=TOTAL.
    */
   getRankingUsuarios(params: RankingUsuariosParams = {}): Observable<UsuarioRanking[]> {
     const httpParams = new HttpParams()
-      .set('limit', params.limit ?? 10)
+      .set('limit', params.limit ?? 5)
       .set('criterio', params.criterio ?? 'TOTAL');
 
     return this.http.get<UsuarioRanking[]>(`${API}/usuarios/ranking`, {
