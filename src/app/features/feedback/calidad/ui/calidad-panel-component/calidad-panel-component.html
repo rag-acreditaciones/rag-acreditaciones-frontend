@@ -1,59 +1,71 @@
 <div class="panel-wrapper">
-  <header class="panel-header">
-    <div class="header-icon">
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <rect x="2" y="2" width="5" height="14" rx="1" />
-        <rect x="9.5" y="6" width="5" height="10" rx="1" />
-        <rect x="17" y="4" width="5" height="12" rx="1" />
-      </svg>
+  <header class="panel-header card card-header">
+    <div class="panel-header-inner">
+      <div class="panel-header-left">
+        <div class="panel-header-icon">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="2" width="5" height="14" rx="1" />
+            <rect x="9.5" y="6" width="5" height="10" rx="1" />
+            <rect x="17" y="4" width="5" height="12" rx="1" />
+          </svg>
+        </div>
+        <h1 class="panel-title">Panel de Calidad del RAG</h1>
+      </div>
+
+      <div class="panel-status-badges">
+        @if (loading()) {
+          <span class="status-badge status-badge--loading">
+            <span class="loading-dot"></span>
+            Cargando…
+          </span>
+        }
+        @if (error()) {
+          <span class="status-badge status-badge--error">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            Error al cargar datos
+          </span>
+        }
+      </div>
     </div>
-    <h1 class="panel-title">Panel de Calidad del RAG</h1>
-    @if (loading()) {
-      <div class="loading-badge">
-        <span class="loading-dot"></span>
-        Cargando...
-      </div>
-    }
-    @if (error()) {
-      <div class="error-badge">
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-        Error al cargar datos
-      </div>
-    }
   </header>
 
   <div class="panel-grid">
-    <section class="card card-gauge">
-      <h2 class="card-title">Calidad Global</h2>
-      <div class="gauge-wrapper">
-        <canvas #gaugeCanvas width="200" height="120"></canvas>
-        <div class="gauge-value">
-          <span class="gauge-number">{{ ratioGlobal() | percent: '1.0-0' }}</span>
+    <section class="card card-body panel-card panel-card--gauge">
+      <h2 class="panel-card__title">Calidad Global</h2>
+
+      <div class="gauge-area">
+        <div class="gauge-canvas-wrap">
+          <canvas #gaugeCanvas width="220" height="130"></canvas>
+          <div class="gauge-overlay">
+            <span class="gauge-pct">{{ ratioGlobal() | percent: '1.0-0' }}</span>
+            <span class="gauge-label">calidad</span>
+          </div>
         </div>
       </div>
-      <div class="gauge-stats">
-        <span class="stat-positive">
+
+      <div class="gauge-counters">
+        <div class="gauge-counter gauge-counter--pos">
           <svg
-            width="14"
-            height="14"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -63,12 +75,14 @@
               d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"
             />
           </svg>
-          {{ resumen()?.positivas ?? 0 }}
-        </span>
-        <span class="stat-negative">
+          <span class="gauge-counter__num">{{ resumen()?.positivas ?? 0 }}</span>
+          <span class="gauge-counter__lbl">positivas</span>
+        </div>
+        <div class="gauge-divider"></div>
+        <div class="gauge-counter gauge-counter--neg">
           <svg
-            width="14"
-            height="14"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -78,40 +92,44 @@
               d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"
             />
           </svg>
-          {{ resumen()?.negativas ?? 0 }}
-        </span>
+          <span class="gauge-counter__num">{{ resumen()?.negativas ?? 0 }}</span>
+          <span class="gauge-counter__lbl">negativas</span>
+        </div>
       </div>
-      <div class="reports-row">
-        <span class="reports-badge">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-            />
-          </svg>
-          {{ resumen()?.reportesPendientes ?? 0 }} pendientes
-        </span>
-      </div>
+
+      @if ((resumen()?.reportesPendientes ?? 0) > 0) {
+        <div class="gauge-pending">
+          <span class="pending-badge">
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              />
+            </svg>
+            {{ resumen()?.reportesPendientes ?? 0 }} pendientes
+          </span>
+        </div>
+      }
     </section>
 
-    <section class="card card-sections">
-      <h2 class="card-title">Calidad por Sección</h2>
-      <div class="sections-chart-wrapper">
+    <section class="card card-body panel-card panel-card--sections">
+      <h2 class="panel-card__title">Calidad por Sección</h2>
+      <div class="chart-wrap">
         <canvas #barCanvas></canvas>
       </div>
     </section>
 
-    <section class="card card-evolucion">
-      <div class="card-header-row">
-        <h2 class="card-title">Evolución temporal</h2>
+    <section class="card card-body panel-card panel-card--evolucion">
+      <div class="panel-card__header-row">
+        <h2 class="panel-card__title">Evolución temporal</h2>
         <select
-          class="period-select"
+          class="form-select panel-period-select"
           [(ngModel)]="selectedPeriodo"
           (ngModelChange)="onPeriodoChange($event)"
         >
@@ -120,17 +138,17 @@
           <option value="ultimo-trimestre">Último trimestre</option>
         </select>
       </div>
-      <div class="line-chart-wrapper">
+      <div class="chart-wrap chart-wrap--tall">
         <canvas #lineCanvas></canvas>
       </div>
     </section>
 
-    <section class="card card-top">
-      <div class="card-header-row">
-        <h2 class="card-title">
+    <section class="card card-body panel-card panel-card--top">
+      <div class="panel-card__header-row">
+        <h2 class="panel-card__title">
           <svg
-            width="16"
-            height="16"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -145,50 +163,53 @@
         <div class="tab-toggle">
           <button
             class="tab-btn"
-            [class.active]="tablaTop() === 'MEJOR'"
+            [class.tab-btn--active]="tablaTop() === 'MEJOR'"
             (click)="setTablaTop('MEJOR')"
           >
             Mejor
           </button>
           <button
             class="tab-btn"
-            [class.active]="tablaTop() === 'PEOR'"
+            [class.tab-btn--active]="tablaTop() === 'PEOR'"
             (click)="setTablaTop('PEOR')"
           >
             Peor
           </button>
         </div>
       </div>
-      <div class="top-table-wrapper">
-        <table class="top-table">
+
+      <div class="table-responsive">
+        <table class="table table-striped top-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Contenido</th>
-              <th>Val.</th>
-              <th>Ratio</th>
+              <th class="col-rank">#</th>
+              <th class="col-content">Contenido</th>
+              <th class="col-val">Val.</th>
+              <th class="col-ratio">Ratio</th>
             </tr>
           </thead>
           <tbody>
             @for (item of topRespuestas(); track item.mensajeId; let i = $index) {
               <tr>
-                <td class="rank-cell">{{ i + 1 }}</td>
-                <td class="content-cell" [title]="item.contenido">
-                  {{ truncate(item.contenido, 42) }}
+                <td class="col-rank rank-num">{{ i + 1 }}</td>
+                <td class="col-content content-text" [title]="item.contenido">
+                  {{ truncate(item.contenido, 48) }}
                 </td>
-                <td class="val-cell">{{ item.totalValoraciones }}</td>
-                <td
-                  class="ratio-cell"
-                  [class.ratio-high]="item.ratio >= 0.8"
-                  [class.ratio-mid]="item.ratio >= 0.6 && item.ratio < 0.8"
-                  [class.ratio-low]="item.ratio < 0.6"
-                >
-                  {{ item.ratio | percent: '1.0-0' }}
+                <td class="col-val">{{ item.totalValoraciones }}</td>
+                <td class="col-ratio">
+                  <span
+                    class="ratio-chip"
+                    [class.ratio-chip--high]="item.ratio >= 0.8"
+                    [class.ratio-chip--mid]="item.ratio >= 0.6 && item.ratio < 0.8"
+                    [class.ratio-chip--low]="item.ratio < 0.6"
+                  >
+                    {{ item.ratio | percent: '1.0-0' }}
+                  </span>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="4" class="empty-row">Sin datos disponibles</td>
+                <td colspan="4" class="empty-state">Sin datos disponibles</td>
               </tr>
             }
           </tbody>
@@ -197,11 +218,11 @@
     </section>
 
     @if (resumen()?.totalReportes) {
-      <section class="card card-reportes">
-        <h2 class="card-title">
+      <section class="card card-body panel-card panel-card--reportes">
+        <h2 class="panel-card__title">
           <svg
-            width="16"
-            height="16"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -215,14 +236,15 @@
           </svg>
           Respuestas reportadas
         </h2>
-        <div class="reportes-stats">
-          <div class="reporte-stat">
-            <span class="stat-label">Total reportes</span>
-            <span class="stat-value">{{ resumen()?.totalReportes ?? 0 }}</span>
+        <div class="reportes-kpis">
+          <div class="kpi">
+            <span class="kpi__value">{{ resumen()?.totalReportes ?? 0 }}</span>
+            <span class="kpi__label">Total reportes</span>
           </div>
-          <div class="reporte-stat">
-            <span class="stat-label">Pendientes</span>
-            <span class="stat-value pending">{{ resumen()?.reportesPendientes ?? 0 }}</span>
+          <div class="kpi-sep"></div>
+          <div class="kpi kpi--warn">
+            <span class="kpi__value">{{ resumen()?.reportesPendientes ?? 0 }}</span>
+            <span class="kpi__label">Pendientes</span>
           </div>
         </div>
       </section>
