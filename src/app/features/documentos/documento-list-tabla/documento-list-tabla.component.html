@@ -1,0 +1,256 @@
+<div class="card text-center">
+  <!-- la parte de los filtros -->
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        Filtros:
+        <div class="d-flex gap-2 mt-3 flex-wrap">
+          <div class="col-md-3">
+            <input
+              type="text"
+              [value]="filtroNombre()"
+              (input)="cambiarFiltroNombre($any($event.target).value)"
+              class="form-control"
+              placeholder="Nombre"
+            />
+          </div>
+          <div class="col-md-2">
+            <select [value]="filtroSeccion() || ''" (change)="cambiarFiltroSeccion($any($event.target).value)" class="form-select">
+              <option value="">Seccion</option>
+              @for (seccion of secciones(); track seccion.id) {
+                <option [value]="seccion.id">{{ seccion.nombre }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select [value]="filtroEstado()" (change)="cambiarFiltroEstado($any($event.target).value)" class="form-select">
+              <option value="">Estado</option>
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="PROCESANDO">Procesando</option>
+              <option value="PROCESADO">Procesado</option>
+              <option value="ERROR">Error</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input
+              type="date"
+              [value]="filtroFecha()"
+              (input)="cambiarFiltroFecha($any($event.target).value)"
+              class="form-control"
+              placeholder="Fecha"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              (click)="limpiarFiltros()"
+              class="btn btn-secondary"
+              style="width: 100%; white-space: nowrap"
+            >
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          (click)="modalSubirDocumento()"
+          class="btn btn-info btn-subir-documento"
+        >
+          + Subir Documento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabla -->
+  <div class="card-body">
+    @if (cargando()) {
+      <p>cargando documentos...</p>
+    } @else {
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col"><a href="#">Nombre</a></th>
+            <th scope="col"><a href="#">Sección</a></th>
+            <th scope="col"><a href="#">Subido por</a></th>
+            <th scope="col"><a href="#">Fecha</a></th>
+            <th scope="col"><a href="#">Tamaño</a></th>
+            <th scope="col" colspan="3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (documento of documentos(); track documento.id; let idx = $index) {
+            <tr>
+              <td class="text-center text-muted">{{ (paginaActual() * filasPorPagina()) + idx + 1 }}</td>
+              <th scope="row">{{ documento.nombreFichero }}</th>
+              <td>{{ documento.seccionTematicaNombre }}</td>
+              <td>{{ documento.subidoPor }}</td>
+              <td>{{ documento.fechaSubida | date: 'short' }}</td>
+              <td>{{ (documento.sizeBytes / 1024 / 1024).toFixed(2) }}MB</td>
+              <td>
+                <button
+                  (click)="descargarDocumento(documento.id, documento.nombreFichero)"
+                  class="btn btn-secondary"
+                >
+                  Descargar
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-arrow-down-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"
+                    />
+                  </svg>
+                </button>
+              </td>
+              <td>
+                <button
+                  (click)="visualizarDocumento(documento.id)"
+                  class="btn btn-info"
+                >
+                  Visualizar
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                    />
+                  </svg>
+                </button>
+              </td>
+              <td>
+                @if (documentoAEliminar() === documento.id) {
+                  <!-- decir si borrar "si o no" ... estos botones sustityen el de Eliminar cuando se pulsa sobr el -->
+                  <div class="d-flex gap-2 justify-content-center">
+                    <button
+                      type="button"
+                      (click)="confirmarEliminar()"
+                      class="btn btn-sm btn-success"
+                      title="Confirmar eliminación"
+                    >
+                      ✓ Sí
+                    </button>
+                    <button
+                      type="button"
+                      (click)="cancelarEliminar()"
+                      class="btn btn-sm btn-secondary btn-confirm-cancel"
+                      title="Cancelar"
+                    >
+                      ✗ No
+                    </button>
+                  </div>
+                } @else {
+                  <!-- el boton eliminar normal cuando no esta el "Si o NO"-->
+                  <button
+                    type="button"
+                    (click)="eliminarDocumento(documento.id)"
+                    class="btn btn-danger btn-sm"
+                  >
+                    Eliminar
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      fill="currentColor"
+                      class="bi bi-trash"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                    />
+                  </svg>
+                </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- la paginacion -->
+  <div class="card-footer text-body-secondary d-flex flex-column gap-3 align-items-center">
+    <div class="d-flex gap-2 justify-content-center flex-wrap">
+      <button
+        type="button"
+        [class]="paginaActual() === 0 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-info'"
+        (click)="irAPagina(0)"
+        [disabled]="paginaActual() === 0"
+        title="Primera página"
+      >
+        Primera
+      </button>
+      <button
+        type="button"
+        [class]="paginaActual() === 0 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-info'"
+        (click)="paginaAnterior()"
+        [disabled]="paginaActual() === 0"
+        title="Página anterior"
+      >
+        &lt;
+      </button>
+      <span class="align-self-center px-2 text-dark">
+        Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}
+      </span>
+      <button
+        type="button"
+        [class]="paginaActual() >= totalPaginas() - 1 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-primary'"
+        (click)="paginaSiguiente()"
+        [disabled]="paginaActual() >= totalPaginas() - 1"
+        title="Página siguiente"
+      >
+        &gt;
+      </button>
+      <button
+        type="button"
+        [class]="paginaActual() >= totalPaginas() - 1 ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-primary'"
+        (click)="irAPagina(totalPaginas() - 1)"
+        [disabled]="paginaActual() >= totalPaginas() - 1"
+        title="Última página"
+      >
+        Última
+      </button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+      <span class="text-nowrap text-dark">Mostrando {{ filasPorPagina() }} elementos por página</span>
+      <select
+        [value]="filasPorPagina()"
+        (change)="cambiarFilasPorPagina($any($event.target).value)"
+        class="form-select form-select-sm"
+        style="width: 70px;"
+        aria-label="Filas por página"
+      >
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- subir un documento hecho con MODAL, como se pide en el enunciado -->
+@if (modalAbierto()) {
+  <app-documento-upload
+    [modalAbierto]="modalAbierto()"
+    [secciones]="secciones()"
+    (alCerrar)="cerrarModal()"
+    (documentoSubido)="alDocumentoSubido()"
+  ></app-documento-upload>
+}

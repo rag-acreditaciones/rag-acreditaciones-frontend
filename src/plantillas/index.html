@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plantilla</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>Equipo 1</h1>
+    <div class="card text-center">
+        <div class="card-header">
+            Filtros:
+            <div>         
+                <div class="col-md-3">
+                    <input type="text" id="input1.1" class="form-control" placeholder="Nombre">
+                </div>
+                <div class="col-md-2">
+                    <select id="select1.1" class="form-select">
+                        <option>Sección</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="select1.2" class="form-select">
+                        <option>Estado</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="select1.3" class="form-select">
+                        <option>Fecha</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col"><a href="#">Nombre</a></th>
+                    <th scope="col"><a href="#">Sección</a></th>
+                    <th scope="col"><a href="#">Subido por</a></th>
+                    <th scope="col"><a href="#">Fecha</a></th>
+                    <th scope="col"><a href="#">Tamaño</a></th>
+                    <th scope="col" colspan="3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Manual_PEAC</th>
+                        <td>General</td>
+                        <td>Prof. López</td>
+                        <td>12/02</td>
+                        <td>2.01MB</td>
+                        <td><button class="btn btn-secondary">Descargar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                            </svg></button>
+                        </td>
+                        <td><button class="btn btn-info">Visualizar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
+                        <td><button class="btn btn-danger">Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manual_PEAC</th>
+                        <td>General</td>
+                        <td>Prof. López</td>
+                        <td>12/02</td>
+                        <td>2.01MB</td>
+                        <td><button class="btn btn-secondary">Descargar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                            </svg></button>
+                        </td>
+                        <td><button class="btn btn-info">Visualizar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
+                        <td><button class="btn btn-danger">Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manual_PEAC</th>
+                        <td>General</td>
+                        <td>Prof. López</td>
+                        <td>12/02</td>
+                        <td>2.01MB</td>
+                        <td><button class="btn btn-secondary">Descargar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                            </svg></button>
+                        </td>
+                        <td><button class="btn btn-info">Visualizar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
+                        <td><button class="btn btn-danger">Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manual_PEAC</th>
+                        <td>General</td>
+                        <td>Prof. López</td>
+                        <td>12/02</td>
+                        <td>2.01MB</td>
+                        <td><button class="btn btn-secondary">Descargar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                            </svg></button>
+                        </td>
+                        <td><button class="btn btn-info">Visualizar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
+                        <td><button class="btn btn-danger">Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manual_PEAC</th>
+                        <td>General</td>
+                        <td>Prof. López</td>
+                        <td>12/02</td>
+                        <td>2.01MB</td>
+                        <td><button class="btn btn-secondary">Descargar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                            </svg></button>
+                        </td>
+                        <td><button class="btn btn-info">Visualizar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </button></td>
+                        <td><button class="btn btn-danger">Eliminar
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-body-secondary d-flex justify-content-center">
+            <ol class="list-unstyled d-flex gap-3 align-items-center mb-0">
+                <li class="d-flex align-items-center gap-1">
+                    <a href="#" class="text-decoration-none">1</a> -
+                    <a href="#" class="text-decoration-none">2</a> -
+                    <a href="#" class="text-decoration-none">3</a> ...
+                    <a href="#" class="text-decoration-none">5</a>
+                </li>
+                
+                <li class="d-flex align-items-center">
+                    Mostrando 5 de 18
+                </li>
+
+                <li class="d-flex align-items-center">
+                    <select id="select1.4" class="form-select form-select-sm">
+                        <option>5</option>
+                    </select>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------------->
+    
+    <h1>Equipo 2</h1>
+
+    <div class="card text-center">
+        <div class="card-header">
+            <p>Documento: Documento_1.pdf</p>
+            <ul class="breadcrumb ">
+                <li class="breadcrumb-item">23 chunks</li>
+                <li class="breadcrumb-item">18 revisados</li>
+                <li class="breadcrumb-item">3 pendientes</li>
+                <li class="breadcrumb-item">2 descartados</li>
+            </ul>
+            <hr>
+            Filtro estado:
+            <div>
+                <div class="col-md-3">
+                    <input type="text" id="input2.1" class="form-control" placeholder="Buscar en chunks...">
+                </div>
+                <div class="col-md-2">
+                    <select id="select2.1" class="form-select">
+                        <option>Todos</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-body d-flex flex-wrap mb-3">
+            <div class="card w-20" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Chunk #1</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Revisado</h6>
+                    <p class="card-text">Previsualización del texto del chunk...</p>
+                    <p class="card-subtitle mb-2 text-muted">347 tokens</p>
+                    <p class="card-subtitle mb-2 text-muted">Página 1</p>
+                    <a href="#" class="btn btn-info">Ver</a>
+                </div>
+            </div>
+            <div class="card w-20" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Chunk #2</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Pendiente - <a href="#">✔</a> <a href="#">✘</a></h6>
+                    <p class="card-text">Previsualización del texto del chunk...</p>
+                    <p class="card-subtitle mb-2 text-muted">412 tokens</p>
+                    <p class="card-subtitle mb-2 text-muted">Página 2-3</p>
+                    <a href="#" class="btn btn-info">Ver</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-body-secondary d-flex justify-content-center">
+            <ol class="list-unstyled d-flex gap-3 align-items-center mb-0">
+                <li class="d-flex align-items-center gap-1">
+                    <a href="#" class="text-decoration-none">1</a> -
+                    <a href="#" class="text-decoration-none">2</a> -
+                    <a href="#" class="text-decoration-none">3</a> ...
+                    <a href="#" class="text-decoration-none">5</a>
+                </li>
+                
+                <li class="d-flex align-items-center">
+                    Mostrando 5 de 18
+                </li>
+
+                <li class="d-flex align-items-center">
+                    <select id="select2.2" class="form-select form-select-sm">
+                        <option>5</option>
+                    </select>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="card text-center">
+        <div class="card-header">
+            <label>Buscar en la base de conocimientos</label>
+            <div>
+                <div class="col-md-9">
+                    <input type="text" id="input2.2" class="form-control" placeholder="¿Qué requisitos necesito para acreditarme?">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-secondary">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body d-flex flex-wrap mb-3">
+            <div class="card w-20" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Score: 0.92</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Doc: Documento_1</h6>
+                    <p class="card-text">Previsualización del texto del chunk...</p>
+                    <p class="card-subtitle mb-2 text-muted">Chunk #4</p>
+                    <p class="card-subtitle mb-2 text-muted">380 tokens</p>
+                    <a href="#" class="btn btn-info">Ver</a>
+                </div>
+            </div>
+            <div class="card w-20" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Score: 0.85</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Doc: Documento_2</h6>
+                    <p class="card-text">Previsualización del texto del chunk...</p>
+                    <p class="card-subtitle mb-2 text-muted">Chunk #12</p>
+                    <p class="card-subtitle mb-2 text-muted">290 tokens</p>
+                    <a href="#" class="btn btn-info">Ver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------------->
+
+    <h1>Equipo 3</h1>
+
+    <div class="row">
+        <div class="col-3">
+            <input type="text" id="input3.1" class="form-control" placeholder="Buscar conversación..."><br>
+            <button href="#" class="btn btn-secondary">Nueva</button><hr>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p class="card-text">Acreditación en BD</p>
+                    <ul class="breadcrumb card-subtitle mb-2 text-muted">
+                        <li class="d-flex align-items-center gap-1">
+                            <a>Hace 5 min</a> -
+                            <a>3 mensajes</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <p class="card-text">Dudas sobre web</p>
+                    <ul class="breadcrumb card-subtitle mb-2 text-muted">
+                        <li class="d-flex align-items-center gap-1">
+                            <a>Ayer</a> -
+                            <a>7 mensajes</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <p class="card-text">Consulta general</p>
+                    <ul class="breadcrumb card-subtitle mb-2 text-muted">
+                        <li class="d-flex align-items-center gap-1">
+                            <a>12/02</a> -
+                            <a>12 mensajes</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-9">
+            <h5>Acreditación en BD</h5>
+            
+            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" 
+                class="scrollspy-chat" tabindex="0">
+                
+                <div id="p1" class="d-flex justify-content-end mb-3">
+                    <div class="alert alert-primary" role="alert">
+                        ¿Qué requisitos necesito para acreditarme en BD?
+                    </div>
+                </div>
+                
+                <div id="r1" class="d-flex justify-content-start mb-3">
+                    <div class="alert alert-secondary" role="alert">
+                        Necesitas demostrar 3 años de experiencia laboral en administración de bases de datos...
+                        <div class="mt-2">
+                            <a href="#" class="small">Chunks utilizados: 3</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="p2" class="d-flex justify-content-end mb-3">
+                    <div class="alert alert-primary" role="alert">
+                        Este es un mensaje muy muy largo para que ocupe el ancho máximo que se permite en la página
+                    </div>
+                </div>
+                
+                <div id="r2" class="d-flex justify-content-start mb-3">
+                    <div class="alert alert-secondary" role="alert">
+                        Este también es un mensaje muy muy largo para que ocupe el ancho máximo que se permite en la página, este ocupa más espacio que el mensaje enviado por el usuario
+                        <div class="mt-2">
+                            <a href="#" class="small">Chunks utilizados: 1</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="Escribe tu pregunta...">
+                <button class="btn btn-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------------->
+
+    <h1>Equipo 4</h1>
+    <div class="card text-center">
+        <div class="card-header">
+            Panel de calidad del RAG
+        </div>
+        <div class="card-body">
+            <div class="d-flex">
+                <div class="col-md-4">
+                    <h5>Calidad global</h5>
+                    <div class="progress position-relative" style="height: 25px;" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped" style="width: 81%"></div>
+                        <span class="position-absolute top-50 start-50 translate-middle">81%</span>
+                    </div>
+                    <span class="badge badgemargin text-bg-success ps-3">✔ 234</span>
+                    <span class="badge badgemargin text-bg-danger ps-3">✘ 55</span>
+                </div>
+
+                <div class="border-end mx-3" style="height: auto;"></div>
+
+                <div class="col-md-7">
+                    <h5>Calidad por sección</h5>
+                    
+                    <div class="progress position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 0%"></div>
+                        <span class="position-absolute top-50 start-50 translate-middle">General: 0%</span>
+                    </div>
+                    <div class="progress position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 85%"></div>
+                        <span class="position-absolute top-50 start-50 translate-middle">BD: 85%</span>
+                    </div>
+                    <div class="progress position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 72%"></div>
+                        <span class="position-absolute top-50 start-50 translate-middle">Programación: 72%</span>
+                    </div>
+                    <div class="progress position-relative" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 100%"></div>
+                        <span class="position-absolute top-50 start-50 translate-middle">Web: 100%</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h5>Evolución temporal</h5>
+                <select id="select4.1" class="form-select">
+                    <option>Última semana</option>
+                </select>
+                <p>chart</p>
+                <!--Chart de evolución temporal-->
+            </div>
+            <hr>
+            <div class="d-flex">
+                <div class="col-md-9">
+                    <h5>Top respuestas mejor valoradas</h5>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Para acreditarte en BD... <span class="badge text-bg-success">✔ 12</span></li>
+                        <li class="list-group-item">El proceso consta de... <span class="badge text-bg-success">✔ 9</span></li>
+                        <li class="list-group-item">Necesitas aportar... <span class="badge text-bg-success">✔ 8</span></li>
+                    </ol>
+                </div>
+                <div class="col-md-3">
+                    <h5>Respuestas reportadas</h5>
+                    <div class="card w-20" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-text">"Los requisitos son..."</h6>
+                            <p class="card-text">Motivo: Incorrecta</p>
+                            <p class="card-text">Estado: Pendiente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-body-secondary d-flex justify-content-center">
+            
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------------->
+
+    <h1>Equipo 5</h1>
+    <div class="card text-center">
+    <div class="card-header">
+        <a>Dashboard - RAG Acredita</a>
+        <hr>
+        <div class="d-flex">
+            <div class="card" style="min-width: max-content; width: 17%;">
+                <div class="card-body">
+                    <h5 class="card-title">47 documentos</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">+5 semanales</small>
+                </div>
+            </div>
+            <div class="card" style="min-width: max-content; width: 17%;">
+                <div class="card-body">
+                    <h5 class="card-title">312 chunks</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">+42 semanales</small>
+                </div>
+            </div>
+            <div class="card" style="min-width: max-content; width: 17%;">
+                <div class="card-body">
+                    <h5 class="card-title">89 chats</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">+12 semanales</small>
+                </div>
+            </div>
+            <div class="card" style="min-width: max-content; width: 17%;">
+                <div class="card-body">
+                    <h5 class="card-title">234 preguntas</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">+31 semanales</small>
+                </div>
+            </div>
+            <div class="card" style="min-width: max-content; width: 17%;">
+                <div class="card-body">
+                    <h5 class="card-title">81% calidad</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">+3% semanal</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h5>Documentos por sección</h5>
+        <hr>
+        <div class="row g-3">
+
+            <div class="col-6 col-md-3">
+                <div class="card section-item s1 text-center">
+                    <div class="card-body">
+                        <div class="section-number mb-2"></div>
+                        <h6 class="card-subtitle mb-2 text-muted">BD</h6>
+                        <p class="card-text text-muted">36% del total</p>
+                    </div>
+                    <div class="card-footer p-2">
+                        <div class="progress" style="height: 6px;">
+                            <div class="section-bar progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="card section-item s2 text-center">
+                    <div class="card-body">
+                        <div class="section-number mb-2"></div>
+                        <h6 class="card-subtitle mb-2 text-muted">Web</h6>
+                        <p class="card-text text-muted">25% del total</p>
+                    </div>
+                    <div class="card-footer p-2">
+                        <div class="progress" style="height: 6px;">
+                            <div class="section-bar progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="card section-item s3 text-center">
+                    <div class="card-body">
+                        <div class="section-number mb-2"></div>
+                        <h6 class="card-subtitle mb-2 text-muted">Programación</h6>
+                        <p class="card-text text-muted">21% del total</p>
+                    </div>
+                    <div class="card-footer p-2">
+                        <div class="progress" style="height: 6px;">
+                            <div class="section-bar progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="card section-item s4 text-center">
+                    <div class="card-body">
+                        <div class="section-number mb-2"></div>
+                        <h6 class="card-subtitle mb-2 text-muted">General</h6>
+                        <p class="card-text text-muted">17% del total</p>
+                    </div>
+                    <div class="card-footer p-2">
+                        <div class="progress" style="height: 6px;">
+                            <div class="section-bar progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Botón ver más -->
+        <div class="text-center mt-2">
+            <button class="btn btn-info" href="#">Ver más ▾</button>
+        </div>
+        <hr>
+        <h5>Actividad diaria</h5>
+        <p>chart</p>
+        <!-- Chart de actividad diaria -->
+        <hr>
+        <div class="d-flex">
+            <div class="col-md-6">
+                <h5>Usarios más activos</h5>
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        Alumno1
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                            </svg>
+                            12
+                        </span>
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                            8
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        Alumno3
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                            </svg>
+                            10
+                        </span>
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                            12
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        Alumno2
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                            </svg>
+                            8
+                        </span>
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                            6
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                        Prof.López
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                            </svg>
+                            15
+                        </span>
+                        <span class="badge text-bg-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                            2
+                        </span>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-6">
+                <h5>Actividad reciente</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">Alumno3 subió un pdf <a class="mb-2 text-muted">Hace 5 minutos</a></li>
+                    <li class="list-group-item">Alumno1 hizo una pregunta  <a class="mb-2 text-muted">Hace 12 minutos</a></li>
+                    <li class="list-group-item">Alumno2 valoró  <a class="mb-2 text-muted">Hace 2 minutos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-body-secondary d-flex justify-content-center">
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>

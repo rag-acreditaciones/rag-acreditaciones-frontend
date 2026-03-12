@@ -1,0 +1,248 @@
+/* Variables de color desde estilos globales */
+:host {
+  --c2: #0e3f57;
+  --c3: #0c6c88;
+  --c4: #08a5be;
+  --c5: #03ecf5;
+  --blanco: #ffffff;
+  --c6: #8d9ea7;
+
+  /* Gradientes */
+  --gradient-primary: linear-gradient(135deg, var(--c2) 0%, var(--c4) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--c3) 1%, var(--c4) 50%);
+
+  /* Tema */
+  --bg: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+  --card-bg: var(--blanco);
+  --header-bg: var(--gradient-primary);
+  --thead-bg: linear-gradient(135deg, #f8f9ff 0%, #f0f3ff 100%);
+  --thead-border: var(--c3);
+  --thead-color: var(--c2);
+  --text-main: #2d3748;
+  --text-first: var(--c3);
+  --text-muted: #4a5568;
+  --text-header: var(--blanco);
+  --row-odd: #fafbff;
+  --row-hover: linear-gradient(135deg, #f5f7ff 0%, #eef2ff 100%);
+  --border: #dee2e8;
+  --border-input: #e0e7ff;
+  --focus-ring: rgba(51, 36, 85, 0.25);
+  --footer-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --shadow-card: 0 20px 40px rgba(51, 36, 85, 0.12);
+}
+
+/* card contenedor */
+.card {
+  background: var(--card-bg);
+  border: none;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  margin: 1rem;
+  overflow: hidden;
+}
+
+/* card header con filtros */
+.card-header {
+  background: var(--header-bg);
+  color: var(--text-header);
+  border-bottom: none;
+  padding: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.card-header div {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* inputs y selects */
+.form-control,
+.form-select {
+  border: 2px solid var(--border-input);
+  border-radius: 25px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: var(--card-bg);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-control:hover,
+.form-select:hover {
+  border-color: var(--c3);
+  box-shadow: 0 0 0 0px var(--focus-ring);
+  outline: none;
+}
+
+/* card body con tabla */
+.card-body {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+}
+
+/* tabla */
+.table {
+  margin-bottom: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  color: var(--text-main);
+}
+
+.table thead tr {
+  background: var(--thead-bg);
+}
+
+.table thead th {
+  color: var(--thead-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--thead-border);
+  padding: 1rem 0.5rem;
+}
+
+.table thead th a {
+  color: var(--thead-color);
+  text-decoration: none;
+}
+
+.table thead th a:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: var(--row-odd);
+  color: var(--text-main);
+}
+
+.table tbody td {
+  padding: 1rem 0.5rem;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.table tbody th {
+  color: var(--text-first);
+  font-weight: 700;
+  padding: 1rem 0.5rem;
+  vertical-align: middle;
+}
+
+/* botones */
+.btn {
+  border-radius: 50px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-secondary:hover {
+  color: limegreen;
+  border: 2px solid limegreen;
+}
+
+.btn-info {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-info:hover {
+  color: var(--c5);
+  border: 2px solid var(--c5);
+}
+
+.btn-danger {
+  border: 2px solid var(--c3);
+  background-color: var(--card-bg) !important;
+  color: var(--c3);
+}
+
+.btn-danger:hover {
+  color: red;
+  border: 2px solid red;
+}
+
+/* card footer con paginacion */
+.card-footer {
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.card-footer a {
+  color: var(--c3);
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card-footer a:hover {
+  background: var(--gradient-primary);
+  color: var(--blanco);
+}
+
+.card-footer a.active {
+  background: var(--gradient-primary);
+  color: var(--blanco);
+}
+
+.card-footer .form-select {
+  border-radius: 50px;
+  width: 65px;
+}
+
+.card-footer ol {
+  padding: 0;
+}
+
+.card-footer li {
+  white-space: nowrap;
+}
+
+.btn-subir-documento {
+  background-color: rgb(83, 255, 155) !important;
+  padding: 0.6rem 1.5rem !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+}
+
+/* Botón cancelar en confirmación inline */
+.btn-confirm-cancel {
+  border: 2px solid red !important;
+  color: red !important;
+}
+
+.btn-confirm-cancel:hover {
+  color: white !important;
+  background-color: red !important;
+  border: 2px solid red !important;
+}
