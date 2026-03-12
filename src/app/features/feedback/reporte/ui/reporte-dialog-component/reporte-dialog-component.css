@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.reporte-form {
+  margin: 0;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.form-select,
+.form-control {
+  width: 100%;
+}
+
+.descripcion-input {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.error {
+  font-size: 0.75rem;
+  color: #b91c1c;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

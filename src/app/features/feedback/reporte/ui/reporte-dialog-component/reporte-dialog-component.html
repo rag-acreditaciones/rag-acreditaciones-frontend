@@ -1,0 +1,49 @@
+<form class="reporte-form card" (ngSubmit)="enviarReporte()" #reporteForm="ngForm">
+  <div class="card-header">Reportar mensaje</div>
+
+  <div class="card-body">
+    <div class="field">
+      <label for="motivo">Motivo</label>
+      <select
+        id="motivo"
+        name="motivo"
+        class="form-select"
+        required
+        [(ngModel)]="motivo"
+        #motivoModel="ngModel"
+      >
+        <option value="">Selecciona un motivo</option>
+        <option *ngFor="let item of motivos" [value]="item">{{ item }}</option>
+      </select>
+      <small class="error" *ngIf="motivoModel.invalid && motivoModel.touched">
+        El motivo es obligatorio.
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripcion</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        class="form-control descripcion-input"
+        rows="4"
+        required
+        [(ngModel)]="descripcion"
+        #descripcionModel="ngModel"
+      ></textarea>
+      <small class="error" *ngIf="descripcionModel.invalid && descripcionModel.touched">
+        La descripcion es obligatoria.
+      </small>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button
+      type="submit"
+      class="btn btn-info"
+      [disabled]="loading() || reporteForm.invalid || !descripcion.trim()"
+    >
+      {{ loading() ? 'Enviando...' : 'Enviar reporte' }}
+    </button>
+  </div>
+</form>
