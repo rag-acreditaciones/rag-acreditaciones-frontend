@@ -1,0 +1,89 @@
+<div class="p-3 h-100 d-flex flex-column">
+
+  <input
+    type="text"
+    class="form-control mb-2"
+    placeholder="Buscar conversación..."
+    [value]="textoBusqueda()"
+    (input)="textoBusqueda.set($any($event.target).value)">
+
+  <button class="btn btn-secondary w-100 mb-3" (click)="mostrarSelector.set(true)">
+    + Nueva
+  </button>
+
+  @if (mostrarSelector()) {
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <label class="form-label fw-semibold">Sección temática</label>
+        <select
+          class="form-select mb-3"
+          [value]="seccionSeleccionada()"
+          (change)="seccionSeleccionada.set($any($event.target).value)">
+          @for (s of secciones; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary w-100"
+                  (click)="confirmarNueva()"
+                  [disabled]="conversacionSvc.loadingAccion()">
+            @if (conversacionSvc.loadingAccion()) {
+              <span class="spinner-border spinner-border-sm me-1"></span>
+            }
+            Crear
+          </button>
+          <button class="btn btn-outline-secondary w-100"
+                  (click)="mostrarSelector.set(false)"
+                  [disabled]="conversacionSvc.loadingAccion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <hr class="mt-0">
+
+  @if (conversacionSvc.loadingConversaciones()) {
+    <div class="text-center py-3">
+      <div class="spinner-border text-primary" role="status"></div>
+      <span class="ms-2 text-muted">Cargando...</span>
+    </div>
+  } @else {
+    <ul class="list-group list-group-flush overflow-y-auto">
+
+      @if (conversacionesFiltradas().length === 0) {
+        <li class="list-group-item text-muted text-center py-3">
+          No hay conversaciones
+        </li>
+      }
+
+      @for (conv of conversacionesFiltradas(); track conv.id) {
+        <li
+          class="list-group-item list-group-item-action px-2 py-2"
+          [class.active]="conv.id === conversacionActivaId()"
+          (click)="seleccionar(conv.id)"
+          role="button">
+
+          <p class="mb-0 fw-semibold">
+            {{ conv.titulo || 'Sin título' }}
+          </p>
+
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <span class="badge bg-secondary">{{ conv.seccionTematica }}</span>
+            <small class="text-muted">{{ conv.fechaCreacion | date:'dd/MM HH:mm' }}</small>
+          </div>
+
+          @if (conv.ultimoMensaje) {
+            <small class="text-muted d-block mt-1">
+              {{ conv.ultimoMensaje.contenido | slice:0:60 }}...
+            </small>
+          }
+
+        </li>
+      }
+
+    </ul>
+  }
+
+</div>

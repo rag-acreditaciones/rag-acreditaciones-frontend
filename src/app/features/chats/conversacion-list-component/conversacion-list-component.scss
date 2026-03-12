@@ -1,0 +1,50 @@
+// Solo estilos que Bootstrap no cubre — todo lo demás lo gestiona Bootstrap 5
+
+.conv-sidebar {
+  padding: 0.75rem;
+}
+
+// ── Lista scrollable ──────────────────────────────────────────────
+.conv-list {
+  max-height: 100%;
+  overflow-y: auto;
+
+  // Scrollbar discreta
+  &::-webkit-scrollbar       { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 2px; }
+}
+
+// ── Ítem ──────────────────────────────────────────────────────────
+.conv-item {
+  cursor: pointer;
+  transition: background-color 0.1s;
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    max-width: 160px; // deja espacio para el badge
+  }
+
+  &__meta {
+    font-size: 0.75rem;
+    margin-bottom: 0 !important;
+    // Reutiliza el estilo breadcrumb de Bootstrap pero sin separadores
+    .breadcrumb-item + .breadcrumb-item::before { display: none; }
+  }
+
+  &__preview {
+    font-size: 0.75rem;
+  }
+}
+
+// ── Badges por sección (colores propios del proyecto) ─────────────
+.badge-bd           { background-color: #198754; color: #fff; } // verde  → BD
+.badge-web          { background-color: #fd7e14; color: #fff; } // naranja → WEB
+.badge-programacion { background-color: #6f42c1; color: #fff; } // morado → PROGRAMACION
+.badge-general      { background-color: #6c757d; color: #fff; } // gris   → GENERAL
+
+.conv-item__title {
+  color: #000 !important;
+  font-size: 14px !important;
+}
