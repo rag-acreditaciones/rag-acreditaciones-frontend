@@ -1,0 +1,9 @@
+<div class="card text-center">
+  <app-schunk-searcher (buscar)="onBuscar($event)"></app-schunk-searcher>
+  <app-schunk-searcher-result-list
+    [resultados]="resultados()"
+    [isLoading]="isLoading()"
+    [error]="error()"
+    [modo]="ultimoModo()"
+  ></app-schunk-searcher-result-list>
+</div>

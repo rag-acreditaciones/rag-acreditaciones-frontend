@@ -1,0 +1,8 @@
+<div class="card-header">
+  <app-ddoc-info
+    [nombreDocumento]="nombreDocumento()"
+    [stats]="stats()"
+    [filtroEstado]="filtroEstado()"
+    (filtroEstadoChange)="filtroEstadoChange.emit($event)"
+  ></app-ddoc-info>
+</div>

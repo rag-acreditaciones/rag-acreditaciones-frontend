@@ -1,0 +1,24 @@
+<div class="card text-center">
+  <app-dheader-docs
+    [nombreDocumento]="nombreDocumento()"
+    [stats]="chunkStats()"
+    [filtroEstado]="filtroEstado()"
+    (filtroEstadoChange)="onFiltroEstadoChange($event)"
+  ></app-dheader-docs>
+  @if (error()) {
+    <p class="text-danger p-2">{{ error() }}</p>
+  }
+  <app-dchunk-list
+    [chunks]="pageResponse()?.content ?? []"
+    (chunkActualizado)="onChunkActualizado($event)"
+  ></app-dchunk-list>
+  @if (pageResponse() && pageResponse()!.totalElements > 0) {
+    <app-dpagination
+      [totalElements]="pageResponse()!.totalElements"
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      (pageChange)="onPageChange($event)"
+    ></app-dpagination>
+    <!--(sizeChange)="onSizeChange($event)" si se pone numero de chunk se pega arriba-->
+  }
+</div>

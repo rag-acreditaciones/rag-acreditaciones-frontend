@@ -1,0 +1,8 @@
+<div class="card-body d-flex flex-wrap mb-3">
+  @for (chunk of chunks(); track chunk.id) {
+    <app-dchunk-detail
+      [chunk]="chunk"
+      (chunkActualizado)="chunkActualizado.emit($event)"
+    ></app-dchunk-detail>
+  }
+</div>

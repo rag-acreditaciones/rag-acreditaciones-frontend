@@ -1,0 +1,54 @@
+<div class="card-header">
+  <label>Buscar en la base de conocimientos</label>
+  <div>
+    <div class="col-md-9">
+      <input
+        type="text"
+        id="input2.2"
+        class="form-control"
+        [ngModel]="consulta()"
+        (ngModelChange)="consulta.set($event)"
+        (keyup.enter)="onSubmit()"
+        placeholder="¿Qué requisitos necesito para acreditarme?"
+      />
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-secondary" (click)="onSubmit()">Buscar</button>
+    </div>
+  </div>
+
+  <div>
+    <div>Modo:</div>
+    <label>
+      <input
+        type="radio"
+        name="modoBusqueda"
+        [checked]="mode() === 'SEMANTICA'"
+        (change)="mode.set('SEMANTICA')"
+      />
+      Semántica
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="modoBusqueda"
+        [checked]="mode() === 'TEXTUAL'"
+        (change)="mode.set('TEXTUAL')"
+      />
+      Textual
+    </label>
+    <label>
+      Top:
+      <select
+        class="form-select form-select-sm"
+        style="width: 80px"
+        [ngModel]="topk()"
+        (ngModelChange)="topk.set(+$event)"
+      >
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+      </select>
+    </label>
+  </div>
+</div>

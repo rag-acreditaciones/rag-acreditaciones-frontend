@@ -1,0 +1,32 @@
+<div>
+  <p>
+    <strong>Documento: {{ nombreDocumento() }}</strong>
+  </p>
+  <ul class="breadcrumb mb-3">
+    <li class="breadcrumb-item">{{ stats().total }} chunks</li>
+    <li class="breadcrumb-item">{{ stats().revisados }} revisados</li>
+    <li class="breadcrumb-item">{{ stats().pendientes }} pendientes</li>
+    <li class="breadcrumb-item">{{ stats().descartados }} descartados</li>
+  </ul>
+  <hr />
+  <div class="row g-2">
+    <div class="col-md-8">
+      <label class="form-label">Filtro estado</label>
+      <select
+        class="form-select form-select-sm"
+        [value]="filtroEstado()"
+        (change)="onFiltroEstadoChange($event)"
+      >
+        <option value="TODOS">Todos</option>
+        <option value="PENDIENTE">Pendiente</option>
+        <option value="REVISADO">Revisado</option>
+        <option value="DESCARTADO">Descartado</option>
+      </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button class="btn btn-outline-secondary w-100" (click)="irABuscador()">
+        <i class="bi bi-search"></i> Búsqueda semántica
+      </button>
+    </div>
+  </div>
+</div>

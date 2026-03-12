@@ -1,0 +1,27 @@
+<div class="card-footer text-body-secondary d-flex justify-content-center">
+  <ol class="list-unstyled d-flex gap-3 align-items-center mb-0">
+    <li class="d-flex align-items-center gap-1">
+      @for (pagina of paginas(); track pagina) {
+        <button
+          class="btn btn-sm"
+          [class.btn-primary]="pagina === currentPage()"
+          [class.btn-outline-secondary]="pagina !== currentPage()"
+          (click)="cambiarPagina(pagina)"
+        >
+          {{ pagina + 1 }}
+        </button>
+      }
+    </li>
+
+    <li class="d-flex align-items-center">Mostrando {{ pageSize() }} de {{ totalElements() }}</li>
+
+    <li class="d-flex align-items-center">
+      <!--(change)="cambiarTamano($event)" AÑADIR ESTO ETIQUETA ABAJO SI SE QUIERE HACER SELECCION DE CHUNKS A MOSTRAR-->
+      <select class="form-select form-select-sm" [value]="pageSize()">
+        @for (opcion of opcionesTamano; track opcion) {
+          <option [value]="opcion">{{ opcion }}</option>
+        }
+      </select>
+    </li>
+  </ol>
+</div>
