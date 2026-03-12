@@ -4,11 +4,11 @@
   overflow: hidden;
 
   &__sidebar {
-    width: 288px;
+    width: 320px;
     flex-shrink: 0;
     height: 100%;
     border-right: 1px solid #dee2e6;
-    overflow: hidden;
+    overflow-y: auto;  // cambiado de hidden a auto
   }
 
   &__main {

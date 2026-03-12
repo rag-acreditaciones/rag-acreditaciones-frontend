@@ -1,36 +1,70 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 import { ConversacionService } from '../conversacion-service';
-import { ConversacionDTO } from '../conversacion-model';
+import { ConversacionDTO, SeccionTematica } from '../conversacion-model';
 
 @Component({
   selector: 'app-conversacion-list',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './conversacion-list-component.html',
   styleUrls: ['./conversacion-list-component.scss'],
 })
 export class ConversacionListComponent implements OnInit {
 
   @Output() conversacionSeleccionada = new EventEmitter<number>();
-  @Output() nuevaConversacion = new EventEmitter<void>();
 
-  conversaciones$!: Observable<any>;
-  conversacionActivaId: number | null = null;
+  // ── State signals ─────────────────────────────────────────────────────────
+  private readonly _conversaciones = signal<ConversacionDTO[]>([]);
+  readonly conversacionActivaId    = signal<number | null>(null);
+  readonly tituloConversacionActiva = signal<string | null>(null);
+  readonly textoBusqueda           = signal('');
+  readonly mostrarSelector         = signal(false);
+  readonly seccionSeleccionada     = signal<SeccionTematica>('GENERAL');
 
-  constructor(private conversacionSvc: ConversacionService) {}
+  readonly secciones: SeccionTematica[] = ['GENERAL', 'BD', 'PROGRAMACION', 'WEB'];
+
+  // ── Computed ──────────────────────────────────────────────────────────────
+  readonly conversacionesFiltradas = computed(() => {
+    const texto = this.textoBusqueda().toLowerCase().trim();
+    const lista = this._conversaciones();
+    if (!texto) return lista;
+    return lista.filter(c =>
+      (c.titulo ?? 'Sin título').toLowerCase().includes(texto) ||
+      c.seccionTematica.toLowerCase().includes(texto) ||
+      c.ultimoMensaje?.contenido.toLowerCase().includes(texto)
+    );
+  });
+
+  constructor(public conversacionSvc: ConversacionService) {}
 
   ngOnInit(): void {
-    this.conversaciones$ = this.conversacionSvc.getConversaciones({ estado: 'ACTIVA', size: 50 });
+    this.cargarConversaciones();
+  }
+
+  cargarConversaciones(): void {
+    this.conversacionSvc.getConversaciones({ estado: 'ACTIVA', size: 50 }).subscribe({
+      next: page => this._conversaciones.set(page.content),
+      error: err  => console.error('Error al cargar conversaciones', err)
+    });
   }
 
   seleccionar(id: number): void {
-    this.conversacionActivaId = id;
+    this.conversacionActivaId.set(id);
+    const titulo = this._conversaciones().find(c => c.id === id)?.titulo ?? 'Sin título';
+    this.tituloConversacionActiva.set(titulo);
     this.conversacionSeleccionada.emit(id);
   }
 
-  onNueva(): void {
-    this.nuevaConversacion.emit();
+  confirmarNueva(): void {
+    this.conversacionSvc.crearConversacion(this.seccionSeleccionada()).subscribe({
+      next: (conv) => {
+        this.mostrarSelector.set(false);
+        this.cargarConversaciones();
+        this.seleccionar(conv.id);
+      },
+      error: (err) => console.error('Error al crear conversación', err)
+    });
   }
 
   trackById(_: number, c: ConversacionDTO): number { return c.id; }
