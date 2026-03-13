@@ -57,7 +57,7 @@ export class SchunkSearcherScreen {
             texto: item.texto,
             tokens: item.tokens,
             score: item.score,
-            documentoNombre: item.documento.nombre,
+            documentoNombre: item.documento.nombreFichero,
           })),
         );
         this.isLoading.set(false);
@@ -68,5 +68,4 @@ export class SchunkSearcherScreen {
       },
     });
   }
-
 }

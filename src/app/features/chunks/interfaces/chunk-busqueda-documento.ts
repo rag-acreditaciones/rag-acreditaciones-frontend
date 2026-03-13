@@ -1,6 +1,6 @@
 // Datos de documento incluidos en resultados de busqueda de chunks.
 export interface ChunkBusquedaDocumento {
-  nombre: string;
+  nombreFichero: string;
   seccionId: number;
   subidoPor: string;
   fechaDesde: string | null;
