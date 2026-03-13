@@ -19,7 +19,7 @@
     </h6>
     <p class="card-text">{{ expanded() ? chunk().texto : textoPrevio(chunk().texto) }}</p>
     <!-- <p class="card-subtitle mb-2 text-muted">{{ chunk().tokens }} tokens</p>-->
-    <p class="card-subtitle mb-2 text-muted">Página {{ chunk().pagina ?? 'sin dato' }}</p>
+    <!--<p class="card-subtitle mb-2 text-muted">Página {{ chunk().pagina ?? 'sin dato' }}</p>-->
     <button class="btn btn-info" (click)="expanded.set(!expanded())">
       {{ expanded() ? 'Ocultar' : 'Ver' }}
     </button>
