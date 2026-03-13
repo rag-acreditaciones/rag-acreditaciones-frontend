@@ -59,4 +59,13 @@ npm test
 *(Utiliza Vitest según la configuración del entorno Angular).*
 
 ## UI 
-
+![Foto](uiPics/principal.png)
+![Foto](uiPics/register.png)
+![Foto](uiPics/login.png)
+![Foto](uiPics/home2.png)
+![Foto](uiPics/documentos1.png)
+![Foto](uiPics/doc2.png)
+![Foto](uiPics/doc3.png)
+![Foto](uiPics/chunks.png)
+![Foto](uiPics/chat.png)
+![Foto](uiPics/informes.png)
