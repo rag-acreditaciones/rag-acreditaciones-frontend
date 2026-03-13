@@ -126,7 +126,7 @@ export class ChunkService {
     return {
       id: chunk.id,
       numero_chunk: chunk.orden,
-      tokens: 0,
+      tokens: chunk.numTokens ?? 0,
       estado: chunk.estado ?? 'PENDIENTE',
       texto: chunk.textoCompleto,
     };
@@ -136,7 +136,7 @@ export class ChunkService {
     return {
       id: chunk.id,
       numero_chunk: chunk.orden,
-      tokens: 0,
+      tokens: chunk.numTokens ?? 0,
       estado: chunk.estado ?? 'PENDIENTE',
       texto: chunk.textoCompleto,
     };

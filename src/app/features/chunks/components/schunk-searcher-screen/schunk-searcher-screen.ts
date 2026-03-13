@@ -57,7 +57,7 @@ export class SchunkSearcherScreen {
             texto: item.texto,
             tokens: item.tokens,
             score: item.score,
-            documentoNombre: this.obtenerNombreDocumento(item.documento),
+            documentoNombre: item.documento.nombre,
           })),
         );
         this.isLoading.set(false);
@@ -69,18 +69,4 @@ export class SchunkSearcherScreen {
     });
   }
 
-  private obtenerNombreDocumento(documento: unknown): string {
-    if (!documento || typeof documento !== 'object') {
-      return 'Sin documento';
-    }
-
-    const doc = documento as Record<string, unknown>;
-    const nombre = doc['nombre'] ?? doc['titulo'] ?? doc['name'];
-
-    if (typeof nombre === 'string' && nombre.trim().length > 0) {
-      return nombre;
-    }
-
-    return 'Sin documento';
-  }
 }

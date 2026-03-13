@@ -18,6 +18,7 @@ export interface ChunkDocumentoApiItem {
   id: number;
   orden: number;
   textoCompleto: string;
+  numTokens: number | null;
   estado: ChunkEstado | null;
   documento: unknown;
 }
@@ -36,6 +37,7 @@ export interface ChunkApiItem {
   id: number;
   orden: number;
   textoCompleto: string;
+  numTokens: number | null;
   estado: ChunkEstado | null;
   documento: unknown;
 }
